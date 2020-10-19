@@ -1,0 +1,9 @@
+//initial database schema
+CREATE TABLE "customer" (
+  id SERIAL PRIMARY KEY,
+  "first_name" varchar,
+  "last_name" varchar
+);
+
+INSERT INTO customer(first_name,last_name)
+VALUES ('name', 'last_name');

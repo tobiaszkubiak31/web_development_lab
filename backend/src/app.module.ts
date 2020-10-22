@@ -12,7 +12,7 @@ import { CustomersService } from './customers/customers.service';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'admin',
+      password: 'postgres',
       database: 'trello',
       entities: [Customer],
       synchronize: true,

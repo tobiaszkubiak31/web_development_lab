@@ -21,7 +21,7 @@ export class UsersService {
     }
 
     async create(userData: any): Promise<any> {
-        const salt = await bcrypt.genSalt(); // it is necessary for generating encrypted password
+        const salt = await bcrypt.genSalt(10); // it is necessary for generating encrypted password
         const hashedPassword = await bcrypt.hash(userData.password, salt);
         const userId = Date.now(); // temporary solution
 

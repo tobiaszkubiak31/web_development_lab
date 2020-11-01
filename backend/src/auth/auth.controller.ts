@@ -7,6 +7,11 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
+    @Post('register')
+    async register(@Request() req) {
+        return this.authService.register(req.body);
+    }
+
     // If user post login request then UseGuards run LocalStrategy for validate user data
     @UseGuards(LocalAuthGuard)
     @Post('login')

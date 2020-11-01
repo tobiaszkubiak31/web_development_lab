@@ -8,4 +8,14 @@ export type User = {
 };
 
 @Injectable()
-export class UsersService {}
+export class UsersService {
+    private users: User[];
+
+    constructor() {
+        this.users = [];
+    }
+
+    async findOne(username: string): Promise<User | undefined> {
+        return await this.users.find(user => user.username === username);
+    }
+}

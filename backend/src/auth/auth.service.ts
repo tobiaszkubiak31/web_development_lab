@@ -20,6 +20,10 @@ export class AuthService {
         return null;
     }
 
+    async register(userData: any): Promise<any> {
+        return await this.usersService.create(userData);
+    }
+
     async login(user: any): Promise<any> {
         const payload = { username: user.username, sub: user.userId };
 

@@ -7,6 +7,7 @@ import { Customer } from './customers/customers.entity';
 import { CustomersService } from './customers/customers.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { BoardsModule } from './boards/boards.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,6 +23,7 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forFeature([Customer]),
     AuthModule,
     UsersModule,
+    BoardsModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, CustomersService],

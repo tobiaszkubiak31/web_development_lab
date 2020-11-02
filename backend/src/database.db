@@ -1,9 +1,20 @@
-//initial database schema
-CREATE TABLE "customer" (
+DROP TABLE IF EXISTS "user" CASCADE;
+DROP TABLE IF EXISTS board CASCADE;
+
+CREATE TABLE "user" (
   id SERIAL PRIMARY KEY,
-  "first_name" varchar,
-  "last_name" varchar
+  "email" varchar,
+  "password" varchar
 );
 
-INSERT INTO customer(first_name,last_name)
-VALUES ('name', 'last_name');
+INSERT INTO "user"(email,password)
+VALUES ('admin', 'admin');
+
+CREATE TABLE  "board" (
+  id SERIAL PRIMARY KEY,
+  "name" varchar,
+  "owner" integer REFERENCES "user"(id)
+);
+
+INSERT INTO board(name, owner)
+VALUES ('example_board', 1);

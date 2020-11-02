@@ -1,4 +1,6 @@
-//initial database schema
+DROP TABLE IF EXISTS customer CASCADE;
+DROP TABLE IF EXISTS board CASCADE;
+
 CREATE TABLE "customer" (
   id SERIAL PRIMARY KEY,
   "first_name" varchar,
@@ -7,3 +9,12 @@ CREATE TABLE "customer" (
 
 INSERT INTO customer(first_name,last_name)
 VALUES ('name', 'last_name');
+
+CREATE TABLE  "board" (
+  id SERIAL PRIMARY KEY,
+  "name" varchar,
+  "owner" integer REFERENCES customer(id)
+);
+
+INSERT INTO board(name, owner)
+VALUES ('example_board', 1);

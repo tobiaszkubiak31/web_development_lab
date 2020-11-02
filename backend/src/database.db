@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS board CASCADE;
 
 CREATE TABLE "user" (
@@ -7,13 +7,13 @@ CREATE TABLE "user" (
   "password" varchar
 );
 
-INSERT INTO user(email,password)
+INSERT INTO "user"(email,password)
 VALUES ('admin', 'admin');
 
 CREATE TABLE  "board" (
   id SERIAL PRIMARY KEY,
   "name" varchar,
-  "owner" integer REFERENCES user(id)
+  "owner" integer REFERENCES "user"(id)
 );
 
 INSERT INTO board(name, owner)

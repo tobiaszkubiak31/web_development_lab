@@ -3,13 +3,10 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { LockOpen } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,14 +43,14 @@ const useStyles = makeStyles((theme) => ({
     background: "linear-gradient(bottom, #0250c5, #d43f8d)",
   },
 }));
-export default function SignIn() {
+export default function SignUp() {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  var submitLogin = (event) => {
+  var submitRegister = (event) => {
     event.preventDefault();
-    alert("Login to:" + login + " password: " + password);
+    alert("Register data Login to:" + login + " password: " + password);
   };
 
   var handleLoginChange = (event) => {
@@ -68,12 +65,12 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOpen fontSize="large" />
+          <AssignmentTurnedInIcon fontSize="large" />
         </Avatar>
         <Typography component="h1" variant="h5">
-          SIGN IN
+          SIGN UP
         </Typography>
-        <form className={classes.form} noValidate onSubmit={submitLogin}>
+        <form className={classes.form} noValidate onSubmit={submitRegister}>
           <TextField
             onChange={handleLoginChange}
             variant="outlined"
@@ -98,10 +95,6 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -109,21 +102,12 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign up
+            Sign Up
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
+        <div>
+          <Link to="/login">{"You already sign up ? Go to login page"}</Link>
+        </div>
       </div>
     </div>
   );

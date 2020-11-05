@@ -1,27 +1,26 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import TestConnection from "./api/TestConnection";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SignIn from "./components/LoginForm";
+import SignUp from "./components/RegisterForm";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Response from server
-          <TestConnection></TestConnection>
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <SignIn />
+          </Route>
+          <Route path="/register">
+            <SignUp />
+          </Route>
+          <Route path="/*">
+            <SignIn />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 

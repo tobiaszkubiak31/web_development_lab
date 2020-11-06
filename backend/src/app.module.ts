@@ -8,6 +8,7 @@ import { CustomersService } from './customers/customers.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
+import { Board } from './boards/boards.entity'
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -17,7 +18,7 @@ import { BoardsModule } from './boards/boards.module';
       username: 'postgres',
       password: 'admin',
       database: 'trello',
-      entities: [Customer],
+      entities: [Customer, Board],
       synchronize: true,
     }),
     TypeOrmModule.forFeature([Customer]),

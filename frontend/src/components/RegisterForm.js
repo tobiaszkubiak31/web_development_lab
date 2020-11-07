@@ -54,10 +54,10 @@ export default function SignUp() {
     AuthService.registerUser(login, password)
     .then((response) => {
       if (response) {
-        alert('Sucessfully logged to:' + login + ' password: ' + password);
+        alert('Sucessfully registered user:' + login + ' password: ' + password);
       }
       else {
-        alert('Login failed');
+        alert('Register failed');
       }
     });
   };

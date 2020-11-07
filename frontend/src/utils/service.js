@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as bcryptjs from 'bcryptjs';
 
 const API_URL = 'http://localhost:4000'
 
@@ -28,9 +29,11 @@ class AuthService {
     }
 
     async registerUser(email, password) {
+        const salt = bcryptjs.genSaltSync(10);
+        const hashedPassword = bcryptjs.hashSync(password, salt);
         let response = await axios.post(`${API_URL}/auth/register`, {
             email: email,
-            password: password,
+            password: hashedPassword,
         })
         return response.data;
     }

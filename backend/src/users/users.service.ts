@@ -26,11 +26,14 @@ export class UsersService {
 
     async create(userDto: UserDto): Promise<any> {
         try {
-            this.usersRepository.save(userDto);
-            return true;
+            if (await this.findOne(userDto.email) === undefined) {
+                this.usersRepository.save(userDto);
+                return true;
+            }
         } catch (err) {
-            return { err };
+            console.log(err);
         }
+        return false;
     }
     
 

@@ -13,25 +13,26 @@ class AuthService {
     }
 
     async loginUser(email, password) {
-        const response = await axios.post(`${API_URL}/auth/login`, {
+        return await axios.post(`${API_URL}/auth/login`, {
             email: email,
             password: password,
-        });
-        if (response) {
+        })
+        .then((response) => {
             localStorage.setItem(JWT_TOKEN, response.access_token);
             localStorage.setItem(USER_EMAIL_SESSION_ATTRIBUTE_NAME, email);
             return true;
-        }
-        return false;
+        })
+        .catch((error) => {
+            return false;
+        });
     }
 
     async registerUser(email, password) {
-        const response = await axios.post(`${API_URL}/auth/register`, {
+        let response = await axios.post(`${API_URL}/auth/register`, {
             email: email,
             password: password,
-        });
-
-        return response;
+        })
+        return response.data;
     }
 }
 

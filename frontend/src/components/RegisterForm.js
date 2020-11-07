@@ -54,12 +54,12 @@ export default function SignUp() {
     AuthService.registerUser(login, password)
     .then((response) => {
       if (response) {
-        alert('Register data Login to:' + login + ' password: ' + password);
+        alert('Sucessfully logged to:' + login + ' password: ' + password);
       }
       else {
-        alert('User already exists')
+        alert('Login failed');
       }
-    })
+    });
   };
 
   var handleLoginChange = (event) => {

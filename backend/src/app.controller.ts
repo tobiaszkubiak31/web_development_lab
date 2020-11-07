@@ -1,10 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
-import { CustomersService } from './customers/customers.service';
-import { Customer } from './customers/customers.entity';
 
 @Controller()
 export class AppController {
-  constructor(private readonly customersService: CustomersService) {}
 
   @Get()
   async getHello() {
@@ -17,7 +14,5 @@ export class AppController {
     //     return 'missed';
     //   },
     // );
-    console.log(await this.customersService.findAll());
-    return await this.customersService.findAll();
   }
 }

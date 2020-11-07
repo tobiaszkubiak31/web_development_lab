@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'https://localhost:4000'
+const API_URL = 'http://localhost:4000'
 
 export const USER_EMAIL_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
 const JWT_TOKEN = 'token';
@@ -33,4 +33,4 @@ class AuthService {
     }
 }
 
-export default new AuthService()
+export default new AuthService();

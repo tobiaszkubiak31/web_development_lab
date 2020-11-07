@@ -20,7 +20,9 @@ class AuthService {
         if (response) {
             localStorage.setItem(JWT_TOKEN, response.access_token);
             localStorage.setItem(USER_EMAIL_SESSION_ATTRIBUTE_NAME, email);
+            return true;
         }
+        return false;
     }
 
     async registerUser(email, password) {

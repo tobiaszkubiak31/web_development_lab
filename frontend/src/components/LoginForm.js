@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { LockOpen } from "@material-ui/icons";
+import AuthService from '../utils/service.js';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,7 +54,15 @@ export default function SignIn() {
 
   var submitLogin = (event) => {
     event.preventDefault();
-    alert("Login to:" + login + " password: " + password);
+    AuthService.loginUser(login, password)
+    .then((response) => {
+      if (response) {
+        alert('Sucessfully logged to:' + login + ' password: ' + password);
+      }
+      else {
+        alert('Login failed');
+      }
+    })
   };
 
   var handleLoginChange = (event) => {

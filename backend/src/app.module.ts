@@ -3,12 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Customer } from './customers/customers.entity';
-import { CustomersService } from './customers/customers.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/boards.entity'
+import { Users } from './users/users.entity'
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,15 +17,14 @@ import { Board } from './boards/boards.entity'
       username: 'postgres',
       password: 'admin',
       database: 'trello',
-      entities: [Customer, Board],
+      entities: [Board, Users],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Customer]),
     AuthModule,
     UsersModule,
     BoardsModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, CustomersService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

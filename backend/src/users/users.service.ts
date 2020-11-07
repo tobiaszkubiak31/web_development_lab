@@ -20,18 +20,15 @@ export class UsersService {
         }
     }
     
-    async findOne(email: string): Promise<Users> {
-        console.log("Find one " + email)
-        return await this.usersRepository.findOne(email);
+    async findOne(email: string): Promise<Users | undefined> {
+        return await this.usersRepository.findOne({ email });
     }
 
     async create(userDto: UserDto): Promise<any> {
         try {
             this.usersRepository.save(userDto);
-            console.log("dziala!")
             return true;
         } catch (err) {
-            console.log("debile nie umiecie")
             return { err };
         }
     }

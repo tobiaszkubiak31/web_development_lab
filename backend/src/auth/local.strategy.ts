@@ -6,14 +6,14 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) { // connect nestjs with passport-local
     constructor(private readonly authService: AuthService) {
-        super();
-        console.log("constructor");
+        super({
+            usernameField: 'email'
+        });
     }
 
 
 
     async validate(email: string, password: string): Promise<any> {
-        console.log("validate")
         const user = this.authService.validateUser(email, password);
         if (!user) {
             throw new UnauthorizedException();

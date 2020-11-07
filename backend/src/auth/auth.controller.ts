@@ -17,7 +17,6 @@ export class AuthController {
     @Post('login')
     async login(@Request() req) {
         // We know that user data is valid, because of UseGuards
-        console.log("UseGuards przeszedl")
         return this.authService.login(req.user); // return user token
     }
 

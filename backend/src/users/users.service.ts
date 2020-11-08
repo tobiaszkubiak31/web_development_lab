@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { Users } from './users.entity'
 import { UserDto } from "./user.dto"
 
@@ -26,25 +25,13 @@ export class UsersService {
 
     async create(userDto: UserDto): Promise<any> {
         try {
-            this.usersRepository.save(userDto);
-            return true;
+            if (await this.findOne(userDto.email) === undefined) {
+                this.usersRepository.save(userDto);
+                return true;
+            }
         } catch (err) {
-            return { err };
+            console.log(err);
         }
+        return false;
     }
-    
-
-    // async create(userData: any): Promise<any> {
-    //     const salt = await bcrypt.genSalt(10); // it is necessary for generating encrypted password
-    //     const hashedPassword = await bcrypt.hash(userData.password, salt);
-    //     const userId = Date.now(); // temporary solution
-
-    //     this.users.push({
-    //         userId: userId,
-    //         username: userData.username,
-    //         password: hashedPassword
-    //     });
-
-    //     return true;
-    // }
 }

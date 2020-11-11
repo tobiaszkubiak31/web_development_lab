@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-
+import { User } from '../users/users.entity';
 @Entity()
 export class Board {
   @PrimaryGeneratedColumn()
@@ -9,8 +9,8 @@ export class Board {
   name: string;
 
   // Probably needs to be changed
-  // @ManyToOne(type => User)
+
+  @ManyToOne(type => User)
   // User zamiast Number
-  @Column()
-  owner: Number;
+  user: User;
 }

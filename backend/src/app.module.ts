@@ -6,8 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
-import { Board } from './boards/boards.entity'
-import { Users } from './users/users.entity'
+import { Board } from './boards/boards.entity';
+import { User } from './users/users.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -17,8 +17,8 @@ import { Users } from './users/users.entity'
       username: 'postgres',
       password: 'admin',
       database: 'trello',
-      entities: [Board, Users],
-      synchronize: true,
+      entities: [Board, User],
+      synchronize: false,
     }),
     AuthModule,
     UsersModule,

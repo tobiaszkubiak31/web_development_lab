@@ -3,10 +3,14 @@ import { BoardsController } from './boards.controller';
 import { BoardsService } from './boards.service';
 import { Board } from './boards.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/users/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Board])],
+  imports: [
+    TypeOrmModule.forFeature([Board]),
+    TypeOrmModule.forFeature([User]),
+  ],
   controllers: [BoardsController],
-  providers: [BoardsService]
+  providers: [BoardsService],
 })
 export class BoardsModule {}

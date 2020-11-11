@@ -11,7 +11,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { LockOpen } from "@material-ui/icons";
 import AuthService from "../utils/service.js";
-
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(5),
@@ -51,12 +52,14 @@ export default function SignIn() {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   var submitLogin = (event) => {
     event.preventDefault();
     AuthService.loginUser(login, password).then((response) => {
       if (response) {
         alert("Sucessfully logged to:" + login + " password: " + password);
+        history.push("/dashboard");
       } else {
         alert("Login failed");
       }

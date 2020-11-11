@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
 import { Board } from './boards.entity';
 
@@ -9,8 +8,6 @@ export class BoardsService {
   constructor(
     @InjectRepository(Board)
     private boardRepository: Repository<Board>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
   ) {}
 
   async findByUserId(userId: Number) {

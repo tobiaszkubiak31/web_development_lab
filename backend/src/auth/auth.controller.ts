@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { BoardsService } from 'src/boards/boards.service';
+import { User_BoardsService } from 'src/user_boards/user_boards.service';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -8,7 +8,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly boardsService: BoardsService,
+        private readonly userBoardsService: User_BoardsService,
     ) {}
 
     @Post('register')
@@ -33,6 +33,6 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Get('userBoards')
     getUserBoards(@Request() req) { // get boards of logged user
-        return this.boardsService.getUserBoards(req.user.id);
+        return this.userBoardsService.getUserBoards(req.user.id);
     }
 }

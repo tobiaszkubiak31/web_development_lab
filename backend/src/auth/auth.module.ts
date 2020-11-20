@@ -6,10 +6,10 @@ import { LocalStrategy } from './local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { BoardsModule } from 'src/boards/boards.module';
+import { User_BoardsModule } from 'src/user_boards/user_boards.module';
 
 @Module({
-  imports: [UsersModule, BoardsModule, PassportModule, JwtModule.register({
+  imports: [UsersModule, User_BoardsModule, PassportModule, JwtModule.register({
     secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '60s' }
   })],

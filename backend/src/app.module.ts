@@ -9,7 +9,7 @@ import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/boards.entity';
 import { User } from './users/users.entity';
 import { User_Board } from './user_boards/user_boards.entity';
-import { UserBoardsModule } from './user_boards/user_boards.module';
+import { User_BoardsModule } from './user_boards/user_boards.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -25,7 +25,7 @@ import { UserBoardsModule } from './user_boards/user_boards.module';
     AuthModule,
     UsersModule,
     BoardsModule,
-    UserBoardsModule
+    User_BoardsModule
   ],
   controllers: [AppController],
   providers: [AppService],

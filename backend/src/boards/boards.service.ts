@@ -29,4 +29,8 @@ export class BoardsService {
   async remove(id: string): Promise<void> {
     await this.boardRepository.delete(id);
   }
+
+  async getUserBoards(id: number) {
+    return await this.findByUserId(id);
+  }
 }

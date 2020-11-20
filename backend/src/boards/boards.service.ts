@@ -31,7 +31,7 @@ export class BoardsService {
     await this.boardRepository.delete(id);
   }
 
-  async create(boardDto: BoardDto): Promise<any> {
-    this.boardRepository.save(boardDto);
+  async create(boardDto: BoardDto): Promise<Board> {
+    return await this.boardRepository.save(boardDto);
   }
 }

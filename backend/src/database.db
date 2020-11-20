@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS board CASCADE;
-DROP TABLE IF EXISTS user_board CASCADE;
+DROP TABLE IF EXISTS userboard CASCADE;
 
 CREATE TABLE "user" (
   id SERIAL PRIMARY KEY,
@@ -13,7 +13,7 @@ CREATE TABLE  board (
   name varchar
 );
 
-CREATE TABLE  user_board (
+CREATE TABLE  userboard (
   user_id int REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE,
   board_id int REFERENCES board(id) ON UPDATE CASCADE ON DELETE CASCADE,
   user_role varchar,

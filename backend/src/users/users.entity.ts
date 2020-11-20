@@ -1,4 +1,4 @@
-import { User_Board } from 'src/user_boards/user_boards.entity';
+import { Userboard } from 'src/userboards/userboards.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -16,6 +16,6 @@ export class User {
   @Column({ type: 'varchar', length: 300 })
   password: string;
 
-  @OneToMany(() => User_Board, userBoard => userBoard.user)
-  boardConnection: Promise<User_Board[]>;
+  @OneToMany(() => Userboard, userBoard => userBoard.user)
+  boardConnection: Promise<Userboard[]>;
 }

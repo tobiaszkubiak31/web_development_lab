@@ -1,5 +1,5 @@
+import { User_Board } from 'src/user_boards/user_boards.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Board } from '../boards/boards.entity';
 
 @Entity()
 export class User {
@@ -16,11 +16,6 @@ export class User {
   @Column({ type: 'varchar', length: 300 })
   password: string;
 
-  @OneToMany(
-    () => Board,
-    board => board.user,
-  )
-  // defining this is also optional because by default,
-  // the referenced foreign key is named as <column_name>_id or account_id
-  board: Board[];
+  @OneToMany(() => User_Board, userBoard => userBoard.user)
+  boardConnection: Promise<User_Board[]>;
 }

@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/boards.entity';
 import { User } from './users/users.entity';
+import { User_Board } from './user_boards/user_boards.entity';
+import { UserBoardsModule } from './user_boards/user_boards.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -17,12 +19,13 @@ import { User } from './users/users.entity';
       username: 'postgres',
       password: 'admin',
       database: 'trello',
-      entities: [Board, User],
+      entities: [Board, User, User_Board],
       synchronize: false,
     }),
     AuthModule,
     UsersModule,
     BoardsModule,
+    UserBoardsModule
   ],
   controllers: [AppController],
   providers: [AppService],

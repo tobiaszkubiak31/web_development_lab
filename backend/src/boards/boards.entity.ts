@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User_Board } from 'src/user_boards/user_boards.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
 @Entity()
 export class Board {
   @PrimaryGeneratedColumn()
@@ -8,9 +9,6 @@ export class Board {
   @Column()
   name: string;
 
-  // Probably needs to be changed
-
-  @ManyToOne(type => User)
-  // User zamiast Number
-  user: User;
+  @OneToMany(() => User_Board, userBoard => userBoard.board)
+  userConnection: Promise<User_Board[]>;
 }

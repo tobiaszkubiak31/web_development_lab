@@ -35,17 +35,18 @@ class AuthService {
       },
     };
     return await axios
-      .get(`${API_URL}/auth/userBoards`, config)
+      .get(`${API_URL}/boards/get`, config)
       .then((response) => {
         console.log(response);
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.status);
+        return error.response.status;
       });
   }
 
-  async addBoard(boardName, userId) {
+  async addBoard(boardName) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -53,10 +54,9 @@ class AuthService {
     };
     return await axios
       .post(
-        `${API_URL}/userboards/add`,
+        `${API_URL}/boards/add`,
         {
           name: boardName,
-          user_id: userId,
         },
         config
       )
@@ -72,10 +72,23 @@ class AuthService {
       },
     };
     return await axios
-      .post(
-        `${API_URL}/userboards/delete`,
+      .delete(`${API_URL}/boards/delete/` + boardId, config)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async editBoard(boardId, newName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .patch(
+        `${API_URL}/boards/update/` + boardId,
         {
-          board_id: boardId,
+          name: newName,
         },
         config
       )

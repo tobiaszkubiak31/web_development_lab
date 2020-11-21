@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import { Grow } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import AuthService from "../../utils/service.js";
+import EditBoardModal from "./modals/EditBoardModal.js";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -52,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BoardView(props) {
   const classes = useStyles();
+  const [editModalDisplayed, setEditModalDisplayed] = useState(false);
 
   var deleteBoard = () => {
     AuthService.deleteBoard(props.boardInfo.id).then((response) => {
@@ -64,8 +57,24 @@ export default function BoardView(props) {
     });
   };
 
+  var displayEditBoardModal = () => {
+    setEditModalDisplayed(true);
+    console.log("display modal:" + editModalDisplayed);
+  };
+
+  var hideEditBoardModal = () => {
+    setEditModalDisplayed(false);
+    console.log("display modal:" + editModalDisplayed);
+  };
+
   return (
     <Card className={classes.card}>
+      <EditBoardModal
+        isDisplayed={editModalDisplayed}
+        hideModal={hideEditBoardModal}
+        updateBoards={props.updateBoards}
+        boardInfo={props.boardInfo}
+      ></EditBoardModal>
       <CardMedia
         className={classes.cardMedia}
         image="https://source.unsplash.com/random"
@@ -78,7 +87,7 @@ export default function BoardView(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={displayEditBoardModal}>
           Rename
         </Button>
         <Button size="small" color="primary" onClick={deleteBoard}>

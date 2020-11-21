@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import AuthService from "../../utils/service.js";
-import { Grow } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import BoardView from "./BoardView.js";
-import AddBoardModal from "./AddBoardModal.js";
 import AddIcon from "@material-ui/icons/Add";
+import CreateBoardModal from "./modals/CreateBoardModal.js";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -60,19 +53,23 @@ var mockedUserBoards = [
 ];
 export default function Dashboard() {
   const classes = useStyles();
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState(null);
   const [modalDisplayed, setModalDisplayed] = useState(false);
   const history = useHistory();
 
   var getUserBoards = () => {
-    return mockedUserBoards;
-    // AuthService.getUserBoards().then((response) => {
-    //   if (response) {
-    //     setBoards(response);
-    //   } else {
-    //     alert("Fetch boards failed");
-    //   }
-    // });
+    // return mockedUserBoards;
+    AuthService.getUserBoards().then((response) => {
+      if (response === 401) {
+        alert("You was unauthorized, please login again, 401 error");
+        history.push("/login");
+      }
+      if (response) {
+        setBoards(response);
+      } else {
+        alert("Fetch boards failed");
+      }
+    });
   };
 
   var logout = () => {
@@ -96,12 +93,13 @@ export default function Dashboard() {
 
   return (
     <React.Fragment>
-      <AddBoardModal
+      <CreateBoardModal
         isDisplayed={modalDisplayed}
         hideModal={hideAddBoardModal}
-      ></AddBoardModal>
+        updateBoards={getUserBoards}
+      ></CreateBoardModal>
       <CssBaseline />
-      <AppBar position="relative">
+      <AppBar position="relative" style={{ backgroundColor: "#4F7CAC" }}>
         <div style={{ display: "flex" }}>
           <Toolbar style={{ flexGrow: "1" }}>
             <Typography variant="h6" color="inherit" noWrap>
@@ -116,7 +114,10 @@ export default function Dashboard() {
             }}
           >
             <Button
-              style={{ margin: "10px 50px 10px 0px" }}
+              style={{
+                margin: "10px 50px 10px 0px",
+                backgroundColor: "#C0E0DE",
+              }}
               size="large"
               variant="contained"
               onClick={displayAddBoardModal}
@@ -138,17 +139,21 @@ export default function Dashboard() {
         </div>
       </AppBar>
       <main>
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container className={classes.cardGrid} maxWidth="lg">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {boards.map((mappedBoard) => (
-              <Grid item key={mappedBoard.board.id} xs={12} sm={6} md={4}>
-                <BoardView
-                  boardInfo={mappedBoard.board}
-                  updateBoards={getUserBoards}
-                ></BoardView>
-              </Grid>
-            ))}
+            {boards && boards.length > 0 ? (
+              boards.map((mappedBoard) => (
+                <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
+                  <BoardView
+                    boardInfo={mappedBoard}
+                    updateBoards={getUserBoards}
+                  ></BoardView>
+                </Grid>
+              ))
+            ) : (
+              <h1>Nie żadnych posiadasz tablic</h1>
+            )}
           </Grid>
         </Container>
       </main>

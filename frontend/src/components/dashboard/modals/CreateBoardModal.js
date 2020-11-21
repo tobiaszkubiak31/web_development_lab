@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import AuthService from "../../utils/service.js";
+import AuthService from "../../../utils/service.js";
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddBoardModal(props) {
+export default function CreateBoardModal(props) {
   const classes = useStyles();
   const [boardName, setboardName] = useState("");
 
@@ -35,14 +35,21 @@ export default function AddBoardModal(props) {
   };
 
   var addBoard = () => {
-    AuthService.addBoard(boardName, 1).then((response) => {
+    AuthService.addBoard(boardName).then((response) => {
       if (response) {
         console.log(response);
         handleClose();
+        props.updateBoards();
       } else {
         alert("Add board failed");
       }
     });
+  };
+
+  var onEnterClicked = (e) => {
+    if (e.keyCode == 13) {
+      addBoard();
+    }
   };
 
   return (
@@ -65,6 +72,7 @@ export default function AddBoardModal(props) {
             label="Board name"
             type="email"
             fullWidth
+            onKeyUp={onEnterClicked}
           />
         </DialogContent>
         <DialogActions>

@@ -1,3 +1,3 @@
 export class BoardDto {
-    readonly name: string;
+    readonly name!: string;
 }

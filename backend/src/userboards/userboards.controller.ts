@@ -9,6 +9,12 @@ export class UserboardsController {
       private boardsService: BoardsService
   ) {}
 
+  /*
+    {
+      "name": "board name",
+      "user_id": 5
+    }
+  */
   @Post('add')
   async create(@Request() req) {
     const board = await this.boardsService.create({ name: req.body.name });

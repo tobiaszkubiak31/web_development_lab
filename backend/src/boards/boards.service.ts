@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { BoardDto } from './boards.dto';
 import { Board } from './boards.entity';
 
@@ -33,5 +33,10 @@ export class BoardsService {
 
   async create(boardDto: BoardDto): Promise<Board> {
     return await this.boardRepository.save(boardDto);
+  }
+
+  async updateName(id: number, boardDto: BoardDto): Promise<boolean> {
+    const updated = await this.boardRepository.update(id, { name: boardDto.name });
+    return updated.affected == 1;
   }
 }

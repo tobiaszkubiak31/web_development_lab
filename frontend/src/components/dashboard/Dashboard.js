@@ -18,6 +18,7 @@ import { Grow } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import BoardView from "./BoardView.js";
 import AddBoardModal from "./AddBoardModal.js";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -117,17 +118,17 @@ export default function Dashboard() {
             <Button
               style={{ margin: "10px 50px 10px 0px" }}
               size="large"
-              color="white"
               variant="contained"
               onClick={displayAddBoardModal}
             >
+              <AddIcon></AddIcon>
               Add board
             </Button>
 
             <Button
               style={{ margin: "10px 50px 10px 0px" }}
               size="large"
-              color="white"
+              color="secondary"
               variant="contained"
               onClick={logout}
             >

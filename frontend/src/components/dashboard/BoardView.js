@@ -71,7 +71,7 @@ export default function BoardView(props) {
         image="https://source.unsplash.com/random"
         title="Image title"
       />
-      {console.log(props.boardInfo)}
+
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" component="h2">
           {props.boardInfo.name}

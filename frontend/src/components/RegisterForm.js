@@ -7,7 +7,7 @@ import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import AuthService from '../utils/service.js';
+import AuthService from "../utils/service.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,13 +51,13 @@ export default function SignUp() {
 
   var submitRegister = (event) => {
     event.preventDefault();
-    AuthService.registerUser(login, password)
-    .then((response) => {
+    AuthService.registerUser(login, password).then((response) => {
       if (response) {
-        alert('Sucessfully registered user:' + login + ' password: ' + password);
-      }
-      else {
-        alert('Register failed');
+        alert(
+          "Sucessfully registered user:" + login + " password: " + password
+        );
+      } else {
+        alert("Register failed");
       }
     });
   };

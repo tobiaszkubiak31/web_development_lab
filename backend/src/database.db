@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS userboard CASCADE;
 
 CREATE TABLE "user" (
   id SERIAL PRIMARY KEY,
-  email varchar,
+  email varchar UNIQUE,
   password varchar
 );
 

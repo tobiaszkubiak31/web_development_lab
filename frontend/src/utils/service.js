@@ -45,6 +45,26 @@ class AuthService {
       });
   }
 
+  async addBoard(boardName, userId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/userboards/add`,
+        {
+          name: boardName,
+          user_id: userId,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async getUserInformation() {
     let config = {
       headers: {

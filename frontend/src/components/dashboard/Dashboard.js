@@ -141,8 +141,8 @@ export default function Dashboard() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {boards.map((mappedBoard) => (
-              <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
-                <BoardView boardInfo={mappedBoard}></BoardView>
+              <Grid item key={mappedBoard.board.id} xs={12} sm={6} md={4}>
+                <BoardView boardInfo={mappedBoard.board}></BoardView>
               </Grid>
             ))}
           </Grid>

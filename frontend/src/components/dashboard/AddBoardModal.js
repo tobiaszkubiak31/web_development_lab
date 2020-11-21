@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,6 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import AuthService from "../../utils/service.js";
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -23,15 +24,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddBoardModal(props) {
   const classes = useStyles();
-  console.log(props.isDisplayed);
+  const [boardName, setboardName] = useState("");
+
+  var handleBoardNameChange = (event) => {
+    setboardName(event.target.value);
+  };
 
   const handleClose = () => {
     props.hideModal();
   };
 
+  var addBoard = () => {
+    AuthService.addBoard(boardName, 1).then((response) => {
+      if (response) {
+        console.log(response);
+        handleClose();
+      } else {
+        alert("Add board failed");
+      }
+    });
+  };
+
   return (
     <div>
-      hello
       <Dialog
         open={props.isDisplayed}
         onClose={handleClose}
@@ -43,6 +58,7 @@ export default function AddBoardModal(props) {
             To create board, please enter board name.
           </DialogContentText>
           <TextField
+            onChange={handleBoardNameChange}
             autoFocus
             margin="dense"
             id="name"
@@ -52,7 +68,7 @@ export default function AddBoardModal(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={addBoard} color="primary">
             Add board
           </Button>
         </DialogActions>

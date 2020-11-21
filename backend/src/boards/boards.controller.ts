@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserboardsService } from 'src/userboards/userboards.service';
 import { BoardsService } from './boards.service';
@@ -40,5 +40,10 @@ export class BoardsController {
   @Patch('update/:id')
   async updateName(@Param('id') id: number, @Request() req): Promise<any> {
     return await this.boardsService.updateName(id, req.body);
+  }
+
+  @Delete('delete/:id')
+  async remove(@Param('id') id: number): Promise<any> {
+    return await this.boardsService.delete(id);
   }
 }

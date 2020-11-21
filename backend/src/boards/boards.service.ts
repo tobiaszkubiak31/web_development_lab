@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Userboard } from 'src/userboards/userboards.entity';
-import { getRepository, Repository } from 'typeorm';
+import { DeleteResult, getRepository, Repository } from 'typeorm';
 import { BoardDto } from './boards.dto';
 import { Board } from './boards.entity';
 
@@ -28,8 +28,9 @@ export class BoardsService {
     return this.boardRepository.findOne(id);
   }
 
-  async remove(id: string): Promise<void> {
-    await this.boardRepository.delete(id);
+  async delete(id: number): Promise<boolean> {
+    const deleted = await this.boardRepository.delete(id);
+    return deleted.affected == 1;
   }
 
   async create(boardDto: BoardDto): Promise<Board> {
@@ -41,7 +42,7 @@ export class BoardsService {
     return updated.affected == 1;
   }
 
-  async getUserBoards(id: number) {
+  async getUserBoards(id: number): Promise<Board[]> {
     return await getRepository(Board)
       .createQueryBuilder('board')
       .innerJoinAndSelect(Userboard, 'userboard', 'board.id = userboard.board_id')

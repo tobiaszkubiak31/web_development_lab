@@ -4,11 +4,13 @@ import { BoardsService } from './boards.service';
 import { Board } from './boards.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Userboard } from 'src/userboards/userboards.entity';
+import { UserboardsModule } from 'src/userboards/userboards.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Board]),
-    TypeOrmModule.forFeature([Userboard])
+    TypeOrmModule.forFeature([Userboard]),
+    UserboardsModule
   ],
   controllers: [BoardsController],
   providers: [BoardsService],

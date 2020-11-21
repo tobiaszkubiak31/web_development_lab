@@ -20,7 +20,7 @@ export class UsersService {
   }
 
   async findOne(email: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne({ email });
+    return await this.usersRepository.findOne({ email: email });
   }
 
   async create(userDto: UserDto): Promise<any> {

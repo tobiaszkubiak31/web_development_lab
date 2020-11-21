@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import { Grow } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import AuthService from "../../utils/service.js";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -52,6 +53,17 @@ const useStyles = makeStyles((theme) => ({
 export default function BoardView(props) {
   const classes = useStyles();
 
+  var deleteBoard = () => {
+    AuthService.deleteBoard(props.boardInfo.id).then((response) => {
+      if (response) {
+        console.log(response);
+        props.updateBoards();
+      } else {
+        alert("Delete board failed");
+      }
+    });
+  };
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -69,7 +81,7 @@ export default function BoardView(props) {
         <Button size="small" color="primary">
           Rename
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={deleteBoard}>
           Delete
         </Button>
       </CardActions>

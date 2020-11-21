@@ -52,10 +52,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 var mockedUserBoards = [
-  { board: { name: "example_board_1" } },
-  { board: { name: "example_board_2" } },
-  { board: { name: "example_board_3" } },
-  { board: { name: "example_board_4" } },
+  { board: { id: "1", name: "example_board_1" } },
+  { board: { id: "2", name: "example_board_2" } },
+  { board: { id: "3", name: "example_board_3" } },
+  { board: { id: "4", name: "example_board_4" } },
 ];
 export default function Dashboard() {
   const classes = useStyles();
@@ -142,7 +142,10 @@ export default function Dashboard() {
           <Grid container spacing={4}>
             {boards.map((mappedBoard) => (
               <Grid item key={mappedBoard.board.id} xs={12} sm={6} md={4}>
-                <BoardView boardInfo={mappedBoard.board}></BoardView>
+                <BoardView
+                  boardInfo={mappedBoard.board}
+                  updateBoards={getUserBoards}
+                ></BoardView>
               </Grid>
             ))}
           </Grid>

@@ -65,6 +65,25 @@ class AuthService {
       });
   }
 
+  async deleteBoard(boardId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/userboards/delete`,
+        {
+          board_id: boardId,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async getUserInformation() {
     let config = {
       headers: {

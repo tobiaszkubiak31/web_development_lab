@@ -28,14 +28,14 @@ class AuthService {
       });
   }
 
-  async getUserBoards(userId) {
+  async getUserBoards() {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
     return await axios
-      .get(`${API_URL}/boards/user/` + userId, config)
+      .get(`${API_URL}/auth/userBoards`, config)
       .then((response) => {
         console.log(response);
         return response.data;

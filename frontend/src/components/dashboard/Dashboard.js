@@ -13,9 +13,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
-import AuthService from "../utils/service.js";
+import AuthService from "../../utils/service.js";
 import { Grow } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import BoardView from "./BoardView.js";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -49,20 +50,26 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-
+var mockedUserBoards = [
+  { board: { name: "example_board_1" } },
+  { board: { name: "example_board_2" } },
+  { board: { name: "example_board_3" } },
+  { board: { name: "example_board_4" } },
+];
 export default function Dashboard() {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const history = useHistory();
 
-  var getUserBoards = (userId) => {
-    AuthService.getUserBoards(userId).then((response) => {
-      if (response) {
-        setBoards(response);
-      } else {
-        alert("Login failed");
-      }
-    });
+  var getUserBoards = () => {
+    return mockedUserBoards;
+    // AuthService.getUserBoards().then((response) => {
+    //   if (response) {
+    //     setBoards(response);
+    //   } else {
+    //     alert("Fetch boards failed");
+    //   }
+    // });
   };
 
   var logout = () => {
@@ -70,7 +77,7 @@ export default function Dashboard() {
     history.push("/login");
   };
   useEffect(() => {
-    getUserBoards(1);
+    setBoards(getUserBoards());
   }, []);
 
   return (
@@ -97,6 +104,16 @@ export default function Dashboard() {
               variant="contained"
               onClick={logout}
             >
+              Add board
+            </Button>
+
+            <Button
+              style={{ margin: "10px 50px 10px 0px" }}
+              size="large"
+              color="white"
+              variant="contained"
+              onClick={logout}
+            >
               Logout
             </Button>
           </div>
@@ -106,9 +123,10 @@ export default function Dashboard() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {boards.map((card) => (
-              <Grid item key={card.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
+            {boards.map((mappedBoard) => (
+              <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
+                <BoardView boardInfo={mappedBoard}></BoardView>
+                {/* <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
                     image="https://source.unsplash.com/random"
@@ -116,9 +134,8 @@ export default function Dashboard() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {card.name}
+                      {card.board.name}
                     </Typography>
-                    <Typography>{card.user.email}</Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
@@ -128,7 +145,7 @@ export default function Dashboard() {
                       Edit
                     </Button>
                   </CardActions>
-                </Card>
+                </Card> */}
               </Grid>
             ))}
           </Grid>

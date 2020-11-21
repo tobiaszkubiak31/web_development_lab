@@ -17,6 +17,7 @@ import AuthService from "../../utils/service.js";
 import { Grow } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import BoardView from "./BoardView.js";
+import AddBoardModal from "./AddBoardModal.js";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -59,6 +60,7 @@ var mockedUserBoards = [
 export default function Dashboard() {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
+  const [modalDisplayed, setModalDisplayed] = useState(false);
   const history = useHistory();
 
   var getUserBoards = () => {
@@ -76,12 +78,27 @@ export default function Dashboard() {
     sessionStorage.removeItem("token");
     history.push("/login");
   };
+
+  var displayAddBoardModal = () => {
+    setModalDisplayed(true);
+    console.log("display modal:" + modalDisplayed);
+  };
+
+  var hideAddBoardModal = () => {
+    setModalDisplayed(false);
+    console.log("display modal:" + modalDisplayed);
+  };
+
   useEffect(() => {
     setBoards(getUserBoards());
   }, []);
 
   return (
     <React.Fragment>
+      <AddBoardModal
+        isDisplayed={modalDisplayed}
+        hideModal={hideAddBoardModal}
+      ></AddBoardModal>
       <CssBaseline />
       <AppBar position="relative">
         <div style={{ display: "flex" }}>
@@ -102,7 +119,7 @@ export default function Dashboard() {
               size="large"
               color="white"
               variant="contained"
-              onClick={logout}
+              onClick={displayAddBoardModal}
             >
               Add board
             </Button>
@@ -126,26 +143,6 @@ export default function Dashboard() {
             {boards.map((mappedBoard) => (
               <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
                 <BoardView boardInfo={mappedBoard}></BoardView>
-                {/* <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.board.name}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card> */}
               </Grid>
             ))}
           </Grid>

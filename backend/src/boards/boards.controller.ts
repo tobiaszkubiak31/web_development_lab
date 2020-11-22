@@ -24,12 +24,15 @@ export class BoardsController {
  @UseGuards(JwtAuthGuard)
  @Post('add')
  async create(@Request() req) {
-   const board = await this.boardsService.create({ name: req.body.name });
-   return await this.userboardsService.create({
-       user_id: req.user.id,
-       board_id: board.id,
-       user_role: "admin"
+   const userBoards = await this.boardsService.getUserBoards(req.user.id);
+   if (userBoards.find(board => board.name === req.body.name) === undefined) {
+    const board = await this.boardsService.create({ name: req.body.name });
+    return await this.userboardsService.create({
+      user_id: req.user.id,
+      board_id: board.id,
+      user_role: "admin"
    });
+   }
  }
 
   /*
@@ -45,5 +48,11 @@ export class BoardsController {
   @Delete('delete/:id')
   async remove(@Param('id') id: number): Promise<any> {
     return await this.boardsService.delete(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('addUser')
+  async addUser(@Request() req) {
+    return await this.userboardsService.addUser();
   }
 }

@@ -28,18 +28,70 @@ class AuthService {
       });
   }
 
-  async getUserBoards(userId) {
+  async getUserBoards() {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
     return await axios
-      .get(`${API_URL}/boards/user/` + userId, config)
+      .get(`${API_URL}/boards/get`, config)
       .then((response) => {
         console.log(response);
         return response.data;
       })
+      .catch((error) => {
+        console.log(error.response.status);
+        return error.response.status;
+      });
+  }
+
+  async addBoard(boardName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/boards/add`,
+        {
+          name: boardName,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async deleteBoard(boardId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .delete(`${API_URL}/boards/delete/` + boardId, config)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async editBoard(boardId, newName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .patch(
+        `${API_URL}/boards/update/` + boardId,
+        {
+          name: newName,
+        },
+        config
+      )
       .catch((error) => {
         console.log(error);
       });

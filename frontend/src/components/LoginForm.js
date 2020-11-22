@@ -11,7 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { LockOpen } from "@material-ui/icons";
 import AuthService from "../utils/service.js";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+
+    background: "-webkit-linear-gradient(bottom, #0250c5, #d43f8d)",
     width: theme.spacing(8),
     height: theme.spacing(8),
   },
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
+    backgroundColor: "#0250c5",
   },
   background: {
     height: "100vh",
@@ -81,7 +82,7 @@ export default function SignIn() {
           <LockOpen fontSize="large" />
         </Avatar>
         <Typography component="h1" variant="h5">
-          SIGN IN
+          Login
         </Typography>
         <form className={classes.form} noValidate onSubmit={submitLogin}>
           <TextField

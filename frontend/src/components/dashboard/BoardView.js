@@ -29,12 +29,15 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    padding: "7px",
+    backgroundColor: "rgb(0, 52, 89)",
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9
   },
   cardContent: {
     flexGrow: 1,
+    backgroundColor: "#FFFFFF",
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -86,7 +89,11 @@ export default function BoardView(props) {
           {props.boardInfo.name}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions
+        style={{
+          backgroundColor: "#FFFFFF",
+        }}
+      >
         <Button size="small" color="primary" onClick={displayEditBoardModal}>
           Rename
         </Button>

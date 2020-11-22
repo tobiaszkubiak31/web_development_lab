@@ -12,6 +12,8 @@ import { useHistory } from "react-router-dom";
 import BoardView from "./BoardView.js";
 import AddIcon from "@material-ui/icons/Add";
 import CreateBoardModal from "./modals/CreateBoardModal.js";
+import TableChartIcon from "@material-ui/icons/TableChart";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -41,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#003459",
     padding: theme.spacing(6),
+    color: "#FFFFFF",
   },
 }));
 var mockedUserBoards = [
@@ -99,11 +102,12 @@ export default function Dashboard() {
         updateBoards={getUserBoards}
       ></CreateBoardModal>
       <CssBaseline />
-      <AppBar position="relative" style={{ backgroundColor: "#4F7CAC" }}>
-        <div style={{ display: "flex" }}>
+      <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Toolbar style={{ flexGrow: "1" }}>
-            <Typography variant="h6" color="inherit" noWrap>
-              Trello
+            <TableChartIcon fontSize="large"></TableChartIcon>
+            <Typography variant="h4" color="inherit" noWrap>
+              <div style={{ marginLeft: "10px" }}>Trullo</div>
             </Typography>
           </Toolbar>
           <div
@@ -116,8 +120,12 @@ export default function Dashboard() {
             <Button
               style={{
                 margin: "10px 50px 10px 0px",
-                backgroundColor: "#C0E0DE",
+                backgroundColor: "#007EA7",
+                fontWeight: "bold",
+                background:
+                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
               }}
+              color="secondary"
               size="large"
               variant="contained"
               onClick={displayAddBoardModal}
@@ -127,12 +135,21 @@ export default function Dashboard() {
             </Button>
 
             <Button
-              style={{ margin: "10px 50px 10px 0px" }}
+              style={{
+                margin: "10px 50px 10px 0px",
+                fontWeight: "bold",
+
+                background:
+                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), red)",
+              }}
               size="large"
               color="secondary"
               variant="contained"
               onClick={logout}
             >
+              <PowerSettingsNewIcon
+                style={{ marginRight: "10px" }}
+              ></PowerSettingsNewIcon>
               Logout
             </Button>
           </div>
@@ -160,15 +177,10 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Manage projects
         </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
+        <Typography variant="subtitle1" align="center" component="p">
+          Create, delete and edit your boards !
         </Typography>
       </footer>
       {/* End footer */}

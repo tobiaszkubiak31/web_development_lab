@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import AuthService from "../utils/service.js";
-import { ContactsOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     width: theme.spacing(8),
     height: theme.spacing(8),
+
+    background: "linear-gradient(bottom, #0250c5, #d43f8d)",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
+    backgroundColor: "#0250c5",
   },
   background: {
     height: "100vh",
@@ -79,7 +81,7 @@ export default function SignUp() {
           <AssignmentTurnedInIcon fontSize="large" />
         </Avatar>
         <Typography component="h1" variant="h5">
-          SIGN UP
+          Register
         </Typography>
         <form className={classes.form} noValidate onSubmit={submitRegister}>
           <TextField
@@ -113,7 +115,7 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Register me
           </Button>
         </form>
         <div>

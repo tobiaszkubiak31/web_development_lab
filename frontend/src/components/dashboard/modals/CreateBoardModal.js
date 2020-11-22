@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,22 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AuthService from "../../../utils/service.js";
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
 
 export default function CreateBoardModal(props) {
-  const classes = useStyles();
   const [boardName, setboardName] = useState("");
 
   var handleBoardNameChange = (event) => {
@@ -47,7 +32,7 @@ export default function CreateBoardModal(props) {
   };
 
   var onEnterClicked = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       addBoard();
     }
   };

@@ -48,12 +48,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
   },
 }));
-var mockedUserBoards = [
-  { board: { id: "1", name: "example_board_1" } },
-  { board: { id: "2", name: "example_board_2" } },
-  { board: { id: "3", name: "example_board_3" } },
-  { board: { id: "4", name: "example_board_4" } },
-];
+
 export default function Dashboard() {
   const classes = useStyles();
   const [boards, setBoards] = useState(null);

@@ -5,13 +5,13 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 export class User {
 
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
-  @Column({ type: 'varchar', length: 300, unique: true })
-  email: string;
+  @Column({ type: 'varchar', length: 300, unique: true, nullable: false })
+  email!: string;
 
-  @Column({ type: 'varchar', length: 300 })
-  password: string;
+  @Column({ type: 'varchar', length: 300, nullable: false })
+  password!: string;
 
   @OneToMany(() => Userboard, userBoard => userBoard.user)
   boardConnection: Promise<Userboard[]>;

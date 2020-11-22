@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { BoardsService } from "src/boards/boards.service";
 import { User } from "src/users/users.entity";

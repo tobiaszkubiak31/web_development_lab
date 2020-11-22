@@ -26,7 +26,7 @@ export class BoardsController {
  @Post('add')
  async create(@Request() req) {
    // create only when user doesn't created board with this same name
-    if (!this.boardsService.isMember(req.user.id, req.body.name)) {
+    if (!await this.boardsService.isMember(req.user.id, req.body.name)) {
       const board = await this.boardsService.create({ name: req.body.name });
       return await this.userboardsService.create({
         user_id: req.user.id,
@@ -39,18 +39,39 @@ export class BoardsController {
 
   /*
     {
-      "name": "new board name"
+      "name": "old board name",
+      "new_name": "new board name"
     }
   */
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Patch()
   async updateName(@Request() req): Promise<any> {
-    return await this.boardsService.updateName(req.user.id, req.body);
+    const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
+    if (userboard) {
+      return await this.boardsService.updateName(userboard.board_id, { "name": req.body.new_name });
+    }
+    return false;
   }
 
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Delete()
-  async remove(@Param('id') id: number): Promise<any> {
-    return await this.boardsService.delete(id);
+  async remove(@Request() req): Promise<any> {
+    const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
+    if (userboard) {
+      return await this.boardsService.delete(userboard.board_id);
+    }
+    return false;
+  }
+
+  /*
+  {
+    "email": "user_emal",
+    "name": "board_name"
+  }
+  */
+  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @Post('addUser')
+  async addUser(@Request() req) {
+    return await this.boardsService.addUser(req.body, req.user.id);
   }
 }

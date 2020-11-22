@@ -164,7 +164,7 @@ export default function Dashboard() {
                 </Grid>
               ))
             ) : (
-              <h1>Nie żadnych posiadasz tablic</h1>
+              <h1>You don't have any boards, create them</h1>
             )}
           </Grid>
         </Container>

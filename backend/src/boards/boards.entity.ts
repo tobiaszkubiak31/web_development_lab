@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Board {
+  
   @PrimaryGeneratedColumn()
   id: number;
 

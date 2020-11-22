@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Userboard } from 'src/userboards/userboards.entity';
-import { DeleteResult, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { BoardDto } from './boards.dto';
 import { Board } from './boards.entity';
 
@@ -9,7 +9,7 @@ import { Board } from './boards.entity';
 export class BoardsService {
   constructor(
     @InjectRepository(Board)
-    private boardRepository: Repository<Board>,
+    private boardRepository: Repository<Board>
   ) {}
 
   async findByUserId(userId: Number) {
@@ -49,5 +49,21 @@ export class BoardsService {
       .where('userboard.user_id = :user_id', { user_id: id })
       .select('board.name')
       .getMany();
+  }
+
+  async isMember(id: number, name: string): Promise<boolean> {
+    const userBoards = await this.getUserBoards(id);
+    return userBoards.find(board => board.name === name) !== undefined;
+  }
+
+  async isOwner(id: number, name: string) {
+     const userboard = await getRepository(Userboard)
+      .createQueryBuilder('userboard')
+      .innerJoinAndSelect(Board, 'board', 'board.id = userboard.board_id')
+      .where('userboard.user_id = :user_id', { user_id: id })
+      .andWhere('board.name = :name', { name: name })
+      .select('userboard.user_role')
+      .getOne();
+    return userboard.user_role === "admin";
   }
 }

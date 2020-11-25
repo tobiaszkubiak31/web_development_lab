@@ -124,6 +124,10 @@ class AuthService {
     });
     return response.data;
   }
+
+  async inviteUserToBoard() {
+    
+  }
 }
 
 export default new AuthService();

@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AuthService from "../../utils/service.js";
 import EditBoardModal from "./modals/EditBoardModal.js";
+import inviteUserToBoard from "./modals/InviteUserModal";
+import InviteUserModal from "./modals/InviteUserModal";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BoardView(props) {
   const classes = useStyles();
   const [editModalDisplayed, setEditModalDisplayed] = useState(false);
+  const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
 
   var deleteBoard = () => {
     AuthService.deleteBoard(props.boardInfo.id).then((response) => {
@@ -70,6 +73,14 @@ export default function BoardView(props) {
     console.log("display modal:" + editModalDisplayed);
   };
 
+  var displayInviteUserToBoard = () => {
+    setInviteModalDisplayed(true);
+  }
+
+  var hideInviteUserToBoard = () => {
+    setInviteModalDisplayed(false);
+  }
+
   return (
     <Card className={classes.card}>
       <EditBoardModal
@@ -78,6 +89,12 @@ export default function BoardView(props) {
         updateBoards={props.updateBoards}
         boardInfo={props.boardInfo}
       ></EditBoardModal>
+      <InviteUserModal
+        isDisplayed={inviteModalDisplayed}
+        hideModal={hideInviteUserToBoard}
+        updateBoards={props.updateBoards}
+        boardInfo={props.boardInfo}
+      ></InviteUserModal>
       <CardMedia
         className={classes.cardMedia}
         image="https://source.unsplash.com/random"
@@ -99,6 +116,9 @@ export default function BoardView(props) {
         </Button>
         <Button size="small" color="primary" onClick={deleteBoard}>
           Delete
+        </Button>
+        <Button size="small" color="primary" onClick={displayInviteUserToBoard}>
+          Invite
         </Button>
       </CardActions>
     </Card>

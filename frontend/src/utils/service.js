@@ -65,20 +65,25 @@ class AuthService {
       });
   }
 
-  async deleteBoard(boardId) {
+  async deleteBoard(boardName) {
     let config = {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN)
       },
     };
     return await axios
-      .delete(`${API_URL}/boards/delete/` + boardId, config)
+      .post(`${API_URL}/boards/delete`
+      ,{
+        name: boardName,
+      },
+      config
+      )
       .catch((error) => {
         console.log(error);
       });
   }
 
-  async editBoard(boardId, newName) {
+  async editBoard(boardName, newBoardName) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -86,9 +91,10 @@ class AuthService {
     };
     return await axios
       .patch(
-        `${API_URL}/boards/update/` + boardId,
+        `${API_URL}/boards/`,
         {
-          name: newName,
+          name: boardName,
+          new_name: newBoardName
         },
         config
       )
@@ -123,6 +129,25 @@ class AuthService {
       password: hashedPassword,
     });
     return response.data;
+  }
+
+  async inviteUserToBoard(userEmail, boardName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(`${API_URL}/boards/addUser`
+      ,{
+        email: userEmail,
+        name: boardName
+      },
+      config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }
 

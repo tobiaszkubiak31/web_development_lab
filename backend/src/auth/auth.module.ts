@@ -10,7 +10,7 @@ import { JwtStrategy } from 'src/guards/jwt.strategy';
 @Module({
   imports: [UsersModule, PassportModule, JwtModule.register({
     secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: '1000s' }
+    signOptions: { expiresIn: '100000s' }
   })],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController]

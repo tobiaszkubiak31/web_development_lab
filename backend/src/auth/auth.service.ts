@@ -13,7 +13,7 @@ export class AuthService {
 
     async validateUser(email: string, password: string): Promise<any> {
         const foundUser = await this.usersService.findOne(email); // Check if user exists
-        if (foundUser) { // && await bcrypt.compare(password, foundUser.password)) { // comparing password with encrypted password  
+        if (foundUser && await bcrypt.compare(password, foundUser.password)) { // comparing password with encrypted password  
             const { password, ...result } = foundUser; // this extracted result type which is User type except password
             return result; // {userId, username};
         }

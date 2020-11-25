@@ -12,7 +12,7 @@ export class Userboard {
   board_id!: number;
 
   @Column()
-  user_role: string;
+  user_role!: string;
 
   @ManyToOne(() => User, user => user.boardConnection, { primary: true, cascade: true, onDelete: "CASCADE" })
   @JoinColumn({ name: "user_id" })

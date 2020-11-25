@@ -1,5 +1,6 @@
 import { Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { BoardOwnerGuard } from 'src/guards/board-owner.guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { UserboardsService } from 'src/userboards/userboards.service';
 import { BoardsService } from './boards.service';
 
@@ -24,26 +25,53 @@ export class BoardsController {
  @UseGuards(JwtAuthGuard)
  @Post('add')
  async create(@Request() req) {
-   const board = await this.boardsService.create({ name: req.body.name });
-   return await this.userboardsService.create({
-       user_id: req.user.id,
-       board_id: board.id,
-       user_role: "admin"
-   });
+   // create only when user doesn't created board with this same name
+    if (!await this.boardsService.isMember(req.user.id, req.body.name)) {
+      const board = await this.boardsService.create({ name: req.body.name });
+      return await this.userboardsService.create({
+        user_id: req.user.id,
+        board_id: board.id,
+        user_role: "admin"
+      });
+    }
+    return null;
  }
 
   /*
     {
-      "name": "new board name"
+      "name": "old board name",
+      "new_name": "new board name"
     }
   */
-  @Patch('update/:id')
-  async updateName(@Param('id') id: number, @Request() req): Promise<any> {
-    return await this.boardsService.updateName(id, req.body);
+  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @Patch()
+  async updateName(@Request() req): Promise<any> {
+    const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
+    if (userboard) {
+      return await this.boardsService.updateName(userboard.board_id, { "name": req.body.new_name });
+    }
+    return false;
   }
 
-  @Delete('delete/:id')
-  async remove(@Param('id') id: number): Promise<any> {
-    return await this.boardsService.delete(id);
+  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @Delete()
+  async remove(@Request() req): Promise<any> {
+    const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
+    if (userboard) {
+      return await this.boardsService.delete(userboard.board_id);
+    }
+    return false;
+  }
+
+  /*
+  {
+    "email": "user_emal",
+    "name": "board_name"
+  }
+  */
+  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @Post('addUser')
+  async addUser(@Request() req) {
+    return await this.boardsService.addUser(req.body, req.user.id);
   }
 }

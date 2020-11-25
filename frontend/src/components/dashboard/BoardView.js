@@ -53,7 +53,9 @@ export default function BoardView(props) {
   const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
 
   var deleteBoard = () => {
-    AuthService.deleteBoard(props.boardInfo.id).then((response) => {
+    console.log("ID:" + props.boardInfo.name)
+    console.log(typeof props.boardInfo.name)
+    AuthService.deleteBoard(props.boardInfo.name).then((response) => {
       if (response) {
         console.log(response);
         props.updateBoards();

@@ -18,7 +18,6 @@ export class BoardsService {
 
   async findByUserId(userId: number) {
     try {
-      // console.log(await this.userRepository.findOne({ "1" }));
       return await this.boardRepository.find({
         relations: ['user'],
         where: { user: { id: userId } },

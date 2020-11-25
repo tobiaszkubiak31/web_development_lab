@@ -54,7 +54,7 @@ export class BoardsController {
   }
 
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
-  @Delete()
+  @Post("delete")
   async remove(@Request() req): Promise<any> {
     const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
     if (userboard) {

@@ -9,7 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import AuthService from "../../../utils/service.js";
 
 export default function InviteUserModal(props) {
-    const [userName, setUserName] = useState(props.boardInfo.name);
+    const [userName, setUserName] = useState("");
   
     var handleUserNameChange = (event) => {
       setUserName(event.target.value);
@@ -20,15 +20,15 @@ export default function InviteUserModal(props) {
     };
   
     var inviteUser = () => {
-        // AuthService.editBoard(props.boardInfo.id, boardName).then((response) => {
-        //   if (response) {
-        //     console.log(response);
-        //     handleClose();
-        //     props.updateBoards();
-        //   } else {
-        //     alert("Add board failed");
-        //   }
-        // });
+        AuthService.inviteUserToBoard(userName, props.boardInfo.name).then((response) => {
+          if (response) {
+            console.log(response);
+            handleClose();
+            props.updateBoards();
+          } else {
+            alert("Adding user failed");
+          }
+        });
       };
 
     var onEnterClicked = (e) => {

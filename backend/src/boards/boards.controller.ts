@@ -34,7 +34,7 @@ export class BoardsController {
         user_role: "admin"
       });
     }
-    return null;
+    return false;
  }
 
   /*
@@ -46,9 +46,12 @@ export class BoardsController {
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Patch()
   async updateName(@Request() req): Promise<any> {
-    const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
-    if (userboard) {
-      return await this.boardsService.updateName(userboard.board_id, { "name": req.body.new_name });
+    const userboardWithModifiedName = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.new_name);
+    if (!userboardWithModifiedName) { // new board name should be unique for owner
+      const userboard = await this.boardsService.getUserboardByUserIdAndBoardName(req.user.id, req.body.name);
+      if (userboard) {
+        return await this.boardsService.updateName(userboard.board_id, { "name": req.body.new_name });
+      }
     }
     return false;
   }

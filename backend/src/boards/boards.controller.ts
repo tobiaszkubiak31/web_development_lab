@@ -56,6 +56,11 @@ export class BoardsController {
     return false;
   }
 
+  /*
+  {
+    "name": "board_name"
+  }
+  */
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Post("delete")
   async remove(@Request() req): Promise<any> {
@@ -76,5 +81,16 @@ export class BoardsController {
   @Post('addUser')
   async addUser(@Request() req) {
     return await this.boardsService.addUser(req.body, req.user.id);
+  }
+
+  /*
+  {
+    "name": "board_name"
+  }
+  */
+  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @Post('getUsers')
+  async getUsers(@Request() req) {
+    return await this.boardsService.getUsers(req.body.name, req.user.id);
   }
 }

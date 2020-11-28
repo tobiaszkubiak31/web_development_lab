@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Userboard } from 'src/userboards/userboards.entity';
 import { UserboardsService } from 'src/userboards/userboards.service';
+import { User } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { getRepository, Repository } from 'typeorm';
 import { AddUserToBoardDto, BoardDto } from './boards.dto';
@@ -101,5 +102,20 @@ export class BoardsService {
       }
     }
     return false;
+  }
+
+  async getUsers(name: string, owner_id: number) {
+    const foundBoard = await getRepository(Userboard)
+      .createQueryBuilder('userboard')
+      .innerJoinAndSelect(Board, 'board', 'userboard.board_id = board.id')
+      .where('board.name = :name', { name: name })
+      .andWhere('userboard.user_id = :user_id', { user_id: owner_id })
+      .getOne();
+    return await getRepository(User)
+      .createQueryBuilder('user')
+      .innerJoinAndSelect(Userboard, 'userboard', 'userboard.user_id = user.id')
+      .where('userboard.board_id = :id', { id: foundBoard.board_id })
+      .select('user.email')
+      .getMany();
   }
 }

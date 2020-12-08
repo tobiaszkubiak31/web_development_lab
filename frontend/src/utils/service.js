@@ -71,6 +71,23 @@ class AuthService {
       });
   }
 
+  async getBoardsLists(boardName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+    .get(`${API_URL}/lists/${boardName}`, config)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+  }
+
   async addBoard(boardName) {
     let config = {
       headers: {

@@ -88,6 +88,23 @@ class AuthService {
     });
   }
 
+  async getListsCards(listId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+    .get(`${API_URL}/cards/${listId}`, config)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+  }
+
   async addBoard(boardName) {
     let config = {
       headers: {

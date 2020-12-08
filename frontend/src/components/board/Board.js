@@ -53,7 +53,6 @@ export default function Board(props) {
 
     const [lists, setLists] = useState(null);
   
-    // zmieńmy to na listy
     var getLists = () => {
 
         // return mock data
@@ -71,7 +70,7 @@ export default function Board(props) {
           history.push("/login");
         }
         if (response) {
-          setLists(response)
+          return response
         } else {
           alert("Fetch lists failed");
         }

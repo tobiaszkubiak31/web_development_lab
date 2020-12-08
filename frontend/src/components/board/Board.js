@@ -5,13 +5,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import List from "./List";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -44,14 +44,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#003459",
       padding: theme.spacing(6),
       color: "#FFFFFF",
-    },
-    fixedHeightPaper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-        minHeight: 500
-      },
+    }
   }));
 
 export default function Board(props) {
@@ -144,10 +137,8 @@ export default function Board(props) {
           <Grid container spacing={4}>
               {lists && lists.length > 0 ? (
                 lists.map((mappedList) => (
-                  <Grid item key={mappedList.name} xs={12} sm={4} md={3}>
-                    <Paper className={classes.fixedHeightPaper}>
-                        <p>{mappedList.name}</p>
-                    </Paper>
+                  <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
+                    <List name={mappedList.name} id={mappedList.id}/>
                   </Grid>
                 ))
               ) : (

@@ -37,11 +37,36 @@ class AuthService {
     return await axios
       .get(`${API_URL}/boards/get`, config)
       .then((response) => {
-        console.log(response);
+        //console.log(response.data);
         return response.data;
       })
       .catch((error) => {
-        console.log(error.response.status);
+        //console.log(error.response.status);
+        return error.response.status;
+      });
+  }
+
+  // Get list of all users who have access to this board
+  async getUsersFromBoard(boardName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+      .post(`${API_URL}/boards/getUsers`,
+      {
+        name: boardName,
+      },
+       config
+      )
+      .then((response) => {
+        //console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        //console.log(error.response.status);
         return error.response.status;
       });
   }

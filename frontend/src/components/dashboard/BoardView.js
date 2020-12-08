@@ -8,8 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AuthService from "../../utils/service.js";
 import EditBoardModal from "./modals/EditBoardModal.js";
-import inviteUserToBoard from "./modals/InviteUserModal";
 import InviteUserModal from "./modals/InviteUserModal";
+import ShowUsersModal from "./modals/ShowUsersModal";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -51,13 +51,11 @@ export default function BoardView(props) {
   const classes = useStyles();
   const [editModalDisplayed, setEditModalDisplayed] = useState(false);
   const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
+  const [showUsersDisplayed , setShowUsersDisplayed] = useState(false);
 
   var deleteBoard = () => {
-    console.log("ID:" + props.boardInfo.name)
-    console.log(typeof props.boardInfo.name)
     AuthService.deleteBoard(props.boardInfo.name).then((response) => {
       if (response) {
-        console.log(response);
         props.updateBoards();
       } else {
         alert("Delete board failed");
@@ -67,12 +65,10 @@ export default function BoardView(props) {
 
   var displayEditBoardModal = () => {
     setEditModalDisplayed(true);
-    console.log("display modal:" + editModalDisplayed);
   };
 
   var hideEditBoardModal = () => {
     setEditModalDisplayed(false);
-    console.log("display modal:" + editModalDisplayed);
   };
 
   var displayInviteUserToBoard = () => {
@@ -81,6 +77,14 @@ export default function BoardView(props) {
 
   var hideInviteUserToBoard = () => {
     setInviteModalDisplayed(false);
+  }
+
+  var displayShowUsers = () => {
+    setShowUsersDisplayed(true);
+  }
+
+  var hideShowUsers = () => {
+    setShowUsersDisplayed(false);
   }
 
   return (
@@ -97,6 +101,12 @@ export default function BoardView(props) {
         updateBoards={props.updateBoards}
         boardInfo={props.boardInfo}
       ></InviteUserModal>
+      <ShowUsersModal
+        isDisplayed={showUsersDisplayed}
+        hideModal={hideShowUsers}
+        updateBoards={props.updateBoards}
+        boardInfo={props.boardInfo}
+      ></ShowUsersModal>
       <CardMedia
         className={classes.cardMedia}
         image="https://source.unsplash.com/random"
@@ -121,6 +131,9 @@ export default function BoardView(props) {
         </Button>
         <Button size="small" color="primary" onClick={displayInviteUserToBoard}>
           Invite
+        </Button>
+        <Button size="small" color="primary" onClick={displayShowUsers}>
+          Users
         </Button>
       </CardActions>
     </Card>

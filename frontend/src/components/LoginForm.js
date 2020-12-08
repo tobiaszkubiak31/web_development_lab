@@ -59,7 +59,7 @@ export default function SignIn() {
     event.preventDefault();
     AuthService.loginUser(login, password).then((response) => {
       if (response) {
-        alert("Sucessfully logged to:" + login + " password: " + password);
+        //alert("Sucessfully logged to:" + login + " password: " + password);
         history.push("/dashboard");
       } else {
         alert("Login failed");

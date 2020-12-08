@@ -88,7 +88,7 @@ export class BoardsController {
     "name": "board_name"
   }
   */
-  @UseGuards(JwtAuthGuard, BoardOwnerGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('getUsers')
   async getUsers(@Request() req) {
     return await this.boardsService.getUsers(req.body.name, req.user.id);

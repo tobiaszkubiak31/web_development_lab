@@ -21,12 +21,11 @@ export default function EditBoardModal(props) {
 
   var editBoard = () => {
     AuthService.editBoard(props.boardInfo.name, boardName).then((response) => {
-      if (response) {
-        console.log(response);
+      if (response.data) {//
         handleClose();
         props.updateBoards();
       } else {
-        alert("Add board failed");
+        alert("Error");
       }
     });
   };

@@ -71,23 +71,26 @@ export default function Dashboard() {
   };
 
   var logout = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     history.push("/login");
   };
 
   var displayAddBoardModal = () => {
     setModalDisplayed(true);
-    console.log("display modal:" + modalDisplayed);
+    //console.log("display modal:" + modalDisplayed);
   };
 
   var hideAddBoardModal = () => {
     setModalDisplayed(false);
-    console.log("display modal:" + modalDisplayed);
+    //console.log("display modal:" + modalDisplayed);
   };
 
   useEffect(() => {
+    if(localStorage.getItem("token") === null) {
+      history.push("/login");
+    }
     setBoards(getUserBoards());
-  }, []);
+  }, [history]);
 
   return (
     <React.Fragment>
@@ -154,7 +157,6 @@ export default function Dashboard() {
         <Container className={classes.cardGrid} maxWidth="lg">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {console.log(boards)}
             {boards && boards.length > 0 ? (
               boards.map((mappedBoard) => (
                 <Grid item key={mappedBoard.name} xs={12} sm={6} md={4}>

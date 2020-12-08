@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from "@material-ui/core/Paper";
 import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
+import Card from "./Card";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -32,13 +33,7 @@ export default function List(props) {
   var getCards = () => {
 
         // return mock data
-        return [{id: 1, text: "pierwsza"},
-                {id: 2, text: "druga"},
-                {id: 3, text: "hehehe"},
-                {id: 4, text: "hehehe"},
-                {id: 5, text: "hehehe"},
-                {id: 6, text: "hehehe"},
-                {id: 7, text: "hehehe"}]
+        return [{id: 1, text: "task do zrobienia"}]
 
         AuthService.getListsCards(props.id).then((response) => {
             if (response === 401) {
@@ -72,10 +67,16 @@ export default function List(props) {
         <Typography color="textSecondary" className={classes.depositContext}>
 
         </Typography>
-        <Typography color="textSecondary" className={classes.depositContext}>
+        <Typography color="textSecondary">
             xDDDD
             {/** tutaj musi być card */}
         </Typography>
+
+        {cards && cards.length > 0 ? (
+            cards.map((mappedCard) => (
+                <Card key={mappedCard.text+mappedCard.id} text={mappedCard.text} id={mappedCard.id}/>
+            ))
+            ) : (<p></p>)}
         
 
         <div>

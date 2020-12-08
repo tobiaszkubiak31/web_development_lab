@@ -67,10 +67,6 @@ export default function List(props) {
         <Typography color="textSecondary" className={classes.depositContext}>
 
         </Typography>
-        <Typography color="textSecondary">
-            xDDDD
-            {/** tutaj musi być card */}
-        </Typography>
 
         {cards && cards.length > 0 ? (
             cards.map((mappedCard) => (

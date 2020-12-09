@@ -1,3 +1,4 @@
+import { List } from 'src/lists/lists.entity';
 import { Userboard } from 'src/userboards/userboards.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -12,4 +13,7 @@ export class Board {
 
   @OneToMany(() => Userboard, userBoard => userBoard.board)
   userConnection: Promise<Userboard[]>;
+
+  @OneToMany(() => List, list => list.board)
+  lists: Promise<List[]>;
 }

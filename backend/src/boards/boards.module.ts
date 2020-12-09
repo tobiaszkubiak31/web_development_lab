@@ -6,13 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Userboard } from 'src/userboards/userboards.entity';
 import { UserboardsModule } from 'src/userboards/userboards.module';
 import { UsersModule } from 'src/users/users.module';
+import { List } from 'src/lists/lists.entity';
+import { ListsModule } from 'src/lists/lists.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Board]),
     TypeOrmModule.forFeature([Userboard]),
+    TypeOrmModule.forFeature([List]),
     UserboardsModule,
-    UsersModule
+    UsersModule,
+    ListsModule
   ],
   controllers: [BoardsController],
   providers: [BoardsService],

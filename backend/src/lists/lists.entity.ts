@@ -11,6 +11,9 @@ export class List {
   @Column()
   name!: string;
 
+  @Column()
+  board_id!: number;
+
   @ManyToOne(() => Board, board => board.lists, { cascade: true, onDelete: "CASCADE" })
   @JoinColumn({ name: "board_id" })
   board: Promise<Board>;

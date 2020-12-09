@@ -10,6 +10,9 @@ export class Card {
   @Column()
   name!: string;
 
+  @Column()
+  list_id!: number;
+
   @ManyToOne(() => List, list => list.cards, { cascade: true, onDelete: "CASCADE" })
   @JoinColumn({ name: "list_id" })
   list: Promise<List>;

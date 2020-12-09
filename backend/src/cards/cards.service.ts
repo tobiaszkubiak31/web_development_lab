@@ -22,4 +22,9 @@ export class CardsService {
             .select(['card.id', 'card.name'])
             .getMany();
     }
+
+    async updateName(card_id: number, card_new_name: string): Promise<boolean> {
+        const updated = await this.cardRepository.update(card_id, { name: card_new_name });
+        return updated.affected === 1;
+    }
 }

@@ -64,57 +64,47 @@ export class BoardsService {
       .getMany();
   }
 
-  async isMember(id: number, name: string): Promise<boolean> {
-    const userBoards = await this.getUserBoards(id);
-    return userBoards.find(board => board.name === name) !== undefined;
+  async isMember(user_id: number, board_id: number): Promise<boolean> {
+    const userboard = await this.getUserboardByUserIdAndBoardId(user_id, board_id);
+    if (userboard) {
+      return true;
+    }
+    return false;
   }
 
-  async getUserboardByUserIdAndBoardName(id: number, name: string): Promise<Userboard> {
+  async getUserboardByUserIdAndBoardId(user_id: number, board_id: number): Promise<Userboard> {
     return await getRepository(Userboard)
       .createQueryBuilder('userboard')
-      .innerJoinAndSelect(Board, 'board', 'userboard.board_id = board.id')
-      .where('board.name = :name', { name: name })
-      .andWhere('userboard.user_id = :user_id', { user_id: id })
+      .where('userboard.user_id = :user_id', { user_id: user_id })
+      .andWhere('userboard.board_id = :board_id', { board_id: board_id })
       .getOne();
   }
 
-  async isOwner(id: number, name: string): Promise<boolean> {
-    const userboard = await this.getUserboardByUserIdAndBoardName(id, name);
+  async isOwner(user_id: number, board_id: number): Promise<boolean> {
+    const userboard = await this.getUserboardByUserIdAndBoardId(user_id, board_id);
     if (userboard) {
       return userboard.user_role === "admin";
     }
     return false;
   }
 
-  async addUser(addUserToBoardDto: AddUserToBoardDto, id: number) {
+  async addUser(addUserToBoardDto: AddUserToBoardDto) {
     const user = await this.usersService.findOne(addUserToBoardDto.email);
-    if (user && !await this.isMember(user.id, addUserToBoardDto.name)) {
-      const userBoards = await this.getUserBoardsWithIds(id);
-      if (userBoards) {
-        const userBoard = await userBoards.find(board => board.name === addUserToBoardDto.name);
-        if (userBoard) {
-          return await this.userboardsService.create({
-            "user_id": user.id,
-            "board_id": userBoard.id,
-            "user_role": "user"
-          });
-        }
-      }
+    if (user && !await this.isMember(user.id, addUserToBoardDto.board_id)) {
+      return await this.userboardsService.create({
+        "user_id": user.id,
+        "board_id": addUserToBoardDto.board_id,
+        "user_role": "user"
+      });
     }
     return false;
   }
 
-  async getUsers(name: string, owner_id: number) {
-    const foundBoard = await getRepository(Userboard)
-      .createQueryBuilder('userboard')
-      .innerJoinAndSelect(Board, 'board', 'userboard.board_id = board.id')
-      .where('board.name = :name', { name: name })
-      .andWhere('userboard.user_id = :user_id', { user_id: owner_id })
-      .getOne();
+  async getUsers(board_id: number) {
     return await getRepository(User)
       .createQueryBuilder('user')
       .innerJoinAndSelect(Userboard, 'userboard', 'userboard.user_id = user.id')
-      .where('userboard.board_id = :id', { id: foundBoard.board_id })
+      .where('userboard.board_id = :board_id', { board_id: board_id })
       .select('user.email')
       .getMany();
   }

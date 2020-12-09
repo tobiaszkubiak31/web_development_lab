@@ -43,11 +43,7 @@ export class BoardsController {
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Patch()
   async updateName(@Request() req): Promise<any> {
-    const userboard = await this.boardsService.getUserboardByUserIdAndBoardId(req.user.id, req.body.board_id);
-    if (userboard) {
-      return await this.boardsService.updateName(userboard.board_id, { "name": req.body.board_new_name });
-    }
-    return false;
+      return await this.boardsService.updateName(req.body.board_id, req.body.board_new_name);
   }
 
   /*
@@ -58,11 +54,7 @@ export class BoardsController {
   @UseGuards(JwtAuthGuard, BoardOwnerGuard)
   @Post("delete")
   async remove(@Request() req): Promise<any> {
-    const userboard = await this.boardsService.getUserboardByUserIdAndBoardId(req.user.id, req.body.board_id);
-    if (userboard) {
-      return await this.boardsService.delete(userboard.board_id);
-    }
-    return false;
+    return await this.boardsService.delete(req.body.board_id);
   }
 
   /*

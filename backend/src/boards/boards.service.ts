@@ -41,8 +41,8 @@ export class BoardsService {
     return await this.boardRepository.save(boardDto);
   }
 
-  async updateName(id: number, boardDto: BoardDto): Promise<boolean> {
-    const updated = await this.boardRepository.update(id, { name: boardDto.name });
+  async updateName(id: number, board_new_name: string): Promise<boolean> {
+    const updated = await this.boardRepository.update(id, { name: board_new_name });
     return updated.affected === 1;
   }
 

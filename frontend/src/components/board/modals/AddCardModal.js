@@ -8,32 +8,32 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AuthService from "../../../utils/service.js";
 
-export default function EditListModal(props) {
-  const [listName, setListName] = useState(props.name);
+export default function AddCardModal(props) {
+  const [cardName, setCardName] = useState("");
 
-  var handleBoardNameChange = (event) => {
-    setListName(event.target.value);
+  var handleCardNameChange = (event) => {
+    setCardName(event.target.value);
   };
 
   const handleClose = () => {
     props.hideModal();
   };
 
-  var editList = () => {
-    AuthService.editList(props.id, listName).then((response) => {
-      console.log(response);
+  var addCard = () => {
+    AuthService.addCard(cardName, props.id).then((response) => {
       if (response) {
         handleClose();
         props.updateLists();
+        props.updateCards();
       } else {
-        alert("Error");
+        alert("Add list failed");
       }
     });
   };
 
   var onEnterClicked = (e) => {
     if (e.keyCode === 13) {
-      editList();
+      addCard();
     }
   };
 
@@ -44,26 +44,25 @@ export default function EditListModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">List name edit</DialogTitle>
+        <DialogTitle id="form-dialog-title">List creation</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To edit list, please enter new name.
+            To create card, please enter name.
           </DialogContentText>
           <TextField
-            onChange={handleBoardNameChange}
+            onChange={handleCardNameChange}
             autoFocus
             margin="dense"
             id="name"
-            label="New list name"
+            label="Card name"
             type="email"
             fullWidth
-            value={listName}
             onKeyUp={onEnterClicked}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={editList} color="primary">
-            Edit list name
+          <Button onClick={addCard} color="primary">
+            Add card
           </Button>
         </DialogActions>
       </Dialog>

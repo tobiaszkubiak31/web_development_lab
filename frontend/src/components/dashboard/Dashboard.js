@@ -86,11 +86,11 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("token") === null) {
+    if (localStorage.getItem("token") === null) {
       history.push("/login");
     }
-    setBoards(getUserBoards());
-  }, [history]);
+    getUserBoards();
+  }, []);
 
   return (
     <React.Fragment>

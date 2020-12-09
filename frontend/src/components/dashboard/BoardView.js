@@ -53,11 +53,11 @@ export default function BoardView(props) {
   const classes = useStyles();
   const [editModalDisplayed, setEditModalDisplayed] = useState(false);
   const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
-  const [showUsersDisplayed , setShowUsersDisplayed] = useState(false);
+  const [showUsersDisplayed, setShowUsersDisplayed] = useState(false);
   const history = useHistory();
 
   var deleteBoard = () => {
-    AuthService.deleteBoard(props.boardInfo.name).then((response) => {
+    AuthService.deleteBoard(props.boardInfo.id).then((response) => {
       if (response) {
         props.updateBoards();
       } else {
@@ -76,19 +76,19 @@ export default function BoardView(props) {
 
   var displayInviteUserToBoard = () => {
     setInviteModalDisplayed(true);
-  }
+  };
 
   var hideInviteUserToBoard = () => {
     setInviteModalDisplayed(false);
-  }
+  };
 
   var displayShowUsers = () => {
     setShowUsersDisplayed(true);
-  }
+  };
 
   var hideShowUsers = () => {
     setShowUsersDisplayed(false);
-  }
+  };
 
   return (
     <Card className={classes.card}>
@@ -127,7 +127,6 @@ export default function BoardView(props) {
             {props.boardInfo.name}
           </Typography>
         </ButtonBase>
-        
       </CardContent>
       <CardActions
         style={{

@@ -47,4 +47,17 @@ export class CardsController {
     async updateName(@Request() req): Promise<any> {
         return await this.cardsService.updateName(req.body.card_id, req.body.card_new_name);
     }
+
+    /*
+    {
+        "card_id": "card id",
+        "time_limit": "time limit"
+    }
+    */
+   @HasType('card-update')
+   @UseGuards(JwtAuthGuard, BoardMemberGuard)
+   @Patch('updateTimeLimit')
+   async updateTimeLimit(@Request() req): Promise<any> {
+       return await this.cardsService.updateTimeLimit(req.body.card_id, req.body.time_limit);
+   }
 }

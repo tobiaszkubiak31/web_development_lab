@@ -23,4 +23,9 @@ export class ListsService {
           .select(['list.id', 'list.name'])
           .getMany();
     }
+
+    async updateName(list_id: number, list_new_name: string): Promise<boolean> {
+        const updated = await this.listRepository.update(list_id, { name: list_new_name });
+        return updated.affected === 1;
+    }
 }

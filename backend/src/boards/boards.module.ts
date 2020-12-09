@@ -20,6 +20,6 @@ import { ListsModule } from 'src/lists/lists.module';
   ],
   controllers: [BoardsController],
   providers: [BoardsService],
-  exports: [BoardsService],
+  exports: [BoardsService]
 })
 export class BoardsModule {}

@@ -14,7 +14,6 @@ export default function ShowUsersModal(props) {
   };
 
   let getUsers = () => {
-    console.log("get users");
     AuthService.getUsersFromBoard(props.boardInfo.id).then((response) => {
       if (response) {
         setUsers(response);
@@ -26,7 +25,7 @@ export default function ShowUsersModal(props) {
 
   useEffect(() => {
     getUsers();
-  });
+  }, []);
 
   return (
     <div>

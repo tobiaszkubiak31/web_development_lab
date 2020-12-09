@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
 import Card from "./Card";
+import EditListModal from "./modals/EditListModal"
 
 function preventDefault(event) {
   event.preventDefault();
@@ -29,6 +30,7 @@ export default function List(props) {
   const history = useHistory();
 
   const [cards, setCards] = useState(null);
+  const [editModalDisplayed, setEditModalDisplayed] = useState(false);
 
   var getCards = () => {
 
@@ -56,8 +58,23 @@ export default function List(props) {
         setCards(getCards())
     }, [history]);
 
+    var hideEditBoardModal = () => {
+      setEditModalDisplayed(false);
+    };
+
+    var showEditBoardModal = () => {
+      setEditModalDisplayed(true);
+    };
+
   return (
     <React.Fragment>
+        <EditListModal
+          isDisplayed={editModalDisplayed}
+          hideModal={hideEditBoardModal}
+          updateLists={props.getLists}
+          name={props.name}
+          id={props.id}
+        ></EditListModal>
         <Paper className={classes.fixedHeightPaper}>
 
         <Typography component="p" variant="h5">
@@ -79,7 +96,7 @@ export default function List(props) {
             <Button color="primary" href="#" onClick={preventDefault}>
              Edit
             </Button>
-            <Button color="primary" href="#" onClick={preventDefault}>
+            <Button color="primary" href="#" onClick={showEditBoardModal}>
              Delete
             </Button>
             <Button color="primary" href="#" onClick={preventDefault}>

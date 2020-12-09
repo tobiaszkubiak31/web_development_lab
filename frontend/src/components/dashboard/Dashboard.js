@@ -77,12 +77,10 @@ export default function Dashboard() {
 
   var displayAddBoardModal = () => {
     setModalDisplayed(true);
-    //console.log("display modal:" + modalDisplayed);
   };
 
   var hideAddBoardModal = () => {
     setModalDisplayed(false);
-    //console.log("display modal:" + modalDisplayed);
   };
 
   useEffect(() => {

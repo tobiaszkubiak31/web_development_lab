@@ -66,21 +66,13 @@ export default function Board(props) {
 
     var getLists = () => {
 
-        // return mock data
-        // return [{id: 1, name: "pierwsza"},
-        //         {id: 2, name: "druga"},
-        //         {id: 3, name: "hehehe"},
-        //         {id: 3, name: "hehehe"},
-        //         {id: 3, name: "hehehe"},
-        //         {id: 3, name: "hehehe"},
-        //         {id: 3, name: "hehehe"}]
-
-      AuthService.getBoardsLists(props.match.params.id).then((response) => {
+      AuthService.getBoardsLists(props.match.params.name).then((response) => {
         if (response === 401) {
           alert("You was unauthorized, please login again, 401 error");
           history.push("/login");
         }
         if (response) {
+          console.log(response)
           return response
         } else {
           alert("Fetch lists failed");
@@ -106,8 +98,8 @@ export default function Board(props) {
         <CreateListModal
         isDisplayed={modalDisplayed}
         hideModal={hideAddListModal}
-        updateBoards={getLists}
-        id={props.match.params.id}
+        updateLists={getLists}
+        id={props.match.params.name}
       ></CreateListModal>
         <CssBaseline />
         <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
@@ -172,7 +164,7 @@ export default function Board(props) {
               {lists && lists.length > 0 ? (
                 lists.map((mappedList) => (
                   <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
-                    <List name={mappedList.name} id={mappedList.id}/>
+                    <List name={mappedList.name} id={mappedList.id} getLists={getLists}/>
                   </Grid>
                 ))
               ) : (

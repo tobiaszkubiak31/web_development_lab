@@ -6,7 +6,6 @@ import { List } from './lists.entity';
 
 @Injectable()
 export class ListsService {
-
     constructor(
         @InjectRepository(List)
         private listRepository: Repository<List>
@@ -27,5 +26,9 @@ export class ListsService {
     async updateName(list_id: number, list_new_name: string): Promise<boolean> {
         const updated = await this.listRepository.update(list_id, { name: list_new_name });
         return updated.affected === 1;
+    }
+
+    async findOne(id: number): Promise<List> {
+        return await this.listRepository.findOne(id);
     }
 }

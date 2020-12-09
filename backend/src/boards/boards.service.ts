@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ListsService } from 'src/lists/lists.service';
 import { Userboard } from 'src/userboards/userboards.entity';
 import { UserboardsService } from 'src/userboards/userboards.service';
 import { User } from 'src/users/users.entity';
@@ -14,7 +15,8 @@ export class BoardsService {
     @InjectRepository(Board)
     private boardRepository: Repository<Board>,
     private usersService: UsersService,
-    private userboardsService: UserboardsService
+    private userboardsService: UserboardsService,
+    private listsService: ListsService
   ) {}
 
   async findByUserId(userId: number) {
@@ -68,6 +70,14 @@ export class BoardsService {
     const userboard = await this.getUserboardByUserIdAndBoardId(user_id, board_id);
     if (userboard) {
       return true;
+    }
+    return false;
+  }
+
+  async isMemberByListId(user_id: number, list_id: number): Promise<boolean> {
+    const list = await this.listsService.findOne(list_id);
+    if (list) {
+      return await this.isMember(user_id, (await list.board).id);
     }
     return false;
   }

@@ -11,7 +11,7 @@ export class Card {
   name!: string;
 
   @Column()
-  time_limit!: string;
+  time_limit: string;
 
   @Column()
   list_id!: number;

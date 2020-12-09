@@ -10,6 +10,8 @@ import AuthService from "../../utils/service.js";
 import EditBoardModal from "./modals/EditBoardModal.js";
 import InviteUserModal from "./modals/InviteUserModal";
 import ShowUsersModal from "./modals/ShowUsersModal";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -52,6 +54,7 @@ export default function BoardView(props) {
   const [editModalDisplayed, setEditModalDisplayed] = useState(false);
   const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
   const [showUsersDisplayed , setShowUsersDisplayed] = useState(false);
+  const history = useHistory();
 
   var deleteBoard = () => {
     AuthService.deleteBoard(props.boardInfo.name).then((response) => {
@@ -107,6 +110,7 @@ export default function BoardView(props) {
         updateBoards={props.updateBoards}
         boardInfo={props.boardInfo}
       ></ShowUsersModal>
+
       <CardMedia
         className={classes.cardMedia}
         image="https://source.unsplash.com/random"
@@ -114,9 +118,16 @@ export default function BoardView(props) {
       />
 
       <CardContent className={classes.cardContent}>
-        <Typography gutterBottom variant="h5" component="h2">
-          {props.boardInfo.name}
-        </Typography>
+        <ButtonBase
+          onClick={() =>
+            history.push("/board/" + props.boardInfo.name)
+          }
+        >
+          <Typography gutterBottom variant="h5" component="h2">
+            {props.boardInfo.name}
+          </Typography>
+        </ButtonBase>
+        
       </CardContent>
       <CardActions
         style={{

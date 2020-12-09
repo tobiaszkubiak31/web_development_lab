@@ -15,7 +15,7 @@ export class BoardsController {
   @UseGuards(JwtAuthGuard)
   @Get('get')
   getUserBoards(@Request() req) { // get boards of logged user
-      return this.boardsService.getUserBoards(req.user.id);
+      return this.boardsService.getUserBoardsWithIds(req.user.id);
   }
 
   /*

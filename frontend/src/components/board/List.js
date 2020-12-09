@@ -93,10 +93,10 @@ export default function List(props) {
         
 
         <div>
-            <Button color="primary" href="#" onClick={preventDefault}>
+            <Button color="primary" href="#" onClick={showEditBoardModal}>
              Edit
             </Button>
-            <Button color="primary" href="#" onClick={showEditBoardModal}>
+            <Button color="primary" href="#" onClick={preventDefault}>
              Delete
             </Button>
             <Button color="primary" href="#" onClick={preventDefault}>

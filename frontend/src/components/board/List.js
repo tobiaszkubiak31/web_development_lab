@@ -112,12 +112,6 @@ export default function List(props) {
         )}
 
         <div>
-          <Button color="primary" href="#" onClick={showEditBoardModal}>
-            Edit
-          </Button>
-          <Button color="primary" href="#" onClick={preventDefault}>
-            Delete
-          </Button>
           <Button color="primary" href="#" onClick={showAddBoardModal}>
             Add card
           </Button>

@@ -7,6 +7,7 @@ import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
 import CardDetailsModal from "./modals/CardDetailsModal.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
+import EditCardNameModal from "./modals/EditCardNameModal.js";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -31,13 +32,21 @@ export default function Card(props) {
   const history = useHistory();
   console.log(props.time_limit);
   const [cardModalDisplayed, setCardModalDisplayed] = useState(false);
-
+  const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
   var hideCardModal = () => {
     setCardModalDisplayed(false);
   };
 
   var displayCardModal = () => {
     setCardModalDisplayed(true);
+  };
+
+  var hideNameCardModal = () => {
+    setCardNameModalDisplayed(false);
+  };
+
+  var displayNameCardModal = () => {
+    setCardNameModalDisplayed(true);
   };
 
   return (
@@ -48,6 +57,13 @@ export default function Card(props) {
         updateCards={props.updateCards}
         id={props.id}
       ></CardDetailsModal>
+      <EditCardNameModal
+        isDisplayed={cardNameModalDisplayed}
+        hideModal={hideNameCardModal}
+        updateCards={props.updateCards}
+        id={props.id}
+        name={props.text}
+      ></EditCardNameModal>
       <Paper className={classes.fixedHeightPaper}>
         <Typography component="p" variant="h5">
           {props.text}
@@ -66,10 +82,16 @@ export default function Card(props) {
               {props.time_limit}
             </Button>
           )}
-
-          <Button size="small" color="primary" onClick={displayCardModal}>
-            Dodaj termin
-          </Button>
+          <div
+            style={{ display: "flex", flexDirection: "row", marginTop: "2vh" }}
+          >
+            <Button size="small" color="primary" onClick={displayCardModal}>
+              Edit deadline
+            </Button>
+            <Button size="small" color="primary" onClick={displayNameCardModal}>
+              Edit name
+            </Button>
+          </div>
         </div>
       </Paper>
     </React.Fragment>

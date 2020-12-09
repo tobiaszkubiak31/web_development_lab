@@ -174,6 +174,28 @@ class AuthService {
         console.log(error);
       });
   }
+
+  async updateCardName(cardId, newCardName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+      .patch(
+        `${API_URL}/cards`,
+        {
+          card_id: parseInt(cardId),
+          card_new_name: newCardName,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async updateTimeLimitCard(cardId, cardTimeLimit) {
     let config = {
       headers: {

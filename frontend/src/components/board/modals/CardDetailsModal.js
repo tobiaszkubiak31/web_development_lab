@@ -6,6 +6,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import AuthService from "../../../utils/service.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
+import CancelIcon from "@material-ui/icons/Cancel";
 import { Button, makeStyles, TextField } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -45,6 +46,18 @@ export default function CardDetailsModal(props) {
     });
     handleClose();
   };
+  let deleteTimeLimit = () => {
+    AuthService.updateTimeLimitCard(props.id, null).then((response) => {
+      if (response) {
+        //console.log(response)
+        handleClose();
+        props.updateCards();
+      } else {
+        alert("Update timelimit failed");
+      }
+    });
+    handleClose();
+  };
 
   useEffect(() => {
     // getCardDetails();
@@ -58,13 +71,13 @@ export default function CardDetailsModal(props) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Dodaj nowy termin karty
+          Add new deadline to your card
         </DialogTitle>
         <DialogContent>
-          <form className={classes.container} Validate>
+          <form className={classes.container} noValidate>
             <TextField
               id="date"
-              label="Birthday"
+              label="Deadline"
               type="date"
               defaultValue="2020-12-10"
               onChange={(e) => setTimeValue(e.target.value)}
@@ -75,13 +88,23 @@ export default function CardDetailsModal(props) {
             />
             <Button
               variant="contained"
-              backgroundColor="#5aac44"
               size="small"
               onClick={updateTimelimit}
               className={classes.button}
+              style={{ marginLeft: "2vh", backgroundColor: "green" }}
               startIcon={<AlarmIcon />}
             >
-              Zapisz termin
+              Save deadline
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={deleteTimeLimit}
+              className={classes.button}
+              startIcon={<CancelIcon />}
+              style={{ marginLeft: "2vh", backgroundColor: "red" }}
+            >
+              Delete
             </Button>
           </form>
 

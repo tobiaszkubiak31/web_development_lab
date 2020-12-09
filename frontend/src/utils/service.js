@@ -76,18 +76,19 @@ class AuthService {
     };
 
     return await axios
-    .post(`${API_URL}/lists/get`,
-    {
-      board_id: id,
-    },
-     config
-    )
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error.response.status;
-    });
+      .post(
+        `${API_URL}/lists/get`,
+        {
+          board_id: id,
+        },
+        config
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response.status;
+      });
   }
 
   async getListsCards(listId) {
@@ -98,11 +99,12 @@ class AuthService {
     };
 
     return await axios
-      .post(`${API_URL}/cards/get`,
-      {
-        list_id: listId
-      },
-       config
+      .post(
+        `${API_URL}/cards/get`,
+        {
+          list_id: listId,
+        },
+        config
       )
       .then((response) => {
         return response.data;
@@ -143,7 +145,7 @@ class AuthService {
         `${API_URL}/lists/add`,
         {
           board_id: parseInt(boardId),
-          list_name: listName
+          list_name: listName,
         },
         config
       )
@@ -164,7 +166,27 @@ class AuthService {
         `${API_URL}/cards/add`,
         {
           list_id: parseInt(listId),
-          card_name: cardName
+          card_name: cardName,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  async updateTimeLimitCard(cardId, cardTimeLimit) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+      .patch(
+        `${API_URL}/cards/updateTimeLimit`,
+        {
+          card_id: parseInt(cardId),
+          time_limit: cardTimeLimit,
         },
         config
       )

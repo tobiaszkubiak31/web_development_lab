@@ -1,6 +1,6 @@
 import { Controller, Patch, Post, UseGuards, Request } from '@nestjs/common';
 import { BoardMemberGuard } from 'src/guards/board-member.guard';
-import { HasType } from 'src/guards/has-types.decorator';
+import { HasType } from 'src/guards/has-type.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { CardsService } from './cards.service';
 

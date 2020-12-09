@@ -27,4 +27,8 @@ export class CardsService {
         const updated = await this.cardRepository.update(card_id, { name: card_new_name });
         return updated.affected === 1;
     }
+
+    async findOne(id: number): Promise<Card> {
+        return await this.cardRepository.findOne(id);
+    }
 }

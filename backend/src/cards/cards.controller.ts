@@ -41,7 +41,7 @@ export class CardsController {
         "card_new_name": "card new name"
     }
     */
-    @HasType('card')
+    @HasType('card-update')
     @UseGuards(JwtAuthGuard, BoardMemberGuard)
     @Patch()
     async updateName(@Request() req): Promise<any> {

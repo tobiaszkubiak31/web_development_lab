@@ -20,8 +20,10 @@ export default function EditBoardModal(props) {
   };
 
   var editBoard = () => {
-    AuthService.editBoard(props.boardInfo.name, boardName).then((response) => {
-      if (response.data) {//
+    AuthService.editBoard(props.boardInfo.id, boardName).then((response) => {
+      console.log(response);
+      if (response) {
+        //
         handleClose();
         props.updateBoards();
       } else {

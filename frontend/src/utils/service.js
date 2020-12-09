@@ -47,7 +47,7 @@ class AuthService {
   }
 
   // Get list of all users who have access to this board
-  async getUsersFromBoard(boardName) {
+  async getUsersFromBoard(id) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -55,11 +55,12 @@ class AuthService {
     };
 
     return await axios
-      .post(`${API_URL}/boards/getUsers`,
-      {
-        name: boardName,
-      },
-       config
+      .post(
+        `${API_URL}/boards/getUsers`,
+        {
+          board_id: id,
+        },
+        config
       )
       .then((response) => {
         //console.log(response.data);
@@ -79,13 +80,13 @@ class AuthService {
     };
 
     return await axios
-    .get(`${API_URL}/lists/${boardName}`, config)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error.response.status;
-    });
+      .get(`${API_URL}/lists/${boardName}`, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response.status;
+      });
   }
 
   async getListsCards(listId) {
@@ -96,13 +97,13 @@ class AuthService {
     };
 
     return await axios
-    .get(`${API_URL}/cards/${listId}`, config)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error.response.status;
-    });
+      .get(`${API_URL}/cards/${listId}`, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response.status;
+      });
   }
 
   async addBoard(boardName) {
@@ -124,25 +125,26 @@ class AuthService {
       });
   }
 
-  async deleteBoard(boardName) {
+  async deleteBoard(boardId) {
     let config = {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN)
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
     return await axios
-      .post(`${API_URL}/boards/delete`
-      ,{
-        name: boardName,
-      },
-      config
+      .post(
+        `${API_URL}/boards/delete`,
+        {
+          board_id: boardId,
+        },
+        config
       )
       .catch((error) => {
         console.log(error);
       });
   }
 
-  async editBoard(boardName, newBoardName) {
+  async editBoard(boardId, newBoardName) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -152,8 +154,8 @@ class AuthService {
       .patch(
         `${API_URL}/boards/`,
         {
-          name: boardName,
-          new_name: newBoardName
+          id: boardId,
+          new_name: newBoardName,
         },
         config
       )
@@ -197,12 +199,13 @@ class AuthService {
       },
     };
     return await axios
-      .post(`${API_URL}/boards/addUser`
-      ,{
-        email: userEmail,
-        name: boardName
-      },
-      config
+      .post(
+        `${API_URL}/boards/addUser`,
+        {
+          email: userEmail,
+          name: boardName,
+        },
+        config
       )
       .catch((error) => {
         console.log(error);

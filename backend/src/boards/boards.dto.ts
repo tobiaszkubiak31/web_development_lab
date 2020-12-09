@@ -3,6 +3,6 @@ export class BoardDto {
 }
 
 export class AddUserToBoardDto {
-    readonly name!: string;
+    readonly board_id!: number;
     readonly email!: string;
 }

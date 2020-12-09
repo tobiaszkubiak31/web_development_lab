@@ -159,7 +159,7 @@ export default function Dashboard() {
           <Grid container spacing={4}>
             {boards && boards.length > 0 ? (
               boards.map((mappedBoard) => (
-                <Grid item key={mappedBoard.name} xs={12} sm={6} md={4}>
+                <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
                   <BoardView
                     boardInfo={mappedBoard}
                     updateBoards={getUserBoards}

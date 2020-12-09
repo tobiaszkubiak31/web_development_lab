@@ -12,6 +12,8 @@ import { useHistory } from "react-router-dom";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import List from "./List";
+import AddIcon from "@material-ui/icons/Add";
+import CreateListModal from "./modals/CreateListModal"
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -52,19 +54,28 @@ export default function Board(props) {
     const history = useHistory();
 
     const [lists, setLists] = useState(null);
+    const [modalDisplayed, setModalDisplayed] = useState(false);
   
+    var hideAddListModal = () => {
+      setModalDisplayed(false);
+    };
+
+    var displayAddListModal = () => {
+      setModalDisplayed(true);
+    }
+
     var getLists = () => {
 
         // return mock data
-        return [{id: 1, name: "pierwsza"},
-                {id: 2, name: "druga"},
-                {id: 3, name: "hehehe"},
-                {id: 3, name: "hehehe"},
-                {id: 3, name: "hehehe"},
-                {id: 3, name: "hehehe"},
-                {id: 3, name: "hehehe"}]
+        // return [{id: 1, name: "pierwsza"},
+        //         {id: 2, name: "druga"},
+        //         {id: 3, name: "hehehe"},
+        //         {id: 3, name: "hehehe"},
+        //         {id: 3, name: "hehehe"},
+        //         {id: 3, name: "hehehe"},
+        //         {id: 3, name: "hehehe"}]
 
-      AuthService.getBoardsList(props.match.params.name).then((response) => {
+      AuthService.getBoardsLists(props.match.params.id).then((response) => {
         if (response === 401) {
           alert("You was unauthorized, please login again, 401 error");
           history.push("/login");
@@ -92,6 +103,12 @@ export default function Board(props) {
   
     return (
       <React.Fragment>
+        <CreateListModal
+        isDisplayed={modalDisplayed}
+        hideModal={hideAddListModal}
+        updateBoards={getLists}
+        id={props.match.params.id}
+      ></CreateListModal>
         <CssBaseline />
         <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -108,6 +125,24 @@ export default function Board(props) {
                 flexGrow: "1",
               }}
             >
+
+              <Button
+                style={{
+                  margin: "10px 50px 10px 0px",
+                  backgroundColor: "#007EA7",
+                  fontWeight: "bold",
+                  background:
+                    "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
+                }}
+                color="secondary"
+                size="large"
+                variant="contained"
+                onClick={displayAddListModal}
+              >
+                <AddIcon></AddIcon>
+                Add list
+              </Button>
+
               <Button
                 style={{
                   margin: "10px 50px 10px 0px",
@@ -144,22 +179,6 @@ export default function Board(props) {
                 <h1>You don't have any lists, create them</h1>
               )}
             </Grid>
-
-            {/* End hero unit
-            <Grid container spacing={4}>
-              {boards && boards.length > 0 ? (
-                boards.map((mappedBoard) => (
-                  <Grid item key={mappedBoard.name} xs={12} sm={6} md={4}>
-                    <BoardView
-                      boardInfo={mappedBoard}
-                      updateBoards={getUserBoards}
-                    ></BoardView>
-                  </Grid>
-                ))
-              ) : (
-                <h1>You don't have any boards, create them</h1>
-              )}
-            </Grid> */}
 
           </Container>
         </main>

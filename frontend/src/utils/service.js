@@ -72,7 +72,7 @@ class AuthService {
       });
   }
 
-  async getBoardsLists(boardName) {
+  async getBoardsLists(id) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -80,13 +80,18 @@ class AuthService {
     };
 
     return await axios
-      .get(`${API_URL}/lists/${boardName}`, config)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        return error.response.status;
-      });
+    .get(`${API_URL}/lists/get`,
+    {
+      board_id: id,
+    },
+     config
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
   }
 
   async getListsCards(listId) {
@@ -117,6 +122,26 @@ class AuthService {
         `${API_URL}/boards/add`,
         {
           name: boardName,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async addList(listName, boardId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/lists/add`,
+        {
+          list_name: listName,
+          board_id: boardId
         },
         config
       )

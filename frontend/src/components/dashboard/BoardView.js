@@ -119,7 +119,9 @@ export default function BoardView(props) {
 
       <CardContent className={classes.cardContent}>
         <ButtonBase
-          onClick={() => history.push("/board/" + props.boardInfo.name)}
+          onClick={() =>
+            history.push("/board/" + props.boardInfo.id)
+          }
         >
           <Typography gutterBottom variant="h5" component="h2">
             {props.boardInfo.name}

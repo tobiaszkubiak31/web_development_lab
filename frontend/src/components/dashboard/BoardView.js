@@ -120,7 +120,7 @@ export default function BoardView(props) {
       <CardContent className={classes.cardContent}>
         <ButtonBase
           onClick={() =>
-            history.push("/board/" + props.boardInfo.name)
+            history.push("/board/" + props.boardInfo.id)
           }
         >
           <Typography gutterBottom variant="h5" component="h2">

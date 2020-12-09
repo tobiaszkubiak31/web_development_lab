@@ -6,7 +6,8 @@ import Paper from "@material-ui/core/Paper";
 import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
 import Card from "./Card";
-import EditListModal from "./modals/EditListModal"
+import EditListModal from "./modals/EditListModal";
+import AddCardModal from "./modals/AddCardModal"
 
 function preventDefault(event) {
   event.preventDefault();
@@ -31,11 +32,9 @@ export default function List(props) {
 
   const [cards, setCards] = useState(null);
   const [editModalDisplayed, setEditModalDisplayed] = useState(false);
+  const [addModalDisplayed, setAddModalDisplayed] = useState(false);
 
   var getCards = () => {
-
-        // return mock data
-        return [{id: 1, text: "task do zrobienia"}]
 
         AuthService.getListsCards(props.id).then((response) => {
             if (response === 401) {
@@ -66,6 +65,14 @@ export default function List(props) {
       setEditModalDisplayed(true);
     };
 
+    var hideAddBoardModal = () => {
+      setAddModalDisplayed(false);
+    };
+
+    var showAddBoardModal = () => {
+      setAddModalDisplayed(true);
+    };
+
   return (
     <React.Fragment>
         <EditListModal
@@ -75,6 +82,13 @@ export default function List(props) {
           name={props.name}
           id={props.id}
         ></EditListModal>
+        <AddCardModal
+          isDisplayed={addModalDisplayed}
+          hideModal={hideAddBoardModal}
+          updateLists={props.getLists}
+          updateCards={getCards}
+          id={props.id}
+        ></AddCardModal>
         <Paper className={classes.fixedHeightPaper}>
 
         <Typography component="p" variant="h5">
@@ -87,7 +101,7 @@ export default function List(props) {
 
         {cards && cards.length > 0 ? (
             cards.map((mappedCard) => (
-                <Card key={mappedCard.text+mappedCard.id} text={mappedCard.text} id={mappedCard.id}/>
+                <Card key={mappedCard.name+mappedCard.id} text={mappedCard.name} id={mappedCard.id}/>
             ))
             ) : (<p></p>)}
         
@@ -99,7 +113,7 @@ export default function List(props) {
             <Button color="primary" href="#" onClick={preventDefault}>
              Delete
             </Button>
-            <Button color="primary" href="#" onClick={preventDefault}>
+            <Button color="primary" href="#" onClick={showAddBoardModal}>
              Add card
             </Button>
         </div>

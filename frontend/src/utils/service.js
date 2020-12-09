@@ -98,7 +98,12 @@ class AuthService {
     };
 
     return await axios
-      .post(`${API_URL}/cards/${listId}`, config)
+      .post(`${API_URL}/cards/get`,
+      {
+        list_id: listId
+      },
+       config
+      )
       .then((response) => {
         return response.data;
       })
@@ -139,6 +144,27 @@ class AuthService {
         {
           board_id: parseInt(boardId),
           list_name: listName
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async addCard(cardName, listId) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+      .post(
+        `${API_URL}/cards/add`,
+        {
+          list_id: parseInt(listId),
+          card_name: cardName
         },
         config
       )

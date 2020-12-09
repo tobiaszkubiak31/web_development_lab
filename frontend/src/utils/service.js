@@ -37,11 +37,9 @@ class AuthService {
     return await axios
       .get(`${API_URL}/boards/get`, config)
       .then((response) => {
-        //console.log(response.data);
         return response.data;
       })
       .catch((error) => {
-        //console.log(error.response.status);
         return error.response.status;
       });
   }
@@ -63,11 +61,9 @@ class AuthService {
         config
       )
       .then((response) => {
-        //console.log(response.data);
         return response.data;
       })
       .catch((error) => {
-        //console.log(error.response.status);
         return error.response.status;
       });
   }
@@ -80,7 +76,7 @@ class AuthService {
     };
 
     return await axios
-    .get(`${API_URL}/lists/get`,
+    .post(`${API_URL}/lists/get`,
     {
       board_id: id,
     },
@@ -102,7 +98,7 @@ class AuthService {
     };
 
     return await axios
-      .get(`${API_URL}/cards/${listId}`, config)
+      .post(`${API_URL}/cards/${listId}`, config)
       .then((response) => {
         return response.data;
       })
@@ -136,12 +132,13 @@ class AuthService {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
+
     return await axios
       .post(
         `${API_URL}/lists/add`,
         {
-          list_name: listName,
-          board_id: boardId
+          board_id: parseInt(boardId),
+          list_name: listName
         },
         config
       )
@@ -189,17 +186,35 @@ class AuthService {
       });
   }
 
+  async editList(list_id, list_new_name) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .patch(
+        `${API_URL}/lists/`,
+        {
+          list_id: list_id,
+          list_new_name: list_new_name,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async getUserInformation() {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
-    console.log("token" + localStorage.getItem(JWT_TOKEN));
     return await axios
       .get(`${API_URL}/auth/profile`, config)
       .then((response) => {
-        console.log(response);
         return response;
       })
       .catch((error) => {

@@ -31,6 +31,7 @@ CREATE TABLE list (
 CREATE TABLE card (
   id SERIAL PRIMARY KEY,
   name varchar NOT NULL,
+  time_limit varchar NOT NULL,
   list_id int REFERENCES list(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

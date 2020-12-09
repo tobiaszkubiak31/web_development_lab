@@ -11,6 +11,9 @@ export class Card {
   name!: string;
 
   @Column()
+  time_limit!: string;
+
+  @Column()
   list_id!: number;
 
   @ManyToOne(() => List, list => list.cards, { cascade: true, onDelete: "CASCADE" })

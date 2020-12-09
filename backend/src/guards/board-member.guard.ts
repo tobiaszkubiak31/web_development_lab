@@ -18,8 +18,11 @@ export class BoardMemberGuard implements CanActivate {
         if (!type) {
             return this.boardsService.isMember(user.id, request.body.board_id);
         }
-        if (type[0] === "card") {
+        if (type[0] === "card" || type[0] === 'list-update') {
             return this.boardsService.isMemberByListId(user.id, request.body.list_id);
+        }
+        if (type[0] === 'card-update') {
+            return this.boardsService.isMemberByCardId(user.id, request.body.card_id);
         }
     }
 }

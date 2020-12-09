@@ -1,5 +1,6 @@
 import { Controller, Post, UseGuards, Request, Patch } from '@nestjs/common';
 import { BoardMemberGuard } from 'src/guards/board-member.guard';
+import { HasType } from 'src/guards/has-type.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ListsService } from './lists.service';
 
@@ -38,6 +39,7 @@ export class ListsController {
         "list_new_name": "list new name"
     }
     */
+    @HasType('list-update')
     @UseGuards(JwtAuthGuard, BoardMemberGuard)
     @Patch()
     async updateName(@Request() req): Promise<any> {

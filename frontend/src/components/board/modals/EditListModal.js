@@ -44,17 +44,17 @@ export default function EditListModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Board name edit</DialogTitle>
+        <DialogTitle id="form-dialog-title">List name edit</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To edit board, please enter new board name.
+            To edit list, please enter new name.
           </DialogContentText>
           <TextField
             onChange={handleBoardNameChange}
             autoFocus
             margin="dense"
             id="name"
-            label="New board name"
+            label="New list name"
             type="email"
             fullWidth
             value={listName}
@@ -63,7 +63,7 @@ export default function EditListModal(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={editList} color="primary">
-            Edit board name
+            Edit list name
           </Button>
         </DialogActions>
       </Dialog>

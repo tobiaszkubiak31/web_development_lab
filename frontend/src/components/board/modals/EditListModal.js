@@ -9,7 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import AuthService from "../../../utils/service.js";
 
 export default function EditListModal(props) {
-  const [listName, setListName] = useState(props.boardInfo.name);
+  const [listName, setListName] = useState(props.name);
 
   var handleBoardNameChange = (event) => {
     setListName(event.target.value);
@@ -19,11 +19,10 @@ export default function EditListModal(props) {
     props.hideModal();
   };
 
-  var editBoard = () => {
-    AuthService.editBoard(props.boardInfo.id, listName).then((response) => {
+  var editList = () => {
+    AuthService.editList(props.id, listName).then((response) => {
       console.log(response);
       if (response) {
-        //
         handleClose();
         props.updateLists();
       } else {
@@ -34,7 +33,7 @@ export default function EditListModal(props) {
 
   var onEnterClicked = (e) => {
     if (e.keyCode === 13) {
-      editBoard();
+      editList();
     }
   };
 
@@ -63,7 +62,7 @@ export default function EditListModal(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={editBoard} color="primary">
+          <Button onClick={editList} color="primary">
             Edit board name
           </Button>
         </DialogActions>

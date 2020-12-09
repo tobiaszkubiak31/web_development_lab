@@ -186,6 +186,26 @@ class AuthService {
       });
   }
 
+  async editList(list_id, list_new_name) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .patch(
+        `${API_URL}/lists/`,
+        {
+          list_id: list_id,
+          list_new_name: list_new_name,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async getUserInformation() {
     let config = {
       headers: {

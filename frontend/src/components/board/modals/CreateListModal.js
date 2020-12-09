@@ -22,6 +22,7 @@ export default function CreateListModal(props) {
   var addList = () => {
     AuthService.addList(listName, props.id).then((response) => {
       if (response) {
+        //console.log(response)
         handleClose();
         props.updateLists();
       } else {

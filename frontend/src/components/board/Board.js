@@ -53,7 +53,7 @@ export default function Board(props) {
     const classes = useStyles();
     const history = useHistory();
 
-    const [lists, setLists] = useState(null);
+    const [lists, setLists] = useState([]);
     const [modalDisplayed, setModalDisplayed] = useState(false);
   
     var hideAddListModal = () => {
@@ -73,7 +73,7 @@ export default function Board(props) {
         }
         if (response) {
           console.log(response)
-          return response
+          setLists(response)
         } else {
           alert("Fetch lists failed");
         }
@@ -90,7 +90,8 @@ export default function Board(props) {
       if(localStorage.getItem("token") === null) {
         history.push("/login");
       }
-      setLists(getLists())
+
+      getLists()
     }, [history]);
   
     return (
@@ -159,7 +160,7 @@ export default function Board(props) {
 
         <main>
           <Container className={classes.cardGrid} maxWidth="lg">
-
+          {console.log("LISTY:" + lists)}
           <Grid container spacing={4}>
               {lists && lists.length > 0 ? (
                 lists.map((mappedList) => (

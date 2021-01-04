@@ -3,12 +3,14 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import AuthService from "../../utils/service.js";
+import AuthService from "../../../utils/service.js";
 import { useHistory } from "react-router-dom";
-import Card from "./Card";
-import EditListModal from "./modals/EditListModal";
-import AddCardModal from "./modals/AddCardModal";
-
+import Card from "./card/Card";
+import EditListModal from "./EditListModal";
+import AddCardModal from "./card/AddCardModal";
+import EditIcon from "@material-ui/icons/Edit";
+import { Tooltip, Zoom } from "@material-ui/core";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
     minHeight: 200,
+    width: "338px",
   },
 }));
 
@@ -87,11 +90,31 @@ export default function List(props) {
         updateCards={getCards}
         id={props.id}
       ></AddCardModal>
-      <Paper className={classes.fixedHeightPaper}>
-        <Typography component="p" variant="h5">
-          {props.name}
-        </Typography>
-
+      <Paper elevation={24} className={classes.fixedHeightPaper}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Typography
+            component="p"
+            variant="h4"
+            style={{ fontSize: "44px", fontWeight: "bold" }}
+          >
+            {props.name}
+          </Typography>
+          <Tooltip
+            TransitionComponent={Zoom}
+            style={{ minHeight: "20px" }}
+            title={
+              <span style={{ padding: "5px", fontSize: "14px" }}>
+                Edit list name
+              </span>
+            }
+          >
+            <EditIcon
+              style={{ marginLeft: "5px", cursor: "pointer" }}
+              fontSize="large"
+              onClick={showEditBoardModal}
+            ></EditIcon>
+          </Tooltip>
+        </div>
         <Typography
           color="textSecondary"
           className={classes.depositContext}
@@ -111,11 +134,24 @@ export default function List(props) {
           <p></p>
         )}
 
-        <div>
-          <Button color="primary" href="#" onClick={showAddBoardModal}>
-            Add card
-          </Button>
-        </div>
+        <Tooltip
+          TransitionComponent={Zoom}
+          style={{ minHeight: "20px" }}
+          title={
+            <span style={{ padding: "5px", fontSize: "20px" }}>Add card</span>
+          }
+        >
+          <AddToPhotosIcon
+            style={{
+              marginTop: "12px",
+              marginLeft: "2px",
+              cursor: "pointer",
+              width: "55px",
+              height: "55px",
+            }}
+            onClick={showAddBoardModal}
+          ></AddToPhotosIcon>
+        </Tooltip>
       </Paper>
     </React.Fragment>
   );

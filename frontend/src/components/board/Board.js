@@ -11,178 +11,178 @@ import AuthService from "../../utils/service.js";
 import { useHistory } from "react-router-dom";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import List from "./List";
+import List from "./list/List";
 import AddIcon from "@material-ui/icons/Add";
-import CreateListModal from "./modals/CreateListModal"
+import CreateListModal from "./list/CreateListModal";
 
 const useStyles = makeStyles((theme) => ({
-    icon: {
-      marginRight: theme.spacing(2),
-    },
-    heroContent: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-      marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-      paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(8),
-      minHeight: "75vh",
-    },
-    card: {
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-    },
-    cardMedia: {
-      paddingTop: "56.25%", // 16:9
-    },
-    cardContent: {
-      flexGrow: 1,
-    },
-    footer: {
-      backgroundColor: "#003459",
-      padding: theme.spacing(6),
-      color: "#FFFFFF",
-    }
-  }));
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+    minHeight: "75vh",
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: "#003459",
+    padding: theme.spacing(6),
+    color: "#FFFFFF",
+  },
+}));
 
 export default function Board(props) {
-    const classes = useStyles();
-    const history = useHistory();
+  const classes = useStyles();
+  const history = useHistory();
 
-    const [lists, setLists] = useState([]);
-    const [modalDisplayed, setModalDisplayed] = useState(false);
-  
-    var hideAddListModal = () => {
-      setModalDisplayed(false);
-    };
+  const [lists, setLists] = useState([]);
+  const [modalDisplayed, setModalDisplayed] = useState(false);
 
-    var displayAddListModal = () => {
-      setModalDisplayed(true);
-    }
+  var hideAddListModal = () => {
+    setModalDisplayed(false);
+  };
 
-    var getLists = () => {
+  var displayAddListModal = () => {
+    setModalDisplayed(true);
+  };
 
-      AuthService.getBoardsLists(props.match.params.name).then((response) => {
-        if (response === 401) {
-          alert("You was unauthorized, please login again, 401 error");
-          history.push("/login");
-        }
-        if (response) {
-          console.log(response)
-          setLists(response)
-        } else {
-          alert("Fetch lists failed");
-        }
-      });
-
-    };
-  
-    var logout = () => {
-      localStorage.removeItem("token");
-      history.push("/login");
-    };
-  
-    useEffect(() => {
-      if(localStorage.getItem("token") === null) {
+  var getLists = () => {
+    AuthService.getBoardsLists(props.match.params.name).then((response) => {
+      if (response === 401) {
+        alert("You was unauthorized, please login again, 401 error");
         history.push("/login");
       }
+      if (response) {
+        console.log(response);
+        setLists(response);
+      } else {
+        alert("Fetch lists failed");
+      }
+    });
+  };
 
-      getLists()
-    }, [history]);
-  
-    return (
-      <React.Fragment>
-        <CreateListModal
+  var logout = () => {
+    localStorage.removeItem("token");
+    history.push("/login");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      history.push("/login");
+    }
+
+    getLists();
+  }, [history]);
+
+  return (
+    <React.Fragment>
+      <CreateListModal
         isDisplayed={modalDisplayed}
         hideModal={hideAddListModal}
         updateLists={getLists}
         id={props.match.params.name}
       ></CreateListModal>
-        <CssBaseline />
-        <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Toolbar style={{ flexGrow: "1" }}>
-              <TableChartIcon fontSize="large"></TableChartIcon>
-              <Typography variant="h4" color="inherit" noWrap>
-                <div style={{ marginLeft: "10px" }}>Trullo</div>
-              </Typography>
-            </Toolbar>
-            <div
+      <CssBaseline />
+      <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Toolbar style={{ flexGrow: "1" }}>
+            <TableChartIcon fontSize="large"></TableChartIcon>
+            <Typography variant="h4" color="inherit" noWrap>
+              <div style={{ marginLeft: "10px" }}>Trullo</div>
+            </Typography>
+          </Toolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              flexGrow: "1",
+            }}
+          >
+            <Button
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                flexGrow: "1",
+                margin: "10px 50px 10px 0px",
+                backgroundColor: "#007EA7",
+                fontWeight: "bold",
+                background:
+                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
               }}
+              color="secondary"
+              size="large"
+              variant="contained"
+              onClick={displayAddListModal}
             >
+              <AddIcon></AddIcon>
+              Add list
+            </Button>
 
-              <Button
-                style={{
-                  margin: "10px 50px 10px 0px",
-                  backgroundColor: "#007EA7",
-                  fontWeight: "bold",
-                  background:
-                    "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
-                }}
-                color="secondary"
-                size="large"
-                variant="contained"
-                onClick={displayAddListModal}
-              >
-                <AddIcon></AddIcon>
-                Add list
-              </Button>
+            <Button
+              style={{
+                margin: "10px 50px 10px 0px",
+                fontWeight: "bold",
 
-              <Button
-                style={{
-                  margin: "10px 50px 10px 0px",
-                  fontWeight: "bold",
-  
-                  background:
-                    "-webkit-linear-gradient(bottom, rgb(2, 80, 197), red)",
-                }}
-                size="large"
-                color="secondary"
-                variant="contained"
-                onClick={logout}
-              >
-                <PowerSettingsNewIcon
-                  style={{ marginRight: "10px" }}
-                ></PowerSettingsNewIcon>
-                Logout
-              </Button>
-            </div>
+                background:
+                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), red)",
+              }}
+              size="large"
+              color="secondary"
+              variant="contained"
+              onClick={logout}
+            >
+              <PowerSettingsNewIcon
+                style={{ marginRight: "10px" }}
+              ></PowerSettingsNewIcon>
+              Logout
+            </Button>
           </div>
-        </AppBar>
+        </div>
+      </AppBar>
 
-        <main>
-          <Container className={classes.cardGrid} maxWidth="lg">
+      <main>
+        <Container className={classes.cardGrid} maxWidth="lg">
           {console.log("LISTY:" + lists)}
           <Grid container spacing={4}>
-              {lists && lists.length > 0 ? (
-                lists.map((mappedList) => (
-                  <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
-                    <List name={mappedList.name} id={mappedList.id} getLists={getLists}/>
-                  </Grid>
-                ))
-              ) : (
-                <h1>You don't have any lists, create them</h1>
-              )}
-            </Grid>
+            {lists && lists.length > 0 ? (
+              lists.map((mappedList) => (
+                <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
+                  <List
+                    name={mappedList.name}
+                    id={mappedList.id}
+                    getLists={getLists}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <h1>You don't have any lists, create them</h1>
+            )}
+          </Grid>
+        </Container>
+      </main>
 
-          </Container>
-        </main>
-
-        {/* Footer */}
-        <footer className={classes.footer}>
-          <Typography variant="h6" align="center" gutterBottom>
-            This is your project!
-          </Typography>
-        </footer>
-        {/* End footer */}
-      </React.Fragment>
-    );
-  }
+      {/* Footer */}
+      <footer className={classes.footer}>
+        <Typography variant="h6" align="center" gutterBottom>
+          This is your project!
+        </Typography>
+      </footer>
+      {/* End footer */}
+    </React.Fragment>
+  );
+}

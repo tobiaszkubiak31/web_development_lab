@@ -6,12 +6,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import AuthService from "../../../utils/service.js";
+import AuthService from "../../../../utils/service.js";
 
-export default function AddCardModal(props) {
-  const [cardName, setCardName] = useState("");
+export default function EditCardNameModal(props) {
+  const [cardName, setCardName] = useState(props.name);
 
-  var handleCardNameChange = (event) => {
+  var handleBoardNameChange = (event) => {
     setCardName(event.target.value);
   };
 
@@ -19,21 +19,22 @@ export default function AddCardModal(props) {
     props.hideModal();
   };
 
-  var addCard = () => {
-    AuthService.addCard(cardName, props.id).then((response) => {
+  var editCardName = () => {
+    AuthService.updateCardName(props.id, cardName).then((response) => {
+      console.log(response);
       if (response) {
+        //
         handleClose();
-        props.updateLists();
         props.updateCards();
       } else {
-        alert("Add list failed");
+        alert("Error");
       }
     });
   };
 
   var onEnterClicked = (e) => {
     if (e.keyCode === 13) {
-      addCard();
+      editCardName();
     }
   };
 
@@ -44,25 +45,26 @@ export default function AddCardModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">List creation</DialogTitle>
+        <DialogTitle id="form-dialog-title">Card name edit</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To create card, please enter name.
+            To edit card name, please enter new card name.
           </DialogContentText>
           <TextField
-            onChange={handleCardNameChange}
+            onChange={handleBoardNameChange}
             autoFocus
             margin="dense"
             id="name"
-            label="Card name"
+            label="New board name"
             type="email"
             fullWidth
+            value={cardName}
             onKeyUp={onEnterClicked}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={addCard} color="primary">
-            Add card
+          <Button onClick={editCardName} color="primary">
+            Edit card name
           </Button>
         </DialogActions>
       </Dialog>

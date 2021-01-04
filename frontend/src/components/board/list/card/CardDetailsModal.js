@@ -4,7 +4,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import AuthService from "../../../utils/service.js";
+import AuthService from "../../../../utils/service.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { Button, makeStyles, TextField } from "@material-ui/core";
@@ -13,6 +13,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import WatchLaterIcon from "@material-ui/icons/WatchLater";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -91,8 +92,11 @@ export default function CardDetailsModal(props) {
               size="small"
               onClick={updateTimelimit}
               className={classes.button}
-              style={{ marginLeft: "2vh", backgroundColor: "green" }}
-              startIcon={<AlarmIcon />}
+              style={{
+                marginLeft: "2vh",
+                fontWeight: "bold",
+              }}
+              startIcon={<WatchLaterIcon />}
             >
               Save deadline
             </Button>
@@ -102,7 +106,7 @@ export default function CardDetailsModal(props) {
               onClick={deleteTimeLimit}
               className={classes.button}
               startIcon={<CancelIcon />}
-              style={{ marginLeft: "2vh", backgroundColor: "red" }}
+              style={{ marginLeft: "2vh" }}
             >
               Delete
             </Button>

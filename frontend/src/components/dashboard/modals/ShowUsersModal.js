@@ -34,18 +34,22 @@ export default function ShowUsersModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Participants:</DialogTitle>
         <DialogContent>
+          <Typography
+            variant={"h5"}
+            style={{ marginBottom: "4px", fontWeight: "bold" }}
+          >
+            Participants:
+          </Typography>
           <DialogContentText>
             {users && users.length > 0 ? (
               users.map((user) => (
                 <Typography
-                  component={"span"}
-                  variant={"body2"}
+                  variant={"h6"}
                   key={user.email}
+                  style={{ fontWeight: "bold" }}
                 >
                   {user.email}
-                  <br />
                 </Typography>
               ))
             ) : (

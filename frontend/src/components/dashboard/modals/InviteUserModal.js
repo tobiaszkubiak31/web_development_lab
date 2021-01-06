@@ -20,12 +20,14 @@ export default function InviteUserModal(props) {
   };
 
   var inviteUser = () => {
+    console.log(userName);
+    console.log(props.boardInfo.id);
     AuthService.inviteUserToBoard(userName, props.boardInfo.id).then(
       (response) => {
         if (response) {
           console.log(response);
-          handleClose();
           props.updateBoards();
+          handleClose();
         } else {
           alert("Adding user failed");
         }

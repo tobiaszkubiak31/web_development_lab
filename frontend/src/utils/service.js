@@ -267,8 +267,8 @@ class AuthService {
       .patch(
         `${API_URL}/boards/`,
         {
-          id: boardId,
-          new_name: newBoardName,
+          board_id: boardId,
+          board_new_name: newBoardName,
         },
         config
       )

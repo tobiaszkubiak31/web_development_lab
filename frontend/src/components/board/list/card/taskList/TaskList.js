@@ -58,6 +58,7 @@ export default function TaskList(props) {
     AuthService.addTask(tasklist_id, newTaskName).then((response) => {
         if (response) {
             props.getTaskList(props.card_id)
+            setNewTaskName("")
         } else {
           alert("Add task failed");
         }

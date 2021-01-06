@@ -14,6 +14,7 @@ import { List } from './lists/lists.entity';
 import { CardsModule } from './cards/cards.module';
 import { Card } from './cards/cards.entity';
 import { LabelsModule } from './labels/labels.module';
+import { Label } from './labels/labels.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,7 +24,7 @@ import { LabelsModule } from './labels/labels.module';
       username: 'postgres',
       password: 'admin',
       database: 'trello',
-      entities: [Board, User, Userboard, List, Card],
+      entities: [Board, User, Userboard, List, Card, Label],
       synchronize: false
     }),
     AuthModule,

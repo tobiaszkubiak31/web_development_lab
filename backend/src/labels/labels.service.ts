@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Card } from 'src/cards/cards.entity';
 import { Repository } from 'typeorm';
 import { AddLabelDto } from './labels.dto';
 import { Label } from './labels.entity';
@@ -8,7 +7,7 @@ import { Label } from './labels.entity';
 @Injectable()
 export class LabelsService {
     constructor(
-        @InjectRepository(Card)
+        @InjectRepository(Label)
         private labelRepository: Repository<Label>,
       ) {}
     

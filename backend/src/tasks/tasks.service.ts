@@ -23,4 +23,10 @@ export class TasksService {
         return deleted.affected === 1;
     }
 
+    async updateDone(task_id: number, done: boolean): Promise<boolean> {
+        const updated = await this.taskRepository.update(task_id, {
+            done: done,
+        });
+        return updated.affected === 1;
+    }
 }

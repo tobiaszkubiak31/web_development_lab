@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Request, Delete } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Delete, Patch } from '@nestjs/common';
 import { BoardMemberGuard } from 'src/guards/board-member.guard';
 import { HasType } from 'src/guards/has-type.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -35,4 +35,16 @@ export class TasksController {
         return await this.tasksService.delete(req.body.task_id);
     }
 
+    /*
+    {
+        "task_id": "task id",
+        "done": true
+    }
+    */
+    @HasType('task-update')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Patch('updateDone')
+    async updateTimeLimit(@Request() req): Promise<any> {
+        return await this.tasksService.updateDone(req.body.task_id, req.body.done);
+    }
 }

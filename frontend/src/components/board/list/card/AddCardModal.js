@@ -44,7 +44,7 @@ export default function AddCardModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">List creation</DialogTitle>
+        <DialogTitle id="form-dialog-title">Card creation</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To create card, please enter name.

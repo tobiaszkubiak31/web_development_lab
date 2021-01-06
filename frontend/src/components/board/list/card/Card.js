@@ -23,6 +23,7 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import CheckIcon from "@material-ui/icons/Check";
 
+import TaskListModal from "./taskList/TaskListModal";
 const mockedLabels = [
   {
     id: 1,
@@ -82,6 +83,7 @@ export default function Card(props) {
   console.log(props.time_limit);
   const [cardModalDisplayed, setCardModalDisplayed] = useState(false);
   const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
+  const [taskListDisplayed, setTaskListDisplayed] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [cardLabelIds, setCardLabelIds] = React.useState([1, 3, 4, 6]);
 
@@ -112,6 +114,14 @@ export default function Card(props) {
     setCardNameModalDisplayed(true);
   };
 
+  let displayTaskList = () => {
+    setTaskListDisplayed(true);
+  };
+
+  let hideTaskList = () => {
+    setTaskListDisplayed(false);
+  };
+
   return (
     <React.Fragment>
       <CardDetailsModal
@@ -127,6 +137,12 @@ export default function Card(props) {
         id={props.id}
         name={props.text}
       ></EditCardNameModal>
+      <TaskListModal
+        isDisplayed={taskListDisplayed}
+        hideModal={hideTaskList}
+        //updateCards={props.updateCards}
+        id={props.id}
+      ></TaskListModal>
 
       <Paper elevation={8} className={classes.fixedHeightPaper}>
         <div style={{ display: "flex", flexDirection: "row" }}>
@@ -227,7 +243,7 @@ export default function Card(props) {
                 <ListAltIcon
                   color="primary"
                   style={{ marginLeft: "7px", cursor: "pointer" }}
-                  onClick={displayCardModal}
+                  onClick={displayTaskList}
                   fontSize="large"
                 ></ListAltIcon>
               </IconButton>

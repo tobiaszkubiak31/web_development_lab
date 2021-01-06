@@ -9,6 +9,7 @@ import { UsersModule } from 'src/users/users.module';
 import { List } from 'src/lists/lists.entity';
 import { ListsModule } from 'src/lists/lists.module';
 import { CardsModule } from 'src/cards/cards.module';
+import { TasklistsModule } from 'src/tasklists/tasklists.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { CardsModule } from 'src/cards/cards.module';
     UserboardsModule,
     UsersModule,
     ListsModule,
-    CardsModule
+    CardsModule,
+    TasklistsModule
   ],
   controllers: [BoardsController],
   providers: [BoardsService],

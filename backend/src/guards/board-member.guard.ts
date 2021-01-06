@@ -21,7 +21,7 @@ export class BoardMemberGuard implements CanActivate {
         if (type[0] === "card" || type[0] === 'list-update') {
             return this.boardsService.isMemberByListId(user.id, request.body.list_id);
         }
-        if (type[0] === 'card-update') {
+        if (type[0] === 'card-update' || type[0] == 'tasklist') {
             return this.boardsService.isMemberByCardId(user.id, request.body.card_id);
         }
     }

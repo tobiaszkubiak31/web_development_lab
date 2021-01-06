@@ -23,20 +23,6 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import CheckIcon from "@material-ui/icons/Check";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#000000",
-    },
-    secondary: {
-      main: "#d32f2f",
-    },
-    warning: {
-      main: colors.red.A700,
-    },
-  },
-});
-
 const mockedLabels = [
   {
     id: 1,
@@ -127,174 +113,166 @@ export default function Card(props) {
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <React.Fragment>
-        <CardDetailsModal
-          isDisplayed={cardModalDisplayed}
-          hideModal={hideCardModal}
-          updateCards={props.updateCards}
-          id={props.id}
-        ></CardDetailsModal>
-        <EditCardNameModal
-          isDisplayed={cardNameModalDisplayed}
-          hideModal={hideNameCardModal}
-          updateCards={props.updateCards}
-          id={props.id}
-          name={props.text}
-        ></EditCardNameModal>
+    <React.Fragment>
+      <CardDetailsModal
+        isDisplayed={cardModalDisplayed}
+        hideModal={hideCardModal}
+        updateCards={props.updateCards}
+        id={props.id}
+      ></CardDetailsModal>
+      <EditCardNameModal
+        isDisplayed={cardNameModalDisplayed}
+        hideModal={hideNameCardModal}
+        updateCards={props.updateCards}
+        id={props.id}
+        name={props.text}
+      ></EditCardNameModal>
 
-        <Paper elevation={8} className={classes.fixedHeightPaper}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <Typography
-              component="p"
-              variant="h4"
-              style={{ fontWeight: "bold" }}
+      <Paper elevation={8} className={classes.fixedHeightPaper}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Typography component="p" variant="h4" style={{ fontWeight: "bold" }}>
+            {props.text}
+          </Typography>
+          <Tooltip
+            TransitionComponent={Zoom}
+            style={{ minHeight: "20px" }}
+            title={
+              <span style={{ padding: "5px", fontSize: "14px" }}>
+                Edit name
+              </span>
+            }
+          >
+            <IconButton>
+              <EditIcon
+                style={{ marginLeft: "5px", cursor: "pointer" }}
+                size="large"
+                onClick={displayNameCardModal}
+                color="primary"
+              ></EditIcon>
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div
+          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+        >
+          {cardLabelIds
+            .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
+            .map((labelData) => (
+              <p
+                style={{
+                  borderRadius: "10px",
+                  background: labelData.color,
+                  padding: "1px",
+                  margin: "3px",
+                  width: "70px",
+                  height: "30px",
+                  textAlignLast: "center",
+                }}
+              >
+                <span
+                  style={{
+                    color: "white",
+                    fontSize: "0.8rem",
+                    fontWeight: "bold",
+                    verticalAlign: "-webkit-baseline-middle",
+                  }}
+                >
+                  {labelData.label_name}
+                </span>
+              </p>
+            ))}
+        </div>
+        <div>
+          {props.time_limit !== null && (
+            <Button
+              variant="contained"
+              color="default"
+              size="small"
+              onClick={displayCardModal}
+              className={classes.button}
+              startIcon={<AlarmIcon />}
             >
-              {props.text}
-            </Typography>
+              {props.time_limit}
+            </Button>
+          )}
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <Tooltip
               TransitionComponent={Zoom}
               style={{ minHeight: "20px" }}
               title={
                 <span style={{ padding: "5px", fontSize: "14px" }}>
-                  Edit name
+                  Set deadline
                 </span>
               }
             >
               <IconButton>
-                <EditIcon
+                <WatchLaterIcon
                   style={{ marginLeft: "5px", cursor: "pointer" }}
-                  size="large"
-                  onClick={displayNameCardModal}
+                  onClick={displayCardModal}
+                  fontSize="large"
                   color="primary"
-                ></EditIcon>
+                ></WatchLaterIcon>
               </IconButton>
             </Tooltip>
+            <Tooltip
+              TransitionComponent={Zoom}
+              style={{ minHeight: "20px" }}
+              title={
+                <span style={{ padding: "5px", fontSize: "14px" }}>
+                  Task lists
+                </span>
+              }
+            >
+              <IconButton>
+                <ListAltIcon
+                  color="primary"
+                  style={{ marginLeft: "7px", cursor: "pointer" }}
+                  onClick={displayCardModal}
+                  fontSize="large"
+                ></ListAltIcon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              TransitionComponent={Zoom}
+              style={{ minHeight: "20px" }}
+              title={
+                <span style={{ padding: "7px", fontSize: "14px" }}>Labels</span>
+              }
+            >
+              <IconButton>
+                <LabelImportantIcon
+                  color="primary"
+                  style={{ marginLeft: "5px", cursor: "pointer" }}
+                  onClick={handleClick}
+                  fontSize="large"
+                ></LabelImportantIcon>
+              </IconButton>
+            </Tooltip>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <LabelPicker
+                cardLabelIds={cardLabelIds}
+                setCardLabelIds={setCardLabelIds}
+                handleOpen={handleClick}
+                handleClose={handleClose}
+              ></LabelPicker>
+            </Popover>
           </div>
-          <div
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {cardLabelIds
-              .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
-              .map((labelData) => (
-                <p
-                  style={{
-                    borderRadius: "10px",
-                    background: labelData.color,
-                    padding: "1px",
-                    margin: "3px",
-                    width: "70px",
-                    height: "30px",
-                    textAlignLast: "center",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: "white",
-                      fontSize: "0.8rem",
-                      fontWeight: "bold",
-                      verticalAlign: "-webkit-baseline-middle",
-                    }}
-                  >
-                    {labelData.label_name}
-                  </span>
-                </p>
-              ))}
-          </div>
-          <div>
-            {props.time_limit !== null && (
-              <Button
-                variant="contained"
-                color="default"
-                size="small"
-                onClick={displayCardModal}
-                className={classes.button}
-                startIcon={<AlarmIcon />}
-              >
-                {props.time_limit}
-              </Button>
-            )}
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <Tooltip
-                TransitionComponent={Zoom}
-                style={{ minHeight: "20px" }}
-                title={
-                  <span style={{ padding: "5px", fontSize: "14px" }}>
-                    Set deadline
-                  </span>
-                }
-              >
-                <IconButton>
-                  <WatchLaterIcon
-                    style={{ marginLeft: "5px", cursor: "pointer" }}
-                    onClick={displayCardModal}
-                    fontSize="large"
-                    color="primary"
-                  ></WatchLaterIcon>
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                TransitionComponent={Zoom}
-                style={{ minHeight: "20px" }}
-                title={
-                  <span style={{ padding: "5px", fontSize: "14px" }}>
-                    Task lists
-                  </span>
-                }
-              >
-                <IconButton>
-                  <ListAltIcon
-                    color="primary"
-                    style={{ marginLeft: "7px", cursor: "pointer" }}
-                    onClick={displayCardModal}
-                    fontSize="large"
-                  ></ListAltIcon>
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                TransitionComponent={Zoom}
-                style={{ minHeight: "20px" }}
-                title={
-                  <span style={{ padding: "7px", fontSize: "14px" }}>
-                    Labels
-                  </span>
-                }
-              >
-                <IconButton>
-                  <LabelImportantIcon
-                    color="primary"
-                    style={{ marginLeft: "5px", cursor: "pointer" }}
-                    onClick={handleClick}
-                    fontSize="large"
-                  ></LabelImportantIcon>
-                </IconButton>
-              </Tooltip>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <LabelPicker
-                  cardLabelIds={cardLabelIds}
-                  setCardLabelIds={setCardLabelIds}
-                  handleOpen={handleClick}
-                  handleClose={handleClose}
-                ></LabelPicker>
-              </Popover>
-            </div>
-          </div>
-        </Paper>
-      </React.Fragment>
-    </MuiThemeProvider>
+        </div>
+      </Paper>
+    </React.Fragment>
   );
 }
 

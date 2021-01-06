@@ -15,7 +15,7 @@ import CreateBoardModal from "./modals/CreateBoardModal.js";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { Avatar, IconButton, Tooltip, Zoom } from "@material-ui/core";
+import { Avatar, colors, IconButton, Tooltip, Zoom } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -157,9 +157,9 @@ export default function Dashboard() {
           >
             <Avatar
               style={{
-                backgroundColor: "black",
-                width: "50px",
-                height: "50px",
+                backgroundColor: colors.cyan[800],
+                width: "55px",
+                height: "55px",
               }}
             >
               {localStorage.getItem("authenticatedUser").substring(0, 1) +

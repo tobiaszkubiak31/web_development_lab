@@ -217,6 +217,27 @@ class AuthService {
       });
   }
 
+  async updateLabelsIds(cardId, labelsIds) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+
+    return await axios
+      .patch(
+        `${API_URL}/cards/updateLabels`,
+        {
+          card_id: cardId,
+          label_ids: labelsIds,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async deleteBoard(boardId) {
     let config = {
       headers: {
@@ -302,7 +323,7 @@ class AuthService {
     return response.data;
   }
 
-  async inviteUserToBoard(userEmail, boardName) {
+  async inviteUserToBoard(userEmail, board_id) {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
@@ -313,7 +334,7 @@ class AuthService {
         `${API_URL}/boards/addUser`,
         {
           email: userEmail,
-          name: boardName,
+          board_id: board_id,
         },
         config
       )
@@ -335,7 +356,7 @@ class AuthService {
         `${API_URL}/tasklist`,
         {
           title: newListName,
-          card_id: card_id
+          card_id: card_id,
         },
         config
       )
@@ -376,7 +397,7 @@ class AuthService {
       .delete(
         `${API_URL}/task`,
         {
-          task_id: task_id
+          task_id: task_id,
         },
         config
       )
@@ -396,7 +417,7 @@ class AuthService {
         `${API_URL}/task`,
         {
           tasklist_id: tasklist_id,
-          name: newTaskName
+          name: newTaskName,
         },
         config
       )
@@ -405,7 +426,5 @@ class AuthService {
       });
   }
 }
-
-
 
 export default new AuthService();

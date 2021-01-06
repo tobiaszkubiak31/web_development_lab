@@ -68,6 +68,8 @@ export default function List(props) {
         history.push("/login");
       }
       if (response) {
+        console.log("cards:");
+        console.log(response);
         setCards(response);
       } else {
         alert("Fetch lists failed");
@@ -154,6 +156,9 @@ export default function List(props) {
               text={mappedCard.name}
               id={mappedCard.id}
               time_limit={mappedCard.time_limit}
+              label_ids={mappedCard.label_ids
+                .split(" ")
+                .map((element) => parseInt(element))}
               updateCards={getCards}
             />
           ))

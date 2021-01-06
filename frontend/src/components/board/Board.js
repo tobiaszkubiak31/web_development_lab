@@ -15,7 +15,7 @@ import List from "./list/List";
 import AddIcon from "@material-ui/icons/Add";
 import CreateListModal from "./list/CreateListModal";
 import PostAddIcon from "@material-ui/icons/PostAdd";
-import { Avatar, IconButton, Tooltip, Zoom } from "@material-ui/core";
+import { Avatar, colors, IconButton, Tooltip, Zoom } from "@material-ui/core";
 import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -189,7 +189,7 @@ export default function Board(props) {
             >
               <Avatar
                 style={{
-                  backgroundColor: "black",
+                  backgroundColor: colors.cyan[800],
                   width: "50px",
                   height: "50px",
                 }}

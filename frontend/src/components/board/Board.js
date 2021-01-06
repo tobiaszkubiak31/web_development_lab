@@ -156,12 +156,12 @@ export default function Board(props) {
       </AppBar>
 
       <main>
-        <Container className={classes.cardGrid} maxWidth="lg">
+      <Container className={classes.cardGrid} maxWidth="xl">
           {console.log("LISTY:" + lists)}
           <Grid container spacing={4}>
             {lists && lists.length > 0 ? (
               lists.map((mappedList) => (
-                <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
+                <Grid item key={mappedList.name} md={3.5}>
                   <List
                     name={mappedList.name}
                     id={mappedList.id}

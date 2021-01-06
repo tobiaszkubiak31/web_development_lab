@@ -13,6 +13,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import TaskListModal from "./taskList/TaskListModal";
 const mockedLabels = [
   {
     id: 1,
@@ -72,6 +73,7 @@ export default function Card(props) {
   console.log(props.time_limit);
   const [cardModalDisplayed, setCardModalDisplayed] = useState(false);
   const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
+  const [taskListDisplayed, setTaskListDisplayed] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -101,6 +103,14 @@ export default function Card(props) {
     setCardNameModalDisplayed(true);
   };
 
+  let displayTaskList = () => {
+    setTaskListDisplayed(true);
+  }
+
+  let hideTaskList = () => {
+    setTaskListDisplayed(false);
+  }
+
   return (
     <React.Fragment>
       <CardDetailsModal
@@ -116,6 +126,12 @@ export default function Card(props) {
         id={props.id}
         name={props.text}
       ></EditCardNameModal>
+      <TaskListModal
+        isDisplayed={taskListDisplayed}
+        hideModal={hideTaskList}
+        //updateCards={props.updateCards}
+        id={props.id}
+      ></TaskListModal>
 
       <Paper elevation={8} className={classes.fixedHeightPaper}>
         <div style={{ display: "flex", flexDirection: "row" }}>
@@ -210,7 +226,7 @@ export default function Card(props) {
             >
               <ListAltIcon
                 style={{ marginLeft: "7px", cursor: "pointer" }}
-                onClick={displayCardModal}
+                onClick={displayTaskList}
                 fontSize="large"
               ></ListAltIcon>
             </Tooltip>
@@ -218,7 +234,9 @@ export default function Card(props) {
               TransitionComponent={Zoom}
               style={{ minHeight: "20px" }}
               title={
-                <span style={{ padding: "7px", fontSize: "14px" }}>Labels</span>
+                <span style={{ padding: "7px", fontSize: "14px" }}>
+                  Labels
+                </span>
               }
             >
               <LabelImportantIcon

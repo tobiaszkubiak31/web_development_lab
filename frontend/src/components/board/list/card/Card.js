@@ -140,8 +140,7 @@ export default function Card(props) {
       <TaskListModal
         isDisplayed={taskListDisplayed}
         hideModal={hideTaskList}
-        //updateCards={props.updateCards}
-        id={props.id}
+        card_id={props.id}
       ></TaskListModal>
 
       <Paper elevation={8} className={classes.fixedHeightPaper}>

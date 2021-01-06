@@ -321,6 +321,91 @@ class AuthService {
         console.log(error);
       });
   }
+
+  // TASKLIST
+
+  async addTaskList(newListName, card_id) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/tasklist`,
+        {
+          title: newListName,
+          card_id: card_id
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  // TASK
+
+  async changeDoneStatus(task_id, status) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .put(
+        `${API_URL}/task`,
+        {
+          task_id: task_id,
+          done: status,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async deleteTask(task_id) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .delete(
+        `${API_URL}/task`,
+        {
+          task_id: task_id
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async addTask(tasklist_id, newTaskName) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/task`,
+        {
+          tasklist_id: tasklist_id,
+          name: newTaskName
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }
+
+
 
 export default new AuthService();

@@ -15,7 +15,7 @@ import CreateBoardModal from "./modals/CreateBoardModal.js";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { IconButton, Tooltip, Zoom } from "@material-ui/core";
+import { Avatar, colors, IconButton, Tooltip, Zoom } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -129,7 +129,7 @@ export default function Dashboard() {
           >
             <Button
               style={{
-                margin: "10px 50px 10px 0px",
+                margin: "10px 30px 10px 0px",
                 fontWeight: "bold",
                 borderRadius: "10px",
                 fontSize: "15px",
@@ -146,6 +146,30 @@ export default function Dashboard() {
               ></PowerSettingsNewIcon>
               Logout
             </Button>
+          </div>
+          <div
+            style={{
+              margin: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Avatar
+              style={{
+                backgroundColor: colors.cyan[800],
+                width: "55px",
+                height: "55px",
+              }}
+            >
+              {localStorage.getItem("authenticatedUser").substring(0, 1) +
+                localStorage
+                  .getItem("authenticatedUser")
+                  .substring(
+                    localStorage.getItem("authenticatedUser").length - 1,
+                    localStorage.getItem("authenticatedUser").length
+                  )}
+            </Avatar>
           </div>
         </div>
       </AppBar>
@@ -197,8 +221,13 @@ export default function Dashboard() {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Manage projects
+        <Typography
+          style={{ fontWeight: "bold" }}
+          variant="h6"
+          align="center"
+          gutterBottom
+        >
+          {"logged as " + localStorage.getItem("authenticatedUser")}
         </Typography>
         <Typography variant="subtitle1" align="center" component="p">
           Create, delete and edit your boards !

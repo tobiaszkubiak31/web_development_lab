@@ -24,6 +24,25 @@ import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import CheckIcon from "@material-ui/icons/Check";
 
 import TaskListModal from "./taskList/TaskListModal";
+
+function preventDefault(event) {
+  event.preventDefault();
+}
+
+const useStyles = makeStyles((theme) => ({
+  depositContext: {
+    flex: 1,
+  },
+  fixedHeightPaper: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    minHeight: 50,
+  },
+}));
+
 const mockedLabels = [
   {
     id: 1,
@@ -57,26 +76,6 @@ const mockedLabels = [
   },
 ];
 
-const cardLabelIds = [1, 3, 4, 6];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
-
-const useStyles = makeStyles((theme) => ({
-  depositContext: {
-    flex: 1,
-  },
-  fixedHeightPaper: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
-    minHeight: 50,
-  },
-}));
-
 export default function Card(props) {
   const classes = useStyles();
   const history = useHistory();
@@ -87,6 +86,7 @@ export default function Card(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [cardLabelIds, setCardLabelIds] = React.useState([1, 3, 4, 6]);
 
+  console.log(props);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -94,7 +94,16 @@ export default function Card(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const updateLabelIds = (labelIds) => {
+    console.log(labelIds);
+    AuthService.updateLabelsIds(props.id, labelIds).then((response) => {
+      if (response) {
+        props.updateCards();
+      } else {
+        alert("Update update labels error");
+      }
+    });
+  };
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -170,32 +179,38 @@ export default function Card(props) {
         <div
           style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
         >
-          {cardLabelIds
-            .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
-            .map((labelData) => (
-              <p
-                style={{
-                  borderRadius: "10px",
-                  background: labelData.color,
-                  padding: "1px",
-                  margin: "3px",
-                  width: "70px",
-                  height: "30px",
-                  textAlignLast: "center",
-                }}
-              >
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: "0.8rem",
-                    fontWeight: "bold",
-                    verticalAlign: "-webkit-baseline-middle",
-                  }}
-                >
-                  {labelData.label_name}
-                </span>
-              </p>
-            ))}
+          {props.label_ids !== undefined &&
+            props.label_ids
+              .map((labelId) =>
+                mockedLabels.find((obj) => obj.id === parseInt(labelId))
+              )
+              .map(
+                (labelData) =>
+                  labelData !== undefined && (
+                    <p
+                      style={{
+                        borderRadius: "10px",
+                        background: labelData.color,
+                        padding: "1px",
+                        margin: "3px",
+                        width: "70px",
+                        height: "30px",
+                        textAlignLast: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "white",
+                          fontSize: "0.8rem",
+                          fontWeight: "bold",
+                          verticalAlign: "-webkit-baseline-middle",
+                        }}
+                      >
+                        {labelData.label_name}
+                      </span>
+                    </p>
+                  )
+              )}
         </div>
         <div>
           {props.time_limit !== null && (
@@ -278,10 +293,11 @@ export default function Card(props) {
               }}
             >
               <LabelPicker
-                cardLabelIds={cardLabelIds}
+                cardLabelIds={props.label_ids}
                 setCardLabelIds={setCardLabelIds}
                 handleOpen={handleClick}
                 handleClose={handleClose}
+                updateLabelIds={updateLabelIds}
               ></LabelPicker>
             </Popover>
           </div>
@@ -296,23 +312,28 @@ function LabelPicker({
   setCardLabelIds,
   handleOpen,
   handleClose,
+  updateLabelIds,
 }) {
   //functions switch label state
   // .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
 
   const deleteOrAddLabel = (labelId) => {
-    //JEZELI ISTNIEJE USUN Z LISTY I ZAPISZ
+    if (cardLabelIds === undefined) {
+      cardLabelIds = [];
+    }
+    console.log("includes");
     if (cardLabelIds.includes(labelId)) {
+      //JEZELI ISTNIEJE USUN Z LISTY I ZAPISZ
       cardLabelIds = cardLabelIds.filter(function (item) {
         return item !== labelId;
       });
-      setCardLabelIds(cardLabelIds);
+      updateLabelIds(cardLabelIds);
       handleClose();
     }
     //JEZELNI NIE ISTNIEJE DODAJ DO LISTY I ZAPISZ
     else {
       cardLabelIds.push(labelId);
-      setCardLabelIds(cardLabelIds);
+      updateLabelIds(cardLabelIds);
       handleClose();
     }
   };
@@ -349,7 +370,7 @@ function LabelPicker({
               }}
             >
               {labelData.label_name}
-              {cardLabelIds.includes(labelData.id) && (
+              {cardLabelIds && cardLabelIds.includes(labelData.id) && (
                 <div
                   style={{
                     display: "flex",

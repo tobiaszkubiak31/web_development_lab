@@ -8,11 +8,35 @@ import { useHistory } from "react-router-dom";
 import CardDetailsModal from "./CardDetailsModal.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
 import EditCardNameModal from "./EditCardNameModal.js";
-import { colors, Popover, Tooltip, Zoom } from "@material-ui/core";
+import {
+  colors,
+  IconButton,
+  Popover,
+  Tooltip,
+  Zoom,
+  createMuiTheme,
+  MuiThemeProvider,
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import CheckIcon from "@material-ui/icons/Check";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#000000",
+    },
+    secondary: {
+      main: "#d32f2f",
+    },
+    warning: {
+      main: colors.red.A700,
+    },
+  },
+});
+
 const mockedLabels = [
   {
     id: 1,
@@ -46,7 +70,7 @@ const mockedLabels = [
   },
 ];
 
-const cardLabelIds = [1, 2, 3, 4, 5, 6];
+const cardLabelIds = [1, 3, 4, 6];
 
 function preventDefault(event) {
   event.preventDefault();
@@ -73,6 +97,7 @@ export default function Card(props) {
   const [cardModalDisplayed, setCardModalDisplayed] = useState(false);
   const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [cardLabelIds, setCardLabelIds] = React.useState([1, 3, 4, 6]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,185 +127,251 @@ export default function Card(props) {
   };
 
   return (
-    <React.Fragment>
-      <CardDetailsModal
-        isDisplayed={cardModalDisplayed}
-        hideModal={hideCardModal}
-        updateCards={props.updateCards}
-        id={props.id}
-      ></CardDetailsModal>
-      <EditCardNameModal
-        isDisplayed={cardNameModalDisplayed}
-        hideModal={hideNameCardModal}
-        updateCards={props.updateCards}
-        id={props.id}
-        name={props.text}
-      ></EditCardNameModal>
+    <MuiThemeProvider theme={theme}>
+      <React.Fragment>
+        <CardDetailsModal
+          isDisplayed={cardModalDisplayed}
+          hideModal={hideCardModal}
+          updateCards={props.updateCards}
+          id={props.id}
+        ></CardDetailsModal>
+        <EditCardNameModal
+          isDisplayed={cardNameModalDisplayed}
+          hideModal={hideNameCardModal}
+          updateCards={props.updateCards}
+          id={props.id}
+          name={props.text}
+        ></EditCardNameModal>
 
-      <Paper elevation={8} className={classes.fixedHeightPaper}>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <Typography component="p" variant="h4" style={{ fontWeight: "bold" }}>
-            {props.text}
-          </Typography>
-          <Tooltip
-            TransitionComponent={Zoom}
-            style={{ minHeight: "20px" }}
-            title={
-              <span style={{ padding: "5px", fontSize: "14px" }}>
-                Edit name
-              </span>
-            }
+        <Paper elevation={8} className={classes.fixedHeightPaper}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Typography
+              component="p"
+              variant="h4"
+              style={{ fontWeight: "bold" }}
+            >
+              {props.text}
+            </Typography>
+            <Tooltip
+              TransitionComponent={Zoom}
+              style={{ minHeight: "20px" }}
+              title={
+                <span style={{ padding: "5px", fontSize: "14px" }}>
+                  Edit name
+                </span>
+              }
+            >
+              <IconButton>
+                <EditIcon
+                  style={{ marginLeft: "5px", cursor: "pointer" }}
+                  size="large"
+                  onClick={displayNameCardModal}
+                  color="primary"
+                ></EditIcon>
+              </IconButton>
+            </Tooltip>
+          </div>
+          <div
+            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
           >
-            <EditIcon
-              style={{ marginLeft: "5px", cursor: "pointer" }}
-              size="large"
-              onClick={displayNameCardModal}
-            ></EditIcon>
-          </Tooltip>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-        >
-          {cardLabelIds
-            .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
-            .map((labelData) => (
-              <p
-                style={{
-                  borderRadius: "10px",
-                  background: labelData.color,
-                  padding: "1px",
-                  margin: "3px",
-                  width: "70px",
-                  height: "30px",
-                  textAlignLast: "center",
-                }}
-              >
-                <span
+            {cardLabelIds
+              .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
+              .map((labelData) => (
+                <p
                   style={{
-                    color: "white",
-                    fontSize: "0.8rem",
-                    fontWeight: "bold",
-                    verticalAlign: "-webkit-baseline-middle",
+                    borderRadius: "10px",
+                    background: labelData.color,
+                    padding: "1px",
+                    margin: "3px",
+                    width: "70px",
+                    height: "30px",
+                    textAlignLast: "center",
                   }}
                 >
-                  {labelData.label_name}
-                </span>
-              </p>
-            ))}
-        </div>
-        <div>
-          {props.time_limit !== null && (
-            <Button
-              variant="contained"
-              color="default"
-              size="small"
-              onClick={displayCardModal}
-              className={classes.button}
-              startIcon={<AlarmIcon />}
-            >
-              {props.time_limit}
-            </Button>
-          )}
-          <div
-            style={{ display: "flex", flexDirection: "row", marginTop: "1vh" }}
-          >
-            <Tooltip
-              TransitionComponent={Zoom}
-              style={{ minHeight: "20px" }}
-              title={
-                <span style={{ padding: "5px", fontSize: "14px" }}>
-                  Set deadline
-                </span>
-              }
-            >
-              <WatchLaterIcon
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-                onClick={displayCardModal}
-                fontSize="large"
-              ></WatchLaterIcon>
-            </Tooltip>
-            <Tooltip
-              TransitionComponent={Zoom}
-              style={{ minHeight: "20px" }}
-              title={
-                <span style={{ padding: "5px", fontSize: "14px" }}>
-                  Task lists
-                </span>
-              }
-            >
-              <ListAltIcon
-                style={{ marginLeft: "7px", cursor: "pointer" }}
-                onClick={displayCardModal}
-                fontSize="large"
-              ></ListAltIcon>
-            </Tooltip>
-            <Tooltip
-              TransitionComponent={Zoom}
-              style={{ minHeight: "20px" }}
-              title={
-                <span style={{ padding: "7px", fontSize: "14px" }}>Labels</span>
-              }
-            >
-              <LabelImportantIcon
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-                onClick={handleClick}
-                fontSize="large"
-              ></LabelImportantIcon>
-            </Tooltip>
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <LabelPicker></LabelPicker>
-            </Popover>
+                  <span
+                    style={{
+                      color: "white",
+                      fontSize: "0.8rem",
+                      fontWeight: "bold",
+                      verticalAlign: "-webkit-baseline-middle",
+                    }}
+                  >
+                    {labelData.label_name}
+                  </span>
+                </p>
+              ))}
           </div>
-        </div>
-      </Paper>
-    </React.Fragment>
+          <div>
+            {props.time_limit !== null && (
+              <Button
+                variant="contained"
+                color="default"
+                size="small"
+                onClick={displayCardModal}
+                className={classes.button}
+                startIcon={<AlarmIcon />}
+              >
+                {props.time_limit}
+              </Button>
+            )}
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <Tooltip
+                TransitionComponent={Zoom}
+                style={{ minHeight: "20px" }}
+                title={
+                  <span style={{ padding: "5px", fontSize: "14px" }}>
+                    Set deadline
+                  </span>
+                }
+              >
+                <IconButton>
+                  <WatchLaterIcon
+                    style={{ marginLeft: "5px", cursor: "pointer" }}
+                    onClick={displayCardModal}
+                    fontSize="large"
+                    color="primary"
+                  ></WatchLaterIcon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                style={{ minHeight: "20px" }}
+                title={
+                  <span style={{ padding: "5px", fontSize: "14px" }}>
+                    Task lists
+                  </span>
+                }
+              >
+                <IconButton>
+                  <ListAltIcon
+                    color="primary"
+                    style={{ marginLeft: "7px", cursor: "pointer" }}
+                    onClick={displayCardModal}
+                    fontSize="large"
+                  ></ListAltIcon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                style={{ minHeight: "20px" }}
+                title={
+                  <span style={{ padding: "7px", fontSize: "14px" }}>
+                    Labels
+                  </span>
+                }
+              >
+                <IconButton>
+                  <LabelImportantIcon
+                    color="primary"
+                    style={{ marginLeft: "5px", cursor: "pointer" }}
+                    onClick={handleClick}
+                    fontSize="large"
+                  ></LabelImportantIcon>
+                </IconButton>
+              </Tooltip>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <LabelPicker
+                  cardLabelIds={cardLabelIds}
+                  setCardLabelIds={setCardLabelIds}
+                  handleOpen={handleClick}
+                  handleClose={handleClose}
+                ></LabelPicker>
+              </Popover>
+            </div>
+          </div>
+        </Paper>
+      </React.Fragment>
+    </MuiThemeProvider>
   );
 }
 
-function LabelPicker({ id }) {
+function LabelPicker({
+  cardLabelIds,
+  setCardLabelIds,
+  handleOpen,
+  handleClose,
+}) {
   //functions switch label state
+  // .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
+
+  const deleteOrAddLabel = (labelId) => {
+    //JEZELI ISTNIEJE USUN Z LISTY I ZAPISZ
+    if (cardLabelIds.includes(labelId)) {
+      cardLabelIds = cardLabelIds.filter(function (item) {
+        return item !== labelId;
+      });
+      setCardLabelIds(cardLabelIds);
+      handleClose();
+    }
+    //JEZELNI NIE ISTNIEJE DODAJ DO LISTY I ZAPISZ
+    else {
+      cardLabelIds.push(labelId);
+      setCardLabelIds(cardLabelIds);
+      handleClose();
+    }
+  };
+
   return (
     <>
-      {cardLabelIds
-        .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
-        .map((labelData) => (
-          <p
+      {mockedLabels.map((labelData) => (
+        <p
+          onClick={() => deleteOrAddLabel(labelData.id)}
+          style={{
+            borderRadius: "1px",
+            background: labelData.color,
+            padding: "1px",
+            margin: "5px",
+            width: "120px",
+            height: "35px",
+            textAlignLast: "center",
+            cursor: "pointer",
+          }}
+        >
+          <span
             style={{
-              borderRadius: "1px",
-              background: labelData.color,
-              padding: "1px",
-              margin: "5px",
-              width: "120px",
-              height: "35px",
-              textAlignLast: "center",
-              cursor: "pointer",
+              color: "white",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              verticalAlign: "-webkit-baseline-middle",
             }}
           >
-            <span
+            <div
               style={{
-                color: "white",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                verticalAlign: "-webkit-baseline-middle",
+                marginLeft: "3px",
+                display: "flex",
+                flexDirection: "row",
               }}
             >
               {labelData.label_name}
-            </span>
-          </p>
-        ))}
+              {cardLabelIds.includes(labelData.id) && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <CheckIcon></CheckIcon>
+                </div>
+              )}
+            </div>
+          </span>
+        </p>
+      ))}
     </>
   );
 }

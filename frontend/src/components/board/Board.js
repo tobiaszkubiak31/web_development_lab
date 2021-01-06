@@ -14,7 +14,9 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import List from "./list/List";
 import AddIcon from "@material-ui/icons/Add";
 import CreateListModal from "./list/CreateListModal";
-
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import { IconButton, Tooltip, Zoom } from "@material-ui/core";
+import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-    minHeight: "75vh",
+    minHeight: "79.8vh",
   },
   card: {
     height: "100%",
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: "#003459",
+    background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
     padding: theme.spacing(6),
     color: "#FFFFFF",
   },
@@ -62,6 +64,10 @@ export default function Board(props) {
 
   var displayAddListModal = () => {
     setModalDisplayed(true);
+  };
+
+  var redirecToDashboard = () => {
+    history.push("/dashboard");
   };
 
   var getLists = () => {
@@ -101,12 +107,22 @@ export default function Board(props) {
         id={props.match.params.name}
       ></CreateListModal>
       <CssBaseline />
-      <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
+      <AppBar
+        position="relative"
+        style={{
+          background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px",
+          padding: "10px",
+        }}
+      >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Toolbar style={{ flexGrow: "1" }}>
             <TableChartIcon fontSize="large"></TableChartIcon>
             <Typography variant="h4" color="inherit" noWrap>
-              <div style={{ marginLeft: "10px" }}>Trullo</div>
+              <div style={{ marginLeft: "10px", fontWeight: "bold" }}>
+                Trullo
+              </div>
             </Typography>
           </Toolbar>
           <div
@@ -120,26 +136,34 @@ export default function Board(props) {
               style={{
                 margin: "10px 50px 10px 0px",
                 backgroundColor: "#007EA7",
-                fontWeight: "bold",
+
                 background:
                   "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
               }}
               color="secondary"
               size="large"
               variant="contained"
-              onClick={displayAddListModal}
+              onClick={redirecToDashboard}
             >
-              <AddIcon></AddIcon>
-              Add list
+              <ViewCarouselIcon></ViewCarouselIcon>
+              <span
+                style={{
+                  fontSize: "40",
+                  fontWeight: "bold",
+                  marginLeft: "10px",
+                }}
+              >
+                Dashboards
+              </span>
             </Button>
 
             <Button
               style={{
                 margin: "10px 50px 10px 0px",
                 fontWeight: "bold",
-
-                background:
-                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), red)",
+                borderRadius: "10px",
+                fontSize: "15px",
+                fontWeight: "bold",
               }}
               size="large"
               color="secondary"
@@ -147,7 +171,8 @@ export default function Board(props) {
               onClick={logout}
             >
               <PowerSettingsNewIcon
-                style={{ marginRight: "10px" }}
+                fontSize="large"
+                style={{ width: "30px", height: "30px", marginRight: "10px" }}
               ></PowerSettingsNewIcon>
               Logout
             </Button>
@@ -156,12 +181,12 @@ export default function Board(props) {
       </AppBar>
 
       <main>
-        <Container className={classes.cardGrid} maxWidth="lg">
+        <Container className={classes.cardGrid} maxWidth="xl">
           {console.log("LISTY:" + lists)}
           <Grid container spacing={4}>
             {lists && lists.length > 0 ? (
               lists.map((mappedList) => (
-                <Grid item key={mappedList.name} xs={12} sm={6} md={3}>
+                <Grid item key={mappedList.name} lg={3}>
                   <List
                     name={mappedList.name}
                     id={mappedList.id}
@@ -172,6 +197,31 @@ export default function Board(props) {
             ) : (
               <h1>You don't have any lists, create them</h1>
             )}
+            <Grid item>
+              <Tooltip
+                TransitionComponent={Zoom}
+                style={{ minHeight: "20px" }}
+                title={
+                  <span style={{ padding: "5px", fontSize: "14px" }}>
+                    Add list
+                  </span>
+                }
+              >
+                <IconButton>
+                  <PostAddIcon
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      marginLeft: "5px",
+                      cursor: "pointer",
+                    }}
+                    onClick={displayAddListModal}
+                    fontSize="large"
+                    color="primary"
+                  ></PostAddIcon>
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Container>
       </main>

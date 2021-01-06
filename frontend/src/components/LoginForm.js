@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
 
-    background: "-webkit-linear-gradient(bottom, #0250c5, #d43f8d)",
+    background: "-webkit-linear-gradient(right, #005C97, #363795)",
     width: theme.spacing(8),
     height: theme.spacing(8),
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    background: "linear-gradient(bottom, #0250c5, #d43f8d)",
+    background: "-webkit-linear-gradient(right, #3b6cb7, #1A2980)",
   },
 }));
 export default function SignIn() {

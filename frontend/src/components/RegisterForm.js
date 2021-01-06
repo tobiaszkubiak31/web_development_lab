@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    background: "linear-gradient(bottom, #0250c5, #d43f8d)",
+    background: "-webkit-linear-gradient(right, #3b6cb7, #1A2980)",
   },
 }));
 export default function SignUp() {

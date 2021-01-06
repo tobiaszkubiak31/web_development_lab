@@ -8,11 +8,21 @@ import { useHistory } from "react-router-dom";
 import CardDetailsModal from "./CardDetailsModal.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
 import EditCardNameModal from "./EditCardNameModal.js";
-import { colors, Popover, Tooltip, Zoom } from "@material-ui/core";
+import {
+  colors,
+  IconButton,
+  Popover,
+  Tooltip,
+  Zoom,
+  createMuiTheme,
+  MuiThemeProvider,
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import CheckIcon from "@material-ui/icons/Check";
+
 import TaskListModal from "./taskList/TaskListModal";
 const mockedLabels = [
   {
@@ -47,7 +57,7 @@ const mockedLabels = [
   },
 ];
 
-const cardLabelIds = [1, 2, 3, 4, 5, 6];
+const cardLabelIds = [1, 3, 4, 6];
 
 function preventDefault(event) {
   event.preventDefault();
@@ -75,6 +85,7 @@ export default function Card(props) {
   const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
   const [taskListDisplayed, setTaskListDisplayed] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [cardLabelIds, setCardLabelIds] = React.useState([1, 3, 4, 6]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -105,11 +116,11 @@ export default function Card(props) {
 
   let displayTaskList = () => {
     setTaskListDisplayed(true);
-  }
+  };
 
   let hideTaskList = () => {
     setTaskListDisplayed(false);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -147,11 +158,14 @@ export default function Card(props) {
               </span>
             }
           >
-            <EditIcon
-              style={{ marginLeft: "5px", cursor: "pointer" }}
-              size="large"
-              onClick={displayNameCardModal}
-            ></EditIcon>
+            <IconButton>
+              <EditIcon
+                style={{ marginLeft: "5px", cursor: "pointer" }}
+                size="large"
+                onClick={displayNameCardModal}
+                color="primary"
+              ></EditIcon>
+            </IconButton>
           </Tooltip>
         </div>
         <div
@@ -197,9 +211,7 @@ export default function Card(props) {
               {props.time_limit}
             </Button>
           )}
-          <div
-            style={{ display: "flex", flexDirection: "row", marginTop: "1vh" }}
-          >
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <Tooltip
               TransitionComponent={Zoom}
               style={{ minHeight: "20px" }}
@@ -209,11 +221,14 @@ export default function Card(props) {
                 </span>
               }
             >
-              <WatchLaterIcon
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-                onClick={displayCardModal}
-                fontSize="large"
-              ></WatchLaterIcon>
+              <IconButton>
+                <WatchLaterIcon
+                  style={{ marginLeft: "5px", cursor: "pointer" }}
+                  onClick={displayCardModal}
+                  fontSize="large"
+                  color="primary"
+                ></WatchLaterIcon>
+              </IconButton>
             </Tooltip>
             <Tooltip
               TransitionComponent={Zoom}
@@ -224,26 +239,30 @@ export default function Card(props) {
                 </span>
               }
             >
-              <ListAltIcon
-                style={{ marginLeft: "7px", cursor: "pointer" }}
-                onClick={displayTaskList}
-                fontSize="large"
-              ></ListAltIcon>
+              <IconButton>
+                <ListAltIcon
+                  color="primary"
+                  style={{ marginLeft: "7px", cursor: "pointer" }}
+                  onClick={displayTaskList}
+                  fontSize="large"
+                ></ListAltIcon>
+              </IconButton>
             </Tooltip>
             <Tooltip
               TransitionComponent={Zoom}
               style={{ minHeight: "20px" }}
               title={
-                <span style={{ padding: "7px", fontSize: "14px" }}>
-                  Labels
-                </span>
+                <span style={{ padding: "7px", fontSize: "14px" }}>Labels</span>
               }
             >
-              <LabelImportantIcon
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-                onClick={handleClick}
-                fontSize="large"
-              ></LabelImportantIcon>
+              <IconButton>
+                <LabelImportantIcon
+                  color="primary"
+                  style={{ marginLeft: "5px", cursor: "pointer" }}
+                  onClick={handleClick}
+                  fontSize="large"
+                ></LabelImportantIcon>
+              </IconButton>
             </Tooltip>
             <Popover
               id={id}
@@ -259,7 +278,12 @@ export default function Card(props) {
                 horizontal: "center",
               }}
             >
-              <LabelPicker></LabelPicker>
+              <LabelPicker
+                cardLabelIds={cardLabelIds}
+                setCardLabelIds={setCardLabelIds}
+                handleOpen={handleClick}
+                handleClose={handleClose}
+              ></LabelPicker>
             </Popover>
           </div>
         </div>
@@ -268,37 +292,80 @@ export default function Card(props) {
   );
 }
 
-function LabelPicker({ id }) {
+function LabelPicker({
+  cardLabelIds,
+  setCardLabelIds,
+  handleOpen,
+  handleClose,
+}) {
   //functions switch label state
+  // .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
+
+  const deleteOrAddLabel = (labelId) => {
+    //JEZELI ISTNIEJE USUN Z LISTY I ZAPISZ
+    if (cardLabelIds.includes(labelId)) {
+      cardLabelIds = cardLabelIds.filter(function (item) {
+        return item !== labelId;
+      });
+      setCardLabelIds(cardLabelIds);
+      handleClose();
+    }
+    //JEZELNI NIE ISTNIEJE DODAJ DO LISTY I ZAPISZ
+    else {
+      cardLabelIds.push(labelId);
+      setCardLabelIds(cardLabelIds);
+      handleClose();
+    }
+  };
+
   return (
     <>
-      {cardLabelIds
-        .map((labelId) => mockedLabels.find((obj) => obj.id === labelId))
-        .map((labelData) => (
-          <p
+      {mockedLabels.map((labelData) => (
+        <p
+          onClick={() => deleteOrAddLabel(labelData.id)}
+          style={{
+            borderRadius: "1px",
+            background: labelData.color,
+            padding: "1px",
+            margin: "5px",
+            width: "120px",
+            height: "35px",
+            textAlignLast: "center",
+            cursor: "pointer",
+          }}
+        >
+          <span
             style={{
-              borderRadius: "1px",
-              background: labelData.color,
-              padding: "1px",
-              margin: "5px",
-              width: "120px",
-              height: "35px",
-              textAlignLast: "center",
-              cursor: "pointer",
+              color: "white",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              verticalAlign: "-webkit-baseline-middle",
             }}
           >
-            <span
+            <div
               style={{
-                color: "white",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                verticalAlign: "-webkit-baseline-middle",
+                marginLeft: "3px",
+                display: "flex",
+                flexDirection: "row",
               }}
             >
               {labelData.label_name}
-            </span>
-          </p>
-        ))}
+              {cardLabelIds.includes(labelData.id) && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <CheckIcon></CheckIcon>
+                </div>
+              )}
+            </div>
+          </span>
+        </p>
+      ))}
     </>
   );
 }

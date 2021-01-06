@@ -14,6 +14,8 @@ import AddIcon from "@material-ui/icons/Add";
 import CreateBoardModal from "./modals/CreateBoardModal.js";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
+import { IconButton, Tooltip, Zoom } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-    minHeight: "75vh",
+    minHeight: "80vh",
   },
   card: {
     height: "100%",
@@ -43,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: "#003459",
+    borderTopLeftRadius: "25px",
+    borderTopRightRadius: "25px",
+    background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
     padding: theme.spacing(6),
     color: "#FFFFFF",
   },
@@ -98,12 +102,22 @@ export default function Dashboard() {
         updateBoards={getUserBoards}
       ></CreateBoardModal>
       <CssBaseline />
-      <AppBar position="relative" style={{ backgroundColor: "#003459" }}>
+      <AppBar
+        position="relative"
+        style={{
+          background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px",
+          padding: "10px",
+        }}
+      >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Toolbar style={{ flexGrow: "1" }}>
             <TableChartIcon fontSize="large"></TableChartIcon>
             <Typography variant="h4" color="inherit" noWrap>
-              <div style={{ marginLeft: "10px" }}>Trullo</div>
+              <div style={{ marginLeft: "10px", fontWeight: "bold" }}>
+                Trullo
+              </div>
             </Typography>
           </Toolbar>
           <div
@@ -116,27 +130,10 @@ export default function Dashboard() {
             <Button
               style={{
                 margin: "10px 50px 10px 0px",
-                backgroundColor: "#007EA7",
                 fontWeight: "bold",
-                background:
-                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), blue)",
-              }}
-              color="secondary"
-              size="large"
-              variant="contained"
-              onClick={displayAddBoardModal}
-            >
-              <AddIcon></AddIcon>
-              Add board
-            </Button>
-
-            <Button
-              style={{
-                margin: "10px 50px 10px 0px",
+                borderRadius: "10px",
+                fontSize: "15px",
                 fontWeight: "bold",
-
-                background:
-                  "-webkit-linear-gradient(bottom, rgb(2, 80, 197), red)",
               }}
               size="large"
               color="secondary"
@@ -144,7 +141,8 @@ export default function Dashboard() {
               onClick={logout}
             >
               <PowerSettingsNewIcon
-                style={{ marginRight: "10px" }}
+                fontSize="large"
+                style={{ width: "30px", height: "30px", marginRight: "10px" }}
               ></PowerSettingsNewIcon>
               Logout
             </Button>
@@ -152,21 +150,48 @@ export default function Dashboard() {
         </div>
       </AppBar>
       <main>
-        <Container className={classes.cardGrid} maxWidth="lg">
+        <Container className={classes.cardGrid} maxWidth="xl">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {boards && boards.length > 0 ? (
-              boards.map((mappedBoard) => (
-                <Grid item key={mappedBoard.id} xs={12} sm={6} md={4}>
-                  <BoardView
-                    boardInfo={mappedBoard}
-                    updateBoards={getUserBoards}
-                  ></BoardView>
-                </Grid>
-              ))
-            ) : (
-              <h1>You don't have any boards, create them</h1>
-            )}
+            <>
+              {boards && boards.length > 0 ? (
+                boards.map((mappedBoard) => (
+                  <Grid item key={mappedBoard.id} md={3}>
+                    <BoardView
+                      boardInfo={mappedBoard}
+                      updateBoards={getUserBoards}
+                    ></BoardView>
+                  </Grid>
+                ))
+              ) : (
+                <h1>You don't have any boards, create them</h1>
+              )}
+              <Grid md={3}>
+                <IconButton onClick={displayAddBoardModal}>
+                  <AddBoxOutlinedIcon
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      marginLeft: "5px",
+                      cursor: "pointer",
+                    }}
+                    size="large"
+                    color="primary"
+                  ></AddBoxOutlinedIcon>
+                  <div
+                    style={{
+                      color: "#000000",
+                      marginTop: "10px",
+                      marginLeft: "10px",
+                      fontSize: "30px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Add board
+                  </div>
+                </IconButton>
+              </Grid>
+            </>
           </Grid>
         </Container>
       </main>

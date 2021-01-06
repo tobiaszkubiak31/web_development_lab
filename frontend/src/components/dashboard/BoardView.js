@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -12,6 +12,13 @@ import InviteUserModal from "./modals/InviteUserModal";
 import ShowUsersModal from "./modals/ShowUsersModal";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { useHistory } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
+import { IconButton, Paper, Popover, Tooltip, Zoom } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
+import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -33,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    padding: "7px",
-    backgroundColor: "rgb(0, 52, 89)",
+    padding: "20px",
+    borderRadius: "20px",
+    background: "-webkit-linear-gradient(right, #3b6cb7, #1A2980)",
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9
@@ -55,6 +63,27 @@ export default function BoardView(props) {
   const [inviteModalDisplayed, setInviteModalDisplayed] = useState(false);
   const [showUsersDisplayed, setShowUsersDisplayed] = useState(false);
   const history = useHistory();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const textAreaRef = useRef(null);
+
+  function copyToClipboard(e) {
+    textAreaRef.current.select();
+    document.execCommand("copy");
+    // This is just personal preference.
+    // I prefer to not show the whole text area selected.
+    e.target.focus();
+  }
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   var deleteBoard = () => {
     AuthService.deleteBoard(props.boardInfo.id).then((response) => {
@@ -115,36 +144,210 @@ export default function BoardView(props) {
         className={classes.cardMedia}
         image="https://source.unsplash.com/random"
         title="Image title"
+        onClick={() => history.push("/board/" + props.boardInfo.id)}
+        style={{ cursor: "pointer" }}
       />
 
       <CardContent className={classes.cardContent}>
-        <ButtonBase
-          onClick={() =>
-            history.push("/board/" + props.boardInfo.id)
-          }
-        >
-          <Typography gutterBottom variant="h5" component="h2">
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Typography
+            onClick={() => history.push("/board/" + props.boardInfo.id)}
+            gutterBottom
+            variant="h4"
+            component="h2"
+            style={{ cursor: "pointer", marginTop: "10px", fontWeight: "bold" }}
+          >
             {props.boardInfo.name}
           </Typography>
-        </ButtonBase>
+          <Tooltip
+            TransitionComponent={Zoom}
+            style={{ minHeight: "20px" }}
+            title={
+              <span style={{ padding: "5px", fontSize: "14px" }}>
+                Edit board name
+              </span>
+            }
+          >
+            <IconButton>
+              <EditIcon
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  marginLeft: "5px",
+                  cursor: "pointer",
+                }}
+                onClick={displayEditBoardModal}
+                color="primary"
+              ></EditIcon>
+            </IconButton>
+          </Tooltip>
+        </div>
       </CardContent>
       <CardActions
         style={{
           backgroundColor: "#FFFFFF",
         }}
       >
-        <Button size="small" color="primary" onClick={displayEditBoardModal}>
-          Rename
-        </Button>
-        <Button size="small" color="primary" onClick={deleteBoard}>
-          Delete
-        </Button>
-        <Button size="small" color="primary" onClick={displayInviteUserToBoard}>
-          Invite
-        </Button>
-        <Button size="small" color="primary" onClick={displayShowUsers}>
-          Users
-        </Button>
+        <Tooltip
+          TransitionComponent={Zoom}
+          style={{ minHeight: "20px" }}
+          title={
+            <span style={{ padding: "5px", fontSize: "14px" }}>
+              Delete board
+            </span>
+          }
+        >
+          <IconButton>
+            <DeleteOutlineIcon
+              style={{
+                width: "40px",
+                height: "40px",
+                marginLeft: "5px",
+                cursor: "pointer",
+              }}
+              size="large"
+              onClick={deleteBoard}
+              color="primary"
+            ></DeleteOutlineIcon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          TransitionComponent={Zoom}
+          style={{ minHeight: "20px" }}
+          title={
+            <span style={{ padding: "5px", fontSize: "14px" }}>
+              Invite user to board
+            </span>
+          }
+        >
+          <IconButton>
+            <PersonAddOutlinedIcon
+              style={{
+                width: "40px",
+                height: "40px",
+                marginLeft: "5px",
+                cursor: "pointer",
+              }}
+              size="large"
+              onClick={displayInviteUserToBoard}
+              color="primary"
+            ></PersonAddOutlinedIcon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          TransitionComponent={Zoom}
+          style={{ minHeight: "20px" }}
+          title={
+            <span style={{ padding: "5px", fontSize: "14px" }}>Show users</span>
+          }
+        >
+          <IconButton>
+            <GroupOutlinedIcon
+              style={{
+                width: "40px",
+                height: "40px",
+                marginLeft: "5px",
+                cursor: "pointer",
+              }}
+              size="large"
+              onClick={displayShowUsers}
+              color="primary"
+            ></GroupOutlinedIcon>
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip
+          TransitionComponent={Zoom}
+          style={{ minHeight: "20px" }}
+          title={
+            <span style={{ padding: "5px", fontSize: "14px" }}>
+              Share link to board
+            </span>
+          }
+        >
+          <IconButton>
+            <ShareOutlinedIcon
+              style={{
+                width: "40px",
+                height: "40px",
+                marginLeft: "5px",
+                cursor: "pointer",
+              }}
+              size="large"
+              onClick={handleClick}
+              color="primary"
+            ></ShareOutlinedIcon>
+
+            <Popover
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "center",
+                horizontal: "left",
+              }}
+            >
+              <Paper
+                elevation={24}
+                style={{
+                  padding: "20px",
+                  background: "#FFFFFF",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                      Link to board:
+                    </Typography>
+                    <span style={{ fontWeight: "bold" }}>
+                      {"http://" +
+                        window.location.host +
+                        "/board/" +
+                        props.boardInfo.id}
+                    </span>
+                  </div>
+                  <div>
+                    <Tooltip
+                      TransitionComponent={Zoom}
+                      style={{ minHeight: "20px" }}
+                      title={
+                        <span style={{ padding: "5px", fontSize: "14px" }}>
+                          Copy
+                        </span>
+                      }
+                    >
+                      <IconButton
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            "http://" +
+                              window.location.host +
+                              "/board/" +
+                              props.boardInfo.id
+                          );
+                        }}
+                      >
+                        <FileCopyIcon
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            marginLeft: "5px",
+                            cursor: "pointer",
+                          }}
+                          size="large"
+                          color="primary"
+                        ></FileCopyIcon>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </div>
+              </Paper>
+            </Popover>
+          </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );

@@ -9,11 +9,33 @@ import Card from "./card/Card";
 import EditListModal from "./EditListModal";
 import AddCardModal from "./card/AddCardModal";
 import EditIcon from "@material-ui/icons/Edit";
-import { Tooltip, Zoom } from "@material-ui/core";
+import {
+  colors,
+  IconButton,
+  Popover,
+  Tooltip,
+  Zoom,
+  createMuiTheme,
+  MuiThemeProvider,
+} from "@material-ui/core";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 function preventDefault(event) {
   event.preventDefault();
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#000000",
+    },
+    secondary: {
+      main: "#d32f2f",
+    },
+    warning: {
+      main: colors.red.A700,
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   depositContext: {
@@ -25,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
     minHeight: 200,
-    width: "338px",
+    width: "87%",
+    padding: "25px",
+    borderRadius: "20px",
   },
 }));
 
@@ -108,11 +132,14 @@ export default function List(props) {
               </span>
             }
           >
-            <EditIcon
-              style={{ marginLeft: "5px", cursor: "pointer" }}
-              fontSize="large"
-              onClick={showEditBoardModal}
-            ></EditIcon>
+            <IconButton>
+              <EditIcon
+                style={{ marginLeft: "5px", cursor: "pointer" }}
+                fontSize="large"
+                onClick={showEditBoardModal}
+                color="primary"
+              ></EditIcon>
+            </IconButton>
           </Tooltip>
         </div>
         <Typography
@@ -134,24 +161,29 @@ export default function List(props) {
           <p></p>
         )}
 
-        <Tooltip
-          TransitionComponent={Zoom}
-          style={{ minHeight: "20px" }}
-          title={
-            <span style={{ padding: "5px", fontSize: "20px" }}>Add card</span>
-          }
-        >
+        <IconButton onClick={showAddBoardModal}>
           <AddToPhotosIcon
             style={{
               marginTop: "12px",
               marginLeft: "2px",
               cursor: "pointer",
-              width: "55px",
-              height: "55px",
+              width: "35px",
+              height: "35px",
             }}
-            onClick={showAddBoardModal}
+            color="primary"
           ></AddToPhotosIcon>
-        </Tooltip>
+          <div
+            style={{
+              color: "#000000",
+              marginTop: "10px",
+              marginLeft: "10px",
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >
+            Add card
+          </div>
+        </IconButton>
       </Paper>
     </React.Fragment>
   );

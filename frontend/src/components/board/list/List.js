@@ -156,9 +156,13 @@ export default function List(props) {
               text={mappedCard.name}
               id={mappedCard.id}
               time_limit={mappedCard.time_limit}
-              label_ids={mappedCard.label_ids
-                .split(" ")
-                .map((element) => parseInt(element))}
+              label_ids={
+                mappedCard.label_ids !== null
+                  ? mappedCard.label_ids
+                      .split(" ")
+                      .map((element) => parseInt(element))
+                  : []
+              }
               updateCards={getCards}
             />
           ))

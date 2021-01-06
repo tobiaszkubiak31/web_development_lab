@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS userboard CASCADE;
 DROP TABLE IF EXISTS list CASCADE;
 DROP TABLE IF EXISTS card CASCADE;
 DROP TABLE IF EXISTS label CASCADE;
+DROP TABLE IF EXISTS tasklist CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
 
 CREATE TABLE "user" (
   id SERIAL PRIMARY KEY,
@@ -41,6 +43,18 @@ CREATE TABLE label (
   id SERIAL PRIMARY KEY,
   name varchar NOT NULL,
   color varchar NOT NULL
+);
+
+CREATE TABLE tasklist (
+  id SERIAL PRIMARY KEY,
+  title varchar NOT NULL
+);
+
+CREATE TABLE task (
+  id SERIAL PRIMARY KEY,
+  title varchar NOT NULL
+  done boolean,
+  tasklist_id int REFERENCES tasklist(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO "user"(email,password)

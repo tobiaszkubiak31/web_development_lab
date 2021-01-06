@@ -54,10 +54,23 @@ export class CardsController {
         "time_limit": "time limit"
     }
     */
-   @HasType('card-update')
-   @UseGuards(JwtAuthGuard, BoardMemberGuard)
-   @Patch('updateTimeLimit')
-   async updateTimeLimit(@Request() req): Promise<any> {
-       return await this.cardsService.updateTimeLimit(req.body.card_id, req.body.time_limit);
-   }
+    @HasType('card-update')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Patch('updateTimeLimit')
+    async updateTimeLimit(@Request() req): Promise<any> {
+        return await this.cardsService.updateTimeLimit(req.body.card_id, req.body.time_limit);
+    }
+
+    /*
+    {
+        "card_id": "card id",
+        "label_ids": [ label_id, label_id ]
+    }
+    */
+    @HasType('card-update')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Patch('updateLabels')
+    async updateLabels(@Request() req): Promise<any> {
+        return await this.cardsService.changeLabelsState(req.body.card_id, req.body.label_ids);
+    }
 }

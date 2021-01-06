@@ -40,6 +40,29 @@ export class CardsService {
     return updated.affected === 1;
   }
 
+  async changeLabelsState(card_id: number, label_ids: number[]): Promise<boolean> {
+    const card = await this.cardRepository.findOne(card_id);
+    if (card) {
+      const labels = card.label_ids.split(' ').map(item => parseInt(item));
+      label_ids.forEach(label_id => {
+        if (labels.find(label => label == label_id)) {
+          const index = labels.indexOf(label_id);
+          if (index > -1) {
+            labels.splice(index, 1);
+          }
+        } else {
+          labels.push(label_id);
+        }
+      });
+
+      const new_label_ids = labels.join(' ');
+      const updated = await this.cardRepository.update(card_id, {
+        label_ids: new_label_ids,
+      });
+      return updated.affected === 1;
+    }
+  }
+  
   async findOne(id: number): Promise<Card> {
     return await this.cardRepository.findOne(id);
   }

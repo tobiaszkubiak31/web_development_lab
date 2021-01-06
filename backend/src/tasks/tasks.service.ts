@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Tasklist } from 'src/tasklists/tasklists.entity';
+import { getRepository, Repository } from 'typeorm';
 import { AddTaskDto } from './tasks.dto';
 import { Task } from './tasks.entity';
 
@@ -16,6 +17,14 @@ export class TasksService {
             title: addTaskDto.title,
             tasklist_id: addTaskDto.tasklist_id
         });
+    }
+
+    async getTasks(tasklist_id: number) {
+        return await getRepository(Task)
+          .createQueryBuilder('task')
+          .where('task.tasklist_id = :tasklist_id', { tasklist_id: tasklist_id })
+          .select(['task.id', 'task.title', 'task.done'])
+          .getMany();
     }
 
     async delete(id: number): Promise<boolean> {

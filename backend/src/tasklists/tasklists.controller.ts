@@ -25,13 +25,25 @@ export class TasklistsController {
 
     /*
     {
+        "card_id": "card id"
+    }
+    */
+    @HasType('tasklist')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Post('get')
+    async getTasklists(@Request() req) {
+        return await this.tasklistsService.getTasklists(req.body.card_id);
+    }
+
+    /*
+    {
         "tasklist_id": "tasklist id"
     }
     */
-   @HasType('tasklist-update')
-   @UseGuards(JwtAuthGuard, BoardMemberGuard)
-   @Delete()
-   async delete(@Request() req) {
-       return await this.tasklistsService.delete(req.body.tasklist_id);
-   }
+    @HasType('tasklist-update')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Delete()
+    async delete(@Request() req) {
+        return await this.tasklistsService.delete(req.body.tasklist_id);
+    }
 }

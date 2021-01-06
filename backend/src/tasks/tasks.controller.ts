@@ -25,6 +25,18 @@ export class TasksController {
 
     /*
     {
+        "tasklist_id": "tasklist id"
+    }
+    */
+    @HasType('task')
+    @UseGuards(JwtAuthGuard, BoardMemberGuard)
+    @Post('get')
+    async getTasks(@Request() req) {
+        return await this.tasksService.getTasks(req.body.tasklist_id);
+    }
+
+    /*
+    {
         "task_id": "task id"
     }
     */

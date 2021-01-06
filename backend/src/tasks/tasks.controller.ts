@@ -42,7 +42,7 @@ export class TasksController {
     */
     @HasType('task-update')
     @UseGuards(JwtAuthGuard, BoardMemberGuard)
-    @Delete()
+    @Post('delete')
     async delete(@Request() req) {
         return await this.tasksService.delete(req.body.task_id);
     }

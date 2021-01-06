@@ -21,7 +21,6 @@ export default function EditCardNameModal(props) {
 
   var editCardName = () => {
     AuthService.updateCardName(props.id, cardName).then((response) => {
-      console.log(response);
       if (response) {
         //
         handleClose();

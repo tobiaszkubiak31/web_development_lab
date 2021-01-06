@@ -21,7 +21,6 @@ export default function EditListModal(props) {
 
   var editList = () => {
     AuthService.editList(props.id, listName).then((response) => {
-      console.log(response);
       if (response) {
         handleClose();
         props.updateLists();

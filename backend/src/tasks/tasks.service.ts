@@ -18,6 +18,7 @@ export class TasksService {
     async create(addTaskDto: AddTaskDto): Promise<Task> {
         return await this.taskRepository.save({
             title: addTaskDto.title,
+            done: false,
             tasklist_id: addTaskDto.tasklist_id
         });
     }

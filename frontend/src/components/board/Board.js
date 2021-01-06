@@ -79,7 +79,6 @@ export default function Board(props) {
         history.push("/login");
       }
       if (response) {
-        console.log(response);
         setLists(response);
       } else {
         alert("Fetch lists failed");
@@ -209,7 +208,6 @@ export default function Board(props) {
 
       <main>
         <Container className={classes.cardGrid} maxWidth="xl">
-          {console.log("LISTY:" + lists)}
           <Grid container spacing={4}>
             {lists && lists.length > 0 ? (
               lists.map((mappedList) => (

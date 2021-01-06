@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -28,54 +27,7 @@ export default function TaskListModal(props) {
 
   const [newListName, setNewListName] = useState("");
 
-  const [taskLists, setTaskLists] = useState([{
-        tasklist_id: 1,
-        title: "Lista 1",
-        tasks: [
-            {
-              task_id: 1,
-              title: "Zrob pranie",
-              done: true
-            },
-            {
-              task_id: 2,
-              title: "Pozmywaj",
-              done: false
-          }
-        ]
-    },
-      {
-        tasklist_id: 2,
-        title: "Kolejna lista",
-        tasks: [
-            {
-              task_id: 3,
-              title: "Telewizja",
-              done: false
-            },
-            {
-              task_id: 4,
-              title: "Zakupy trzeba zrobic tak szybko jak to możliwe, zrozumiano? Aleluja i do przodu tak mówił mój z Radomia wuj. Lepa na ucho, kołowrotek i nie ma typa.",
-              done: false
-          }
-        ]
-    },
-    {
-      tasklist_id: 3,
-      title: "Kolejna lista2",
-      tasks: [
-          {
-            task_id: 5,
-            title: "Telewizja2",
-            done: false
-          },
-          {
-            task_id: 6,
-            title: "Zakupy 123 trzeba zrobic tak szybko jak to możliwe, zrozumiano? Aleluja i do przodu tak mówił mój z Radomia wuj. Lepa na ucho, kołowrotek i nie ma typa.",
-            done: false
-        }
-      ]
-    }]);
+  const [taskLists, setTaskLists] = useState([]);
 
   const handleClose = () => {
     props.hideModal();
@@ -85,15 +37,38 @@ export default function TaskListModal(props) {
     if(newListName !== "") {
       AuthService.addTaskList(newListName, props.card_id).then((response) => {
         if (response) {
-          setTaskLists(response)
           setNewListName("")
+          getTaskList()
         } else {
           alert("Add taskList failed");
         }
       });
     }
-    
   }
+
+  let getTaskList = () => {
+    AuthService.getTaskList(props.card_id).then((response) => {
+      if (response) {
+        let newData = Array.of(response.data)
+        setTaskLists(newData[0])
+      } else {
+        alert("Get taskList failed");
+      }
+    });
+  }
+
+  useEffect(() => {
+    AuthService.getTaskList(props.card_id).then((response) => {
+      if (response) {
+
+        let newData = Array.of(response.data)
+        setTaskLists(newData[0])
+
+      } else {
+        alert("Get taskList failed");
+      }
+    });
+  }, []);
 
   return (
     <div>
@@ -132,7 +107,7 @@ export default function TaskListModal(props) {
 
           {taskLists && taskLists.length > 0 ? (
             taskLists.map((taskList) => (
-              <TaskList key={taskList.tasklist_id} taskList={taskList} createTaskList={createTaskList}/>
+              <TaskList key={taskList.tasklist_id} taskList={taskList} getTaskList={getTaskList} card_id={props.card_id}/>
             ))
           ) : (
             <p></p>

@@ -353,9 +353,28 @@ class AuthService {
     };
     return await axios
       .post(
-        `${API_URL}/tasklist`,
+        `${API_URL}/tasklists/add`,
         {
           title: newListName,
+          card_id: card_id,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async getTaskList(card_id) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/tasklists/get`,
+        {
           card_id: card_id,
         },
         config
@@ -374,8 +393,8 @@ class AuthService {
       },
     };
     return await axios
-      .put(
-        `${API_URL}/task`,
+      .patch(
+        `${API_URL}/tasks/updateDone`,
         {
           task_id: task_id,
           done: status,
@@ -394,8 +413,8 @@ class AuthService {
       },
     };
     return await axios
-      .delete(
-        `${API_URL}/task`,
+      .post(
+        `${API_URL}/tasks/delete`,
         {
           task_id: task_id,
         },
@@ -412,12 +431,33 @@ class AuthService {
         Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
       },
     };
+    console.log("TASKLIST_ID: " + tasklist_id)
+    console.log("NEW TASK NAME: " + newTaskName)
     return await axios
       .post(
-        `${API_URL}/task`,
+        `${API_URL}/tasks/add`,
         {
           tasklist_id: tasklist_id,
-          name: newTaskName,
+          title: newTaskName,
+        },
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async getTasksForTasklist(tasklist_id) {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem(JWT_TOKEN),
+      },
+    };
+    return await axios
+      .post(
+        `${API_URL}/tasks/get`,
+        {
+          tasklist_id: tasklist_id
         },
         config
       )

@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import AuthService from "../../../../utils/service.js";
-import { useHistory } from "react-router-dom";
 import CardDetailsModal from "./CardDetailsModal.js";
 import AlarmIcon from "@material-ui/icons/Alarm";
 import EditCardNameModal from "./EditCardNameModal.js";
 import {
-  colors,
   IconButton,
   Popover,
   Tooltip,
   Zoom,
-  createMuiTheme,
-  MuiThemeProvider,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
@@ -25,9 +21,9 @@ import CheckIcon from "@material-ui/icons/Check";
 
 import TaskListModal from "./taskList/TaskListModal";
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+// function preventDefault(event) {
+//   event.preventDefault();
+// }
 
 const useStyles = makeStyles((theme) => ({
   depositContext: {
@@ -78,15 +74,12 @@ const mockedLabels = [
 
 export default function Card(props) {
   const classes = useStyles();
-  const history = useHistory();
-  console.log(props.time_limit);
   const [cardModalDisplayed, setCardModalDisplayed] = useState(false);
   const [cardNameModalDisplayed, setCardNameModalDisplayed] = useState(false);
   const [taskListDisplayed, setTaskListDisplayed] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [cardLabelIds, setCardLabelIds] = React.useState([1, 3, 4, 6]);
+  const [setCardLabelIds] = React.useState([1, 3, 4, 6]);
 
-  console.log(props);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -95,7 +88,6 @@ export default function Card(props) {
     setAnchorEl(null);
   };
   const updateLabelIds = (labelIds) => {
-    console.log(labelIds);
     AuthService.updateLabelsIds(props.id, labelIds).then((response) => {
       if (response) {
         props.updateCards();
@@ -321,7 +313,6 @@ function LabelPicker({
     if (cardLabelIds === undefined) {
       cardLabelIds = [];
     }
-    console.log("includes");
     if (cardLabelIds.includes(labelId)) {
       //JEZELI ISTNIEJE USUN Z LISTY I ZAPISZ
       cardLabelIds = cardLabelIds.filter(function (item) {

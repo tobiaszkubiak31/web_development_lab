@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,7 +9,6 @@ import AuthService from "../../utils/service.js";
 import EditBoardModal from "./modals/EditBoardModal.js";
 import InviteUserModal from "./modals/InviteUserModal";
 import ShowUsersModal from "./modals/ShowUsersModal";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import { useHistory } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
 import { IconButton, Paper, Popover, Tooltip, Zoom } from "@material-ui/core";
@@ -64,15 +62,15 @@ export default function BoardView(props) {
   const [showUsersDisplayed, setShowUsersDisplayed] = useState(false);
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const textAreaRef = useRef(null);
+  //const textAreaRef = useRef(null);
 
-  function copyToClipboard(e) {
-    textAreaRef.current.select();
-    document.execCommand("copy");
-    // This is just personal preference.
-    // I prefer to not show the whole text area selected.
-    e.target.focus();
-  }
+  // function copyToClipboard(e) {
+  //   textAreaRef.current.select();
+  //   document.execCommand("copy");
+  //   // This is just personal preference.
+  //   // I prefer to not show the whole text area selected.
+  //   e.target.focus();
+  // }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

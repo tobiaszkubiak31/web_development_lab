@@ -47,7 +47,8 @@ CREATE TABLE label (
 
 CREATE TABLE tasklist (
   id SERIAL PRIMARY KEY,
-  title varchar NOT NULL
+  title varchar NOT NULL,
+  card_id int REFERENCES card(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE task (

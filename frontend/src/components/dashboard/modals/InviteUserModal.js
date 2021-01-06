@@ -9,47 +9,49 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import AuthService from "../../../utils/service.js";
 
 export default function InviteUserModal(props) {
-    const [userName, setUserName] = useState("");
-  
-    var handleUserNameChange = (event) => {
-      setUserName(event.target.value);
-    };
-  
-    const handleClose = () => {
-      props.hideModal();
-    };
-  
-    var inviteUser = () => {
-        AuthService.inviteUserToBoard(userName, props.boardInfo.name).then((response) => {
-          if (response) {
-            console.log(response);
-            handleClose();
-            props.updateBoards();
-          } else {
-            alert("Adding user failed");
-          }
-        });
-      };
+  const [userName, setUserName] = useState("");
 
-    var onEnterClicked = (e) => {
-        if (e.keyCode === 13) {
-            inviteUser();
+  var handleUserNameChange = (event) => {
+    setUserName(event.target.value);
+  };
+
+  const handleClose = () => {
+    props.hideModal();
+  };
+
+  var inviteUser = () => {
+    AuthService.inviteUserToBoard(userName, props.boardInfo.id).then(
+      (response) => {
+        if (response) {
+          console.log(response);
+          handleClose();
+          props.updateBoards();
+        } else {
+          alert("Adding user failed");
         }
-    };
+      }
+    );
+  };
 
-    return (
+  var onEnterClicked = (e) => {
+    if (e.keyCode === 13) {
+      inviteUser();
+    }
+  };
+
+  return (
     <div>
-        <Dialog
+      <Dialog
         open={props.isDisplayed}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        >
+      >
         <DialogTitle id="form-dialog-title">Invite user</DialogTitle>
         <DialogContent>
-            <DialogContentText>
+          <DialogContentText>
             To invite user, please enter his name.
-            </DialogContentText>
-            <TextField
+          </DialogContentText>
+          <TextField
             onChange={handleUserNameChange}
             autoFocus
             margin="dense"
@@ -59,15 +61,14 @@ export default function InviteUserModal(props) {
             fullWidth
             value={userName}
             onKeyUp={onEnterClicked}
-            />
+          />
         </DialogContent>
         <DialogActions>
-            <Button onClick={inviteUser} color="primary">
+          <Button onClick={inviteUser} color="primary">
             Invite
-            </Button>
+          </Button>
         </DialogActions>
-        </Dialog>
+      </Dialog>
     </div>
-    );
-    
-  }
+  );
+}

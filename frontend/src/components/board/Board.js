@@ -15,7 +15,7 @@ import List from "./list/List";
 import AddIcon from "@material-ui/icons/Add";
 import CreateListModal from "./list/CreateListModal";
 import PostAddIcon from "@material-ui/icons/PostAdd";
-import { IconButton, Tooltip, Zoom } from "@material-ui/core";
+import { Avatar, IconButton, Tooltip, Zoom } from "@material-ui/core";
 import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -136,7 +136,7 @@ export default function Board(props) {
           >
             <Button
               style={{
-                margin: "10px 50px 10px 0px",
+                margin: "10px 30px 10px 0px",
                 backgroundColor: "#007EA7",
 
                 background:
@@ -161,7 +161,7 @@ export default function Board(props) {
 
             <Button
               style={{
-                margin: "10px 50px 10px 0px",
+                margin: "10px 30px 10px 0px",
                 fontWeight: "bold",
                 borderRadius: "10px",
                 fontSize: "15px",
@@ -174,10 +174,35 @@ export default function Board(props) {
             >
               <PowerSettingsNewIcon
                 fontSize="large"
-                style={{ width: "30px", height: "30px", marginRight: "10px" }}
+                style={{ width: "30px", height: "30px", marginRight: "6px" }}
               ></PowerSettingsNewIcon>
               Logout
             </Button>
+
+            <div
+              style={{
+                margin: "10px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar
+                style={{
+                  backgroundColor: "black",
+                  width: "50px",
+                  height: "50px",
+                }}
+              >
+                {localStorage.getItem("authenticatedUser").substring(0, 1) +
+                  localStorage
+                    .getItem("authenticatedUser")
+                    .substring(
+                      localStorage.getItem("authenticatedUser").length - 1,
+                      localStorage.getItem("authenticatedUser").length
+                    )}
+              </Avatar>
+            </div>
           </div>
         </div>
       </AppBar>
@@ -230,8 +255,13 @@ export default function Board(props) {
 
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          This is your project!
+        <Typography
+          style={{ fontWeight: "bold" }}
+          variant="h6"
+          align="center"
+          gutterBottom
+        >
+          {"logged as " + localStorage.getItem("authenticatedUser")}
         </Typography>
       </footer>
       {/* End footer */}

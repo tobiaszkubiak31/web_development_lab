@@ -13,6 +13,7 @@ import { ListsModule } from './lists/lists.module';
 import { List } from './lists/lists.entity';
 import { CardsModule } from './cards/cards.module';
 import { Card } from './cards/cards.entity';
+import { LabelsModule } from './labels/labels.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -30,7 +31,8 @@ import { Card } from './cards/cards.entity';
     BoardsModule,
     UserboardsModule,
     ListsModule,
-    CardsModule
+    CardsModule,
+    LabelsModule
   ],
   controllers: [AppController],
   providers: [AppService],

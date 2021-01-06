@@ -10,6 +10,7 @@ import { List } from 'src/lists/lists.entity';
 import { ListsModule } from 'src/lists/lists.module';
 import { CardsModule } from 'src/cards/cards.module';
 import { TasklistsModule } from 'src/tasklists/tasklists.module';
+import { TasksModule } from 'src/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { TasklistsModule } from 'src/tasklists/tasklists.module';
     UsersModule,
     ListsModule,
     CardsModule,
-    TasklistsModule
+    TasklistsModule,
+    TasksModule
   ],
   controllers: [BoardsController],
   providers: [BoardsService],

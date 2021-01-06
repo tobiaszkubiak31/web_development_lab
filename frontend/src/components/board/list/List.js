@@ -181,7 +181,7 @@ export default function List(props) {
               fontWeight: "bold",
             }}
           >
-            Add next card
+            Add card
           </div>
         </IconButton>
       </Paper>

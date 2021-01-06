@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-    minHeight: "75vh",
+    minHeight: "80vh",
   },
   card: {
     height: "100%",
@@ -45,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
+    borderTopLeftRadius: "25px",
+    borderTopRightRadius: "25px",
     background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
     padding: theme.spacing(6),
     color: "#FFFFFF",
@@ -165,29 +167,29 @@ export default function Dashboard() {
                 <h1>You don't have any boards, create them</h1>
               )}
               <Grid md={3}>
-                <Tooltip
-                  TransitionComponent={Zoom}
-                  style={{ minHeight: "20px" }}
-                  title={
-                    <span style={{ padding: "5px", fontSize: "14px" }}>
-                      Add board
-                    </span>
-                  }
-                >
-                  <IconButton>
-                    <AddBoxOutlinedIcon
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        marginLeft: "5px",
-                        cursor: "pointer",
-                      }}
-                      size="large"
-                      onClick={displayAddBoardModal}
-                      color="primary"
-                    ></AddBoxOutlinedIcon>
-                  </IconButton>
-                </Tooltip>
+                <IconButton onClick={displayAddBoardModal}>
+                  <AddBoxOutlinedIcon
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      marginLeft: "5px",
+                      cursor: "pointer",
+                    }}
+                    size="large"
+                    color="primary"
+                  ></AddBoxOutlinedIcon>
+                  <div
+                    style={{
+                      color: "#000000",
+                      marginTop: "10px",
+                      marginLeft: "10px",
+                      fontSize: "30px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Add board
+                  </div>
+                </IconButton>
               </Grid>
             </>
           </Grid>

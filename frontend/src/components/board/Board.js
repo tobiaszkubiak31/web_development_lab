@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-    minHeight: "79.8vh",
+    minHeight: "81vh",
   },
   card: {
     height: "100%",
@@ -45,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
+    borderTopLeftRadius: "25px",
+    borderTopRightRadius: "25px",
     background: "-webkit-linear-gradient(right, #1e3c72, #1A2980)",
     padding: theme.spacing(6),
     color: "#FFFFFF",
@@ -198,29 +200,29 @@ export default function Board(props) {
               <h1>You don't have any lists, create them</h1>
             )}
             <Grid item>
-              <Tooltip
-                TransitionComponent={Zoom}
-                style={{ minHeight: "20px" }}
-                title={
-                  <span style={{ padding: "5px", fontSize: "14px" }}>
-                    Add list
-                  </span>
-                }
-              >
-                <IconButton>
-                  <PostAddIcon
-                    style={{
-                      width: "70px",
-                      height: "70px",
-                      marginLeft: "5px",
-                      cursor: "pointer",
-                    }}
-                    onClick={displayAddListModal}
-                    fontSize="large"
-                    color="primary"
-                  ></PostAddIcon>
-                </IconButton>
-              </Tooltip>
+              <IconButton onClick={displayAddListModal}>
+                <PostAddIcon
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    marginLeft: "5px",
+                    cursor: "pointer",
+                  }}
+                  fontSize="large"
+                  color="primary"
+                ></PostAddIcon>
+                <div
+                  style={{
+                    color: "#000000",
+                    marginTop: "10px",
+                    marginLeft: "10px",
+                    fontSize: "30px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Add list
+                </div>
+              </IconButton>
             </Grid>
           </Grid>
         </Container>

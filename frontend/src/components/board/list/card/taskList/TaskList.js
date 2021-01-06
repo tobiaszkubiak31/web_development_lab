@@ -33,7 +33,7 @@ export default function TaskList(props) {
 
     AuthService.changeDoneStatus(task_id, !status).then((response) => {
         if (response) {
-            props.createTaskList()
+            props.getTaskList(props.card_id)
         } else {
           alert("Change status failed");
         }
@@ -45,7 +45,7 @@ export default function TaskList(props) {
 
     AuthService.deleteTask(task_id).then((response) => {
         if (response) {
-            props.createTaskList()
+            props.getTaskList(props.card_id)
         } else {
           alert("Delete task failed");
         }
@@ -57,7 +57,7 @@ export default function TaskList(props) {
       
     AuthService.addTask(tasklist_id, newTaskName).then((response) => {
         if (response) {
-            props.createTaskList()
+            props.getTaskList(props.card_id)
         } else {
           alert("Add task failed");
         }
@@ -73,11 +73,11 @@ export default function TaskList(props) {
 
         <List component="nav" aria-label="secondary mailbox folders">
 
-        {props.taskList.tasks && props.taskList.tasks.length > 0 ? (
-            props.taskList.tasks.map((task) => (
-                <div key={task.task_id}>
+        {props.taskList.__tasks__ && props.taskList.__tasks__.length > 0 ? (
+            props.taskList.__tasks__.map((task) => (
+                <div key={task.id}>
                     <Divider />
-                    <ListItem button onClick={handleToggle(task.task_id, task.done)}>
+                    <ListItem button onClick={handleToggle(task.id, task.done)}>
 
                         <ListItemIcon>
                             <Checkbox
@@ -86,14 +86,14 @@ export default function TaskList(props) {
                                 checked={task.done}
                                 tabIndex={-1}
                                 disableRipple
-                                inputProps={{ 'aria-labelledby': task.task_id }}
+                                inputProps={{ 'aria-labelledby': task.id }}
                             />
                         </ListItemIcon>
 
-                        <ListItemText id={task.task_id} primary={task.title} />
+                        <ListItemText id={task.id} primary={task.title} />
 
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments" button onClick={deleteTask(task.task_id)}>
+                            <IconButton edge="end" aria-label="comments" button onClick={deleteTask(task.id)}>
                                 <DeleteIcon />
                             </IconButton>
                         </ListItemSecondaryAction>
@@ -110,16 +110,17 @@ export default function TaskList(props) {
         <ListItem>
         <form className={classes.container} noValidate>
             <TextField
-                id="taskName"
+                id={props.taskList.id + "textField"}
                 label="Task name"
                 type="text"
                 onChange={(e) => setNewTaskName(e.target.value)}
                 className={classes.textField}
             />
             <Button
+                id={props.taskList.id + "button"}
                 variant="contained"
                 size="small"
-                onClick={addTask(props.taskList.tasklist_id, newTaskName)}
+                onClick={addTask(props.taskList.id, newTaskName)}
                 className={classes.button}
                 style={{
                     marginLeft: "2vh",

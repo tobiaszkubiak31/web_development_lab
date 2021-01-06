@@ -12,8 +12,8 @@ export class TasklistsController {
 
     /*
     {
-        "list_id": "list id"
-        "card_name": "card name",
+        "card_id": "card id"
+        "title": "list name",
     }
     */
     @HasType('tasklist')

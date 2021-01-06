@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -12,11 +11,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import {
   colors,
   IconButton,
-  Popover,
   Tooltip,
   Zoom,
   createMuiTheme,
-  MuiThemeProvider,
 } from "@material-ui/core";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 function preventDefault(event) {
@@ -68,8 +65,6 @@ export default function List(props) {
         history.push("/login");
       }
       if (response) {
-        console.log("cards:");
-        console.log(response);
         setCards(response);
       } else {
         alert("Fetch lists failed");

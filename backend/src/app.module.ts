@@ -26,7 +26,7 @@ import { Task } from './tasks/tasks.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'admin',
+      password: 'postgres',
       database: 'trello',
       entities: [Board, User, Userboard, List, Card, Label, Tasklist, Task],
       synchronize: false

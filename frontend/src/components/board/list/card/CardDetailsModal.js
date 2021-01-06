@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Typography from "@material-ui/core/Typography";
 import AuthService from "../../../../utils/service.js";
-import AlarmIcon from "@material-ui/icons/Alarm";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { Button, makeStyles, TextField } from "@material-ui/core";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,7 +27,6 @@ export default function CardDetailsModal(props) {
   };
 
   let updateTimelimit = () => {
-    console.log(timeValue);
     AuthService.updateTimeLimitCard(props.id, timeValue).then((response) => {
       if (response) {
         //console.log(response)

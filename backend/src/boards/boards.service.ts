@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CardsService } from 'src/cards/cards.service';
 import { ListsService } from 'src/lists/lists.service';
+import { TasklistsService } from 'src/tasklists/tasklists.service';
+import { TasksService } from 'src/tasks/tasks.service';
 import { Userboard } from 'src/userboards/userboards.entity';
 import { UserboardsService } from 'src/userboards/userboards.service';
 import { User } from 'src/users/users.entity';
@@ -18,7 +20,9 @@ export class BoardsService {
     private usersService: UsersService,
     private userboardsService: UserboardsService,
     private listsService: ListsService,
-    private cardsService: CardsService
+    private cardsService: CardsService,
+    private tasklistsService: TasklistsService,
+    private tasksService: TasksService
   ) {}
 
   async findByUserId(userId: number) {
@@ -32,8 +36,8 @@ export class BoardsService {
     }
   }
 
-  findOne(id: string): Promise<Board> {
-    return this.boardRepository.findOne(id);
+  async findOne(id: number): Promise<Board> {
+    return await this.boardRepository.findOne(id);
   }
 
   async delete(id: number): Promise<boolean> {
@@ -84,10 +88,26 @@ export class BoardsService {
     return false;
   }
 
-  async isMemberByCardId(user_id: number, list_id: number): Promise<boolean> {
-    const card = await this.cardsService.findOne(list_id);
+  async isMemberByCardId(user_id: number, card_id: number): Promise<boolean> {
+    const card = await this.cardsService.findOne(card_id);
     if (card) {
       return await this.isMemberByListId(user_id, (await card.list).id);
+    }
+    return false;
+  }
+
+  async isMemberByTasklistId(user_id: number, tasklist_id: number): Promise<boolean> {
+    const tasklist = await this.tasklistsService.findOne(tasklist_id);
+    if (tasklist) {
+      return await this.isMemberByCardId(user_id, (await tasklist.card).id);
+    }
+    return false;
+  }
+
+  async isMemberByTaskId(user_id: number, task_id: number): Promise<boolean> {
+    const task = await this.tasksService.findOne(task_id);
+    if (task) {
+      return await this.isMemberByTasklistId(user_id, (await task.taskList).id);
     }
     return false;
   }

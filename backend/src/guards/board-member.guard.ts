@@ -24,5 +24,11 @@ export class BoardMemberGuard implements CanActivate {
         if (type[0] === 'card-update' || type[0] == 'tasklist') {
             return this.boardsService.isMemberByCardId(user.id, request.body.card_id);
         }
+        if (type[0] === 'tasklist-update' || type[0] == 'task') {
+            return this.boardsService.isMemberByTasklistId(user.id, request.body.tasklist_id);
+        }
+        if (type[0] === 'task-update') {
+            return this.boardsService.isMemberByTaskId(user.id, request.body.task_id);
+        }
     }
 }
